@@ -85,7 +85,7 @@ export default async function CountryDetailPage({ params }: { params: Promise<{ 
               href={`/teams/${team.id}`}
               className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md hover:border-blue-200 transition-all"
             >
-              <TeamBadge teamId={team.id} size="md" />
+              <TeamBadge teamId={team.id} size="md" linkable={false} />
               <div className="mt-3 space-y-1 text-xs text-gray-500">
                 <div className="flex justify-between">
                   <span>FIFA 排名</span>

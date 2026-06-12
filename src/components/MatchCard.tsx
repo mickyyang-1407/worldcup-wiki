@@ -2,6 +2,7 @@
 
 import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
+import Link from "next/link";
 
 interface Goal {
   player: string;
@@ -117,6 +118,16 @@ export default function MatchCard({ match }: MatchCardProps) {
           ))}
         </div>
       )}
+
+      <div className="mt-2 pt-2 border-t border-gray-50">
+        <Link
+          href={`/media/${match.id}`}
+          className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-600 font-medium transition-colors"
+        >
+          <span>📺</span>
+          <span>精華</span>
+        </Link>
+      </div>
     </div>
   );
 }
