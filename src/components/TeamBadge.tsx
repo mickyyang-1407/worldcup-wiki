@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { teams } from "@/data/teams";
 
-const flagEmojis: Record<string, string> = {
+// ISO 3166-1 alpha-2 codes for flag emoji conversion
+const isoCodes: Record<string, string> = {
   mexico: "MX", "south-korea": "KR", "czech-republic": "CZ", "south-africa": "ZA",
   canada: "CA", brazil: "BR", "united-states": "US", germany: "DE",
   netherlands: "NL", japan: "JP", france: "FR", argentina: "AR",
-  portugal: "PT", england: "EN", spain: "ES", belgium: "BE",
-  morocco: "MA", haiti: "HT", scotland: "SC", paraguay: "PY",
+  portugal: "PT", england: "GB-ENG", spain: "ES", belgium: "BE",
+  morocco: "MA", haiti: "HT", scotland: "GB-SCT", paraguay: "PY",
   australia: "AU", turkey: "TR", curacao: "CW", "ivory-coast": "CI",
   ecuador: "EC", sweden: "SE", tunisia: "TN", egypt: "EG",
   iran: "IR", "new-zealand": "NZ", "cape-verde": "CV", "saudi-arabia": "SA",
@@ -15,6 +16,25 @@ const flagEmojis: Record<string, string> = {
   uzbekistan: "UZ", colombia: "CO", croatia: "HR", ghana: "GH",
   panama: "PA", "bosnia-and-herzegovina": "BA", qatar: "QA", switzerland: "CH",
 };
+
+// Subdivision flag emojis (England, Scotland)
+const subdivisionFlags: Record<string, string> = {
+  "GB-ENG": "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F",
+  "GB-SCT": "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74\uDB40\uDC7F",
+};
+
+function getFlagEmoji(code: string): string {
+  // Subdivision flags (England, Scotland)
+  if (code.startsWith("GB-")) {
+    return subdivisionFlags[code] || "🏴";
+  }
+  // Standard country flags from ISO alpha-2
+  return code
+    .toUpperCase()
+    .replace(/./g, (char) =>
+      String.fromCodePoint(127397 + char.charCodeAt(0))
+    );
+}
 
 const teamColors: Record<string, string> = {
   mexico: "#006847", brazil: "#009739", argentina: "#75AADB", france: "#002395",
@@ -38,14 +58,15 @@ export default function TeamBadge({ teamId, showName = true, size = "sm", linkab
   const team = teams.find((t: any) => t.id === teamId);
   if (!team) return <span className="text-gray-400">{teamId}</span>;
 
-  const sizeClasses = size === "sm" ? "w-5 h-5 text-[8px]" : size === "md" ? "w-7 h-7 text-[10px]" : "w-10 h-10 text-xs";
-  const flag = flagEmojis[teamId] || "??";
+  const sizeClasses = size === "sm" ? "w-5 h-5 text-[10px]" : size === "md" ? "w-7 h-7 text-sm" : "w-10 h-10 text-lg";
+  const isoCode = isoCodes[teamId] || "??";
+  const flag = getFlagEmoji(isoCode);
   const bgColor = teamColors[teamId] || "#666";
 
   const content = (
     <div className="flex items-center gap-1.5">
       <span
-        className={`${sizeClasses} rounded-full flex items-center justify-center text-white font-bold`}
+        className={`${sizeClasses} rounded-full flex items-center justify-center`}
         style={{ backgroundColor: bgColor }}
         title={team.name}
       >

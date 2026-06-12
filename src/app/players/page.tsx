@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { players } from "@/data/players";
 import { teams } from "@/data/teams";
+import TeamBadge from "@/components/TeamBadge";
 
 const positions = [
   { value: "all", label: "全部位置" },
@@ -113,9 +114,7 @@ export default function PlayersPage() {
                       <div className="text-xs text-gray-400">{p.name}</div>
                     </td>
                     <td className="px-4 py-2.5">
-                      <Link href={`/teams/${p.team_id}`} className="text-xs text-blue-600 hover:text-blue-700">
-                        {team?.name_zh || p.team_id}
-                      </Link>
+                      <TeamBadge teamId={p.team_id} size="sm" />
                     </td>
                     <td className="px-4 py-2.5 text-center">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${

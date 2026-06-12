@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { players } from "@/data/players";
 import { teams } from "@/data/teams";
+import TeamBadge from "@/components/TeamBadge";
 
 export function generateStaticParams() {
   return (players as any[]).map((p: any) => ({ player: p.id }));
@@ -56,9 +57,9 @@ export default async function PlayerDetailPage({ params }: { params: Promise<{ p
             <h1 className="text-3xl font-bold text-gray-900">{player.name_zh}</h1>
             <p className="text-gray-500">{player.name}</p>
             {team && (
-              <Link href={`/teams/${team.id}`} className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 mt-1">
-                {team.name_zh} · {team.name}
-              </Link>
+              <div className="mt-1">
+                <TeamBadge teamId={team.id} size="sm" />
+              </div>
             )}
           </div>
         </div>

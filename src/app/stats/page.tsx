@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { matches } from "@/data/schedule";
 import { teams } from "@/data/teams";
+import TeamBadge from "@/components/TeamBadge";
 
 export default function StatsPage() {
   const completed = (matches as any[]).filter((m: any) => m.status === "completed");
@@ -148,7 +149,9 @@ export default function StatsPage() {
                   </span>
                   <div className="flex-1">
                     <span className="font-medium text-gray-800">{player.name}</span>
-                    <span className="text-xs text-gray-400 ml-2">{team?.name_zh || player.team}</span>
+                    <div className="inline-block ml-2 align-middle">
+                      <TeamBadge teamId={player.team} size="sm" showName={false} linkable={false} />
+                    </div>
                   </div>
                   <span className="text-lg font-bold text-gray-900">{player.goals}</span>
                 </div>
