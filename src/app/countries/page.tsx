@@ -4,6 +4,21 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { countries } from "@/data/countries";
 
+const countryFlags: Record<string, string> = {
+  mexico: "🇲🇽", "south-korea": "🇰🇷", "czech-republic": "🇨🇿", "south-africa": "🇿🇦",
+  canada: "🇨🇦", brazil: "🇧🇷", "united-states": "🇺🇸", germany: "🇩🇪",
+  netherlands: "🇳🇱", japan: "🇯🇵", france: "🇫🇷", argentina: "🇦🇷",
+  portugal: "🇵🇹", england: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", spain: "🇪🇸", belgium: "🇧🇪",
+  morocco: "🇲🇦", haiti: "🇭🇹", scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", paraguay: "🇵🇾",
+  australia: "🇦🇺", turkey: "🇹🇷", curacao: "🇨🇼", "ivory-coast": "🇨🇮",
+  ecuador: "🇪🇨", sweden: "🇸🇪", tunisia: "🇹🇳", egypt: "🇪🇬",
+  iran: "🇮🇷", "new-zealand": "🇳🇿", "cape-verde": "🇨🇻", "saudi-arabia": "🇸🇦",
+  uruguay: "🇺🇾", senegal: "🇸🇳", iraq: "🇮🇶", norway: "🇳🇴",
+  algeria: "🇩🇿", austria: "🇦🇹", jordan: "🇯🇴", "dr-congo": "🇨🇩",
+  uzbekistan: "🇺🇿", colombia: "🇨🇴", croatia: "🇭🇷", ghana: "🇬🇭",
+  panama: "🇵🇦", "bosnia-and-herzegovina": "🇧🇦", qatar: "🇶🇦", switzerland: "🇨🇭",
+};
+
 const continents = [
   { value: "all", label: "所有洲" },
   { value: "Asia", label: "亞洲" },
@@ -68,7 +83,7 @@ export default function CountriesPage() {
             className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all"
           >
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-gray-900 text-lg">{country.name_zh}</h3>
+              <h3 className="font-bold text-gray-900 text-lg">{countryFlags[country.id] || ""} {country.name_zh}</h3>
               <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
                 {continentFilter !== "all" ? country.continent : 
                   continents.find((c) => c.value === country.continent)?.label || country.continent}

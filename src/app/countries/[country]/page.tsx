@@ -3,6 +3,21 @@ import { countries } from "@/data/countries";
 import { teams } from "@/data/teams";
 import TeamBadge from "@/components/TeamBadge";
 
+const countryFlags: Record<string, string> = {
+  mexico: "🇲🇽", "south-korea": "🇰🇷", "czech-republic": "🇨🇿", "south-africa": "🇿🇦",
+  canada: "🇨🇦", brazil: "🇧🇷", "united-states": "🇺🇸", germany: "🇩🇪",
+  netherlands: "🇳🇱", japan: "🇯🇵", france: "🇫🇷", argentina: "🇦🇷",
+  portugal: "🇵🇹", england: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", spain: "🇪🇸", belgium: "🇧🇪",
+  morocco: "🇲🇦", haiti: "🇭🇹", scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", paraguay: "🇵🇾",
+  australia: "🇦🇺", turkey: "🇹🇷", curacao: "🇨🇼", "ivory-coast": "🇨🇮",
+  ecuador: "🇪🇨", sweden: "🇸🇪", tunisia: "🇹🇳", egypt: "🇪🇬",
+  iran: "🇮🇷", "new-zealand": "🇳🇿", "cape-verde": "🇨🇻", "saudi-arabia": "🇸🇦",
+  uruguay: "🇺🇾", senegal: "🇸🇳", iraq: "🇮🇶", norway: "🇳🇴",
+  algeria: "🇩🇿", austria: "🇦🇹", jordan: "🇯🇴", "dr-congo": "🇨🇩",
+  uzbekistan: "🇺🇿", colombia: "🇨🇴", croatia: "🇭🇷", ghana: "🇬🇭",
+  panama: "🇵🇦", "bosnia-and-herzegovina": "🇧🇦", qatar: "🇶🇦", switzerland: "🇨🇭",
+};
+
 export function generateStaticParams() {
   return (countries as any[]).map((c: any) => ({ country: c.id }));
 }
@@ -33,7 +48,7 @@ export default async function CountryDetailPage({ params }: { params: Promise<{ 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{country.name_zh}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{countryFlags[country.id] || ""} {country.name_zh}</h1>
             <p className="text-gray-500">{country.name}</p>
           </div>
           <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
