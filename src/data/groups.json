@@ -1,0 +1,724 @@
+{
+  "groups": [
+    {
+      "id": "A",
+      "name": "Group A",
+      "teams": [
+        "mexico",
+        "south-korea",
+        "czech-republic",
+        "south-africa"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "mexico",
+          "pld": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 2,
+          "ga": 0,
+          "gd": "+2",
+          "pts": 3
+        },
+        {
+          "pos": 2,
+          "team_id": "south-korea",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "czech-republic",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "south-africa",
+          "pld": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 0,
+          "ga": 2,
+          "gd": "-2",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Group B",
+      "teams": [
+        "canada",
+        "bosnia-and-herzegovina",
+        "qatar",
+        "switzerland"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "canada",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "bosnia-and-herzegovina",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "qatar",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "switzerland",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Group C",
+      "teams": [
+        "brazil",
+        "morocco",
+        "haiti",
+        "scotland"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "brazil",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "morocco",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "haiti",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "scotland",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "name": "Group D",
+      "teams": [
+        "united-states",
+        "paraguay",
+        "australia",
+        "turkey"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "united-states",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "paraguay",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "australia",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "turkey",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Group E",
+      "teams": [
+        "germany",
+        "curacao",
+        "ivory-coast",
+        "ecuador"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "germany",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "curacao",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "ivory-coast",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "ecuador",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "Group F",
+      "teams": [
+        "netherlands",
+        "japan",
+        "sweden",
+        "tunisia"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "netherlands",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "japan",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "sweden",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "tunisia",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "name": "Group G",
+      "teams": [
+        "belgium",
+        "egypt",
+        "iran",
+        "new-zealand"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "belgium",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "egypt",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "iran",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "new-zealand",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "H",
+      "name": "Group H",
+      "teams": [
+        "spain",
+        "cape-verde",
+        "saudi-arabia",
+        "uruguay"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "spain",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "cape-verde",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "saudi-arabia",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "uruguay",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "I",
+      "name": "Group I",
+      "teams": [
+        "france",
+        "senegal",
+        "iraq",
+        "norway"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "france",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "senegal",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "iraq",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "norway",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "J",
+      "name": "Group J",
+      "teams": [
+        "argentina",
+        "algeria",
+        "austria",
+        "jordan"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "argentina",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "algeria",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "austria",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "jordan",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "K",
+      "name": "Group K",
+      "teams": [
+        "portugal",
+        "dr-congo",
+        "uzbekistan",
+        "colombia"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "portugal",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "dr-congo",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "uzbekistan",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "colombia",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    },
+    {
+      "id": "L",
+      "name": "Group L",
+      "teams": [
+        "england",
+        "croatia",
+        "ghana",
+        "panama"
+      ],
+      "standings": [
+        {
+          "pos": 1,
+          "team_id": "england",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 2,
+          "team_id": "croatia",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 3,
+          "team_id": "ghana",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "panama",
+          "pld": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": "0",
+          "pts": 0
+        }
+      ]
+    }
+  ]
+}

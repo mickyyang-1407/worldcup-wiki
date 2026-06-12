@@ -1,0 +1,1 @@
+export { teams } from "./index";
