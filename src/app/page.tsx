@@ -1,157 +1,187 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { matches } from "@/data/schedule";
-import { teams } from "@/data/teams";
-import { venues } from "@/data/venues";
 import MatchCard from "@/components/MatchCard";
 import NewsCard from "@/components/NewsCard";
+import { matches } from "@/data/schedule";
 import newsData from "@/data/news.json";
+import { groups } from "@/data/groups";
+import Link from "next/link";
+import TeamBadge from "@/components/TeamBadge";
 
-export default function Home() {
-  const [today, setToday] = useState("2026-06-12");
+export default function HomePage() {
+  const matchList = [...matches];
 
-  useEffect(() => {
-    const d = new Date();
-    setToday(d.toISOString().slice(0, 10));
-  }, []);
+  const completed = matchList
+    .filter((m: any) => m.status === "completed")
+    .slice(0, 4);
 
-  const completed = matches.filter((m: any) => m.status === "completed").slice(0, 4);
-  const upcoming = matches.filter((m: any) => m.status === "scheduled").slice(0, 4);
+  const upcoming = matchList
+    .filter((m: any) => m.status === "scheduled")
+    .sort((a: any, b: any) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+    .slice(0, 4);
 
-  const stats = [
-    { label: "參賽隊伍", value: teams.length, icon: "🏆", color: "bg-blue-500" },
-    { label: "比賽場次", value: matches.length, icon: "⚽", color: "bg-green-500" },
-    { label: "比賽場館", value: venues.length, icon: "🏟️", color: "bg-purple-500" },
-    { label: "主辦國", value: 3, icon: "🌍", color: "bg-orange-500" },
-  ];
+  const latestNews = [...newsData].sort((a: any, b: any) => b.date.localeCompare(a.date)).slice(0, 6);
+
+  const groupList = groups as any[];
 
   return (
     <div>
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5 text-sm mb-6">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              2026年6月11日 — 7月19日
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4">
-              2026 FIFA 世界盃
-            </h1>
-            <p className="text-lg md:text-xl text-blue-100 mb-8">
-              美國、加拿大、墨西哥三國聯辦 &middot; 48 隊 &middot; 104 場比賽 &middot; 16 座場館
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/schedule"
-                className="inline-flex items-center gap-2 bg-white text-blue-700 font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors"
-              >
-                查看賽程 →
-              </Link>
-              <Link
-                href="/groups"
-                className="inline-flex items-center gap-2 bg-white/20 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/30 transition-colors"
-              >
-                小組積分 →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="max-w-7xl mx-auto px-4 -mt-8 mb-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 ${s.color} rounded-lg flex items-center justify-center text-white text-lg`}>
-                  {s.icon}
+      {/* Hero Section */}
+      <div className="relative -m-6 md:-m-8 mb-6 md:mb-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-indigo-800/85 to-purple-900/80 z-10" />
+        <div className="absolute inset-0 opacity-20 z-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px'
+        }} />
+        <div className="relative z-20 px-6 md:px-8 py-10 md:py-14">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-yellow-400 text-sm font-semibold tracking-widest uppercase">FIFA World Cup 2026</span>
+                  <span className="w-2 h-2 rounded-full bg-yellow-400/60" />
+                  <span className="text-blue-200 text-sm">USA · Canada · Mexico</span>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold text-gray-900">{s.value}</div>
-                  <div className="text-xs text-gray-500">{s.label}</div>
-                </div>
+                <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                  2026 世界盃百科
+                </h1>
+                <p className="text-blue-200 mt-2 text-base md:text-lg max-w-xl">
+                  48 隊 · 12 組 · 16 座場館 · 橫跨三國 · 巔峰對決
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <Link
+                  href="/schedule"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 hover:bg-white/25 text-white rounded-xl font-medium transition-all backdrop-blur-sm border border-white/20"
+                >
+                  📅 完整賽程
+                </Link>
+                <Link
+                  href="/groups"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-semibold transition-all shadow-lg shadow-yellow-400/25"
+                >
+                  🏆 積分表
+                </Link>
               </div>
             </div>
+          </div>
+        </div>
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#0a0a23]/80 to-transparent z-20" />
+      </div>
+
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        {[
+          { label: "參賽隊伍", value: "48", icon: "🏳️", color: "from-blue-500 to-blue-600" },
+          { label: "比賽場次", value: "104", icon: "⚽", color: "from-green-500 to-green-600" },
+          { label: "主辦城市", value: "15", icon: "🏟️", color: "from-purple-500 to-purple-600" },
+          { label: "主辦國家", value: "3", icon: "🌎", color: "from-orange-500 to-orange-600" },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className={`bg-gradient-to-br ${stat.color} rounded-xl p-4 text-white shadow-lg`}
+          >
+            <div className="text-2xl mb-1">{stat.icon}</div>
+            <div className="text-2xl font-bold">{stat.value}</div>
+            <div className="text-xs text-white/80 mt-0.5">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Matches Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <span className="w-1 h-6 bg-blue-600 rounded-full inline-block" />
+          最新賽果
+        </h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          {completed.length > 0 ? completed.map((m: any) => (
+            <MatchCard key={m.id} match={m} />
+          )) : (
+            <div className="col-span-2 text-center py-8 text-gray-400">
+              <p className="text-3xl mb-2">⚽</p>
+              <p>暫無已完成賽事</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <span className="w-1 h-6 bg-yellow-500 rounded-full inline-block" />
+          即將開賽
+        </h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          {upcoming.length > 0 ? upcoming.map((m: any) => (
+            <MatchCard key={m.id} match={m} />
+          )) : (
+            <div className="col-span-2 text-center py-8 text-gray-400">
+              <p className="text-3xl mb-2">📅</p>
+              <p>暫無即將開賽的賽事</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Group Standings Preview */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span className="w-1 h-6 bg-green-500 rounded-full inline-block" />
+            小組積分
+          </h2>
+          <Link href="/groups" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+            查看全部 →
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {groupList.slice(0, 6).map((group: any) => (
+            <Link
+              key={group.id}
+              href={`/groups/${group.id}`}
+              className="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all overflow-hidden group"
+            >
+              <div className="bg-gradient-to-r from-green-600 to-emerald-700 px-4 py-2">
+                <h3 className="text-white font-bold text-sm">{group.name}</h3>
+              </div>
+              <div className="p-3 space-y-1.5">
+                {group.standings.slice(0, 2).map((row: any) => (
+                  <div key={row.team_id} className="flex items-center justify-between text-sm">
+                    <TeamBadge teamId={row.team_id} size="sm" />
+                    <span className="font-bold text-gray-800">{row.pts}<span className="font-normal text-gray-400 text-xs ml-0.5">pts</span></span>
+                  </div>
+                ))}
+                <div className="text-xs text-gray-400 text-center pt-1 group-hover:text-green-600 transition-colors">
+                  查看完整積分 →
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Latest Results */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">最新賽果</h2>
-              <Link href="/schedule" className="text-sm text-blue-600 hover:text-blue-700">查看全部 →</Link>
-            </div>
-            <div className="space-y-3">
-              {completed.map((m: any) => (
-                <MatchCard key={m.id} match={m} />
-              ))}
-            </div>
-          </section>
-
-          {/* Upcoming */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">即將開賽</h2>
-              <Link href="/schedule" className="text-sm text-blue-600 hover:text-blue-700">查看全部 →</Link>
-            </div>
-            <div className="space-y-3">
-              {upcoming.map((m: any) => (
-                <MatchCard key={m.id} match={m} />
-              ))}
-            </div>
-          </section>
+      {/* News Section */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span className="w-1 h-6 bg-purple-500 rounded-full inline-block" />
+            世界盃新聞
+          </h2>
         </div>
-
-        {/* News */}
-        <section className="mt-12">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">⚽ 世界盃新聞</h2>
-            <a
-              href="https://news.google.com/rss/search?q=世界盃+足球&hl=zh-TW&gl=TW"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:text-blue-700"
-            >
-              更多新聞 →
-            </a>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {(newsData as any[]).slice(0, 3).map((news, i) => (
-              <NewsCard key={i} {...news} />
-            ))}
-          </div>
-        </section>
-
-        {/* Quick links */}
-        <section className="mt-12">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">快速導覽</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { href: "/teams", label: "48 支隊伍", icon: "👥", desc: "瀏覽所有參賽隊伍" },
-              { href: "/players", label: "球員名單", icon: "⭐", desc: "搜尋球員資訊" },
-              { href: "/knockout", label: "淘汰賽", icon: "🏅", desc: "16 強至決賽對陣" },
-              { href: "/venues", label: "場館介紹", icon: "🏟️", desc: "16 座世界級場館" },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all group"
-              >
-                <div className="text-2xl mb-2">{link.icon}</div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{link.label}</h3>
-                <p className="text-xs text-gray-500 mt-1">{link.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {latestNews.map((item: any) => (
+            <NewsCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              source={item.source}
+              date={item.date}
+              summary={item.summary}
+              url={item.url}
+              category={item.category}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
