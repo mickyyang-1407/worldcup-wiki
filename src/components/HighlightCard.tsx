@@ -67,7 +67,7 @@ export default function HighlightCard({
         {/* Teams & Score */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex-1 text-right">
-            <TeamBadge teamId={homeTeam} size="md" />
+            <TeamBadge teamId={homeTeam} size="md" linkable={false} />
             <div className="text-xs font-medium text-gray-700 mt-1">{home?.name_zh || homeTeam}</div>
           </div>
           <div className="shrink-0 text-center">
@@ -80,7 +80,7 @@ export default function HighlightCard({
             )}
           </div>
           <div className="flex-1 text-left">
-            <TeamBadge teamId={awayTeam} size="md" />
+            <TeamBadge teamId={awayTeam} size="md" linkable={false} />
             <div className="text-xs font-medium text-gray-700 mt-1">{away?.name_zh || awayTeam}</div>
           </div>
         </div>
