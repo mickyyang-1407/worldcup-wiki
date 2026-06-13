@@ -1,12 +1,23 @@
-{
-  "match-highlights": {
-    "description": "每個比賽對應的精華影片 — 手動填入或 API 自動抓取",
-    "format": {
-      "matchId": {
-        "youtube": { "id": "YouTube影片ID", "title": "影片標題" },
-        "bilibili": { "bvid": "BV開頭的B站ID", "title": "影片標題" }
-      }
+[
+  {
+    "matchId": "match-1",
+    "videos": {
+      "youtube": { "id": "", "title": "墨西哥 vs 南非 精華" },
+      "bilibili": { "bvid": "", "title": "墨西哥 vs 南非 精華" }
     }
   },
-  "videos": {}
-}
+  {
+    "matchId": "match-2",
+    "videos": {
+      "youtube": { "id": "", "title": "加拿大 vs 庫拉索 精華" },
+      "bilibili": { "bvid": "", "title": "加拿大 vs 庫拉索 精華" }
+    }
+  },
+  {
+    "matchId": "match-3",
+    "videos": {
+      "youtube": { "id": "", "title": "捷克 vs 挪威 精華" },
+      "bilibili": { "bvid": "", "title": "捷克 vs 挪威 精華" }
+    }
+  }
+]

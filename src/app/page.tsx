@@ -6,6 +6,8 @@ import { matches } from "@/data/schedule";
 import { teams } from "@/data/teams";
 import { venues } from "@/data/venues";
 import MatchCard from "@/components/MatchCard";
+import NewsCard from "@/components/NewsCard";
+import newsData from "@/data/news.json";
 
 export default function Home() {
   const [today, setToday] = useState("2026-06-12");
@@ -106,6 +108,26 @@ export default function Home() {
             </div>
           </section>
         </div>
+
+        {/* News */}
+        <section className="mt-12">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900">⚽ 世界盃新聞</h2>
+            <a
+              href="https://news.google.com/rss/search?q=世界盃+足球&hl=zh-TW&gl=TW"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-blue-600 hover:text-blue-700"
+            >
+              更多新聞 →
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(newsData as any[]).slice(0, 3).map((news, i) => (
+              <NewsCard key={i} {...news} />
+            ))}
+          </div>
+        </section>
 
         {/* Quick links */}
         <section className="mt-12">
