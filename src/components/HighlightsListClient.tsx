@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from "react";
 import HighlightCard from "./HighlightCard";
+import matchesData from "@/data/schedule.json";
+import highlightsData from "@/data/highlights.json";
 
 const stageLabels: Record<string, string> = {
   group: "小組賽",
@@ -32,9 +34,16 @@ interface Match {
   score: { home: number; away: number };
 }
 
-export default function HighlightsListClient({ matches, highlightedMatchIds }: { matches: Match[]; highlightedMatchIds: Set<string> }) {
+export default function HighlightsListClient() {
   const [selectedStage, setSelectedStage] = useState<string>("all");
   const [searchText, setSearchText] = useState("");
+
+  const matches = matchesData.matches as any[];
+  const highlightedMatchIds = new Set<string>(
+    (highlightsData as any[])
+      .filter((h: any) => h.videos?.youtube || h.videos?.bilibili)
+      .map((h: any) => h.matchId)
+  );
 
   const highlightedMatches = matches.filter(
     (m) => highlightedMatchIds.has(m.id) || m.status === "completed"

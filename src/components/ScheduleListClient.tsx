@@ -48,7 +48,7 @@ export default function ScheduleListClient() {
   const [groupFilter, setGroupFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const matches: Match[] = matchesData.matches;
+  const matches = matchesData.matches as any[];
   const groups: Group[] = groupsData.groups;
 
   const filtered = useMemo(() => {

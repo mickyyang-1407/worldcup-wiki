@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 import TeamBadge from "./TeamBadge";
+import matchesData from "@/data/schedule.json";
+import teamsData from "@/data/teams.json";
 
 interface Match {
   id: string;
@@ -19,7 +21,10 @@ interface Team {
   name_zh: string;
 }
 
-export default function StatsClient({ matches, teams }: { matches: Match[]; teams: Team[] }) {
+export default function StatsClient() {
+  const matches = matchesData.matches as any[];
+  const teams: Team[] = teamsData.teams;
+
   const completed = matches.filter((m) => m.status === "completed");
   const upcoming = matches.filter((m) => m.status === "upcoming");
 

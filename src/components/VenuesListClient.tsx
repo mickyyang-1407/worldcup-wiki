@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import venuesData from "@/data/venues.json";
 
 const countries = ["Mexico", "United States", "Canada"];
 
@@ -14,8 +15,10 @@ interface Venue {
   description: string;
 }
 
-export default function VenuesListClient({ venues }: { venues: Venue[] }) {
+export default function VenuesListClient() {
   const [countryFilter, setCountryFilter] = useState("all");
+
+  const venues: Venue[] = venuesData.venues;
 
   const filtered = useMemo(() => {
     if (countryFilter === "all") return venues;
