@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
+import teamsData from "@/data/teams.json";
 
 interface Team {
   id: string;
@@ -15,9 +16,11 @@ interface Team {
   best_wc_result: string;
 }
 
-export default function TeamsListClient({ teams }: { teams: Team[] }) {
+export default function TeamsListClient() {
   const [search, setSearch] = useState("");
   const [groupFilter, setGroupFilter] = useState("all");
+
+  const teams: Team[] = teamsData.teams;
 
   const filtered = useMemo(() => {
     return teams.filter((t) => {

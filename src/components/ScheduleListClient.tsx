@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from "react";
 import MatchCard from "./MatchCard";
+import matchesData from "@/data/schedule.json";
+import groupsData from "@/data/groups.json";
 
 const stages = [
   { value: "all", label: "全部" },
@@ -40,11 +42,14 @@ interface Group {
   name: string;
 }
 
-export default function ScheduleListClient({ matches, groups }: { matches: Match[]; groups: Group[] }) {
+export default function ScheduleListClient() {
   const [stageFilter, setStageFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [groupFilter, setGroupFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const matches: Match[] = matchesData.matches;
+  const groups: Group[] = groupsData.groups;
 
   const filtered = useMemo(() => {
     let result = [...matches];

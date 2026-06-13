@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import countriesData from "@/data/countries.json";
 
 const countryFlags: Record<string, string> = {
   mexico: "🇲🇽", "south-korea": "🇰🇷", "czech-republic": "🇨🇿", "south-africa": "🇿🇦",
@@ -39,9 +40,11 @@ interface Country {
   teams: string[];
 }
 
-export default function CountriesListClient({ countries }: { countries: Country[] }) {
+export default function CountriesListClient() {
   const [search, setSearch] = useState("");
   const [continentFilter, setContinentFilter] = useState("all");
+
+  const countries: Country[] = countriesData.countries;
 
   const filtered = useMemo(() => {
     return countries.filter((c) => {

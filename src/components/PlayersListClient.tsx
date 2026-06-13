@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
+import playersData from "@/data/players.json";
+import teamsData from "@/data/teams.json";
 
 const positions = [
   { value: "all", label: "全部位置" },
@@ -30,11 +32,14 @@ interface Team {
   name_zh: string;
 }
 
-export default function PlayersListClient({ players, teams }: { players: Player[]; teams: Team[] }) {
+export default function PlayersListClient() {
   const [search, setSearch] = useState("");
   const [teamFilter, setTeamFilter] = useState("all");
   const [positionFilter, setPositionFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"name" | "age" | "caps">("name");
+
+  const players: Player[] = playersData.players;
+  const teams: Team[] = teamsData.teams;
 
   const filtered = useMemo(() => {
     let result = [...players];
