@@ -22,11 +22,17 @@ const statusFilters = [
 
 interface Match {
   id: string;
+  number: number;
   stage: string;
   status: string;
   group: string;
   date: string;
   time: string;
+  home: string;
+  away: string;
+  score: { home: number; away: number };
+  venue: string;
+  city: string;
 }
 
 interface Group {

@@ -5,7 +5,17 @@ import MatchCard from "./MatchCard";
 
 interface Match {
   id: string;
+  number: number;
+  stage: string;
+  group?: string;
   date: string;
+  time: string;
+  home: string;
+  away: string;
+  score: { home: number; away: number };
+  status: string;
+  venue: string;
+  city: string;
 }
 
 export default function TodayClient({ matches }: { matches: Match[] }) {
