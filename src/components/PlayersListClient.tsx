@@ -52,7 +52,11 @@ export default function PlayersListClient() {
     if (teamFilter !== "all") result = result.filter((p) => p.team_id === teamFilter);
     if (positionFilter !== "all") result = result.filter((p) => p.position === positionFilter);
     result.sort((a, b) => {
-      if (sortBy === "name") return a.name_zh.localeCompare(b.name_zh);
+      if (sortBy === "name") {
+        const na = a.name_zh || a.name || "";
+        const nb = b.name_zh || b.name || "";
+        return na.localeCompare(nb);
+      }
       if (sortBy === "age") return (a.age || 0) - (b.age || 0);
       return (b.national_caps || 0) - (a.national_caps || 0);
     });

@@ -25,25 +25,25 @@
         {
           "pos": 2,
           "team_id": "south-korea",
-          "pld": 0,
-          "w": 0,
+          "pld": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": "0",
-          "pts": 0
+          "gf": 2,
+          "ga": 1,
+          "gd": "+1",
+          "pts": 3
         },
         {
           "pos": 3,
           "team_id": "czech-republic",
-          "pld": 0,
+          "pld": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": "0",
+          "l": 1,
+          "gf": 1,
+          "ga": 2,
+          "gd": "-1",
           "pts": 0
         },
         {
@@ -73,26 +73,26 @@
         {
           "pos": 1,
           "team_id": "canada",
-          "pld": 0,
+          "pld": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 1,
+          "ga": 1,
           "gd": "0",
-          "pts": 0
+          "pts": 1
         },
         {
           "pos": 2,
           "team_id": "bosnia-and-herzegovina",
-          "pld": 0,
+          "pld": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 1,
+          "ga": 1,
           "gd": "0",
-          "pts": 0
+          "pts": 1
         },
         {
           "pos": 3,
@@ -193,29 +193,17 @@
         {
           "pos": 1,
           "team_id": "united-states",
-          "pld": 0,
-          "w": 0,
+          "pld": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": "0",
-          "pts": 0
+          "gf": 4,
+          "ga": 1,
+          "gd": "+3",
+          "pts": 3
         },
         {
           "pos": 2,
-          "team_id": "paraguay",
-          "pld": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": "0",
-          "pts": 0
-        },
-        {
-          "pos": 3,
           "team_id": "australia",
           "pld": 0,
           "w": 0,
@@ -227,7 +215,7 @@
           "pts": 0
         },
         {
-          "pos": 4,
+          "pos": 3,
           "team_id": "turkey",
           "pld": 0,
           "w": 0,
@@ -236,6 +224,18 @@
           "gf": 0,
           "ga": 0,
           "gd": "0",
+          "pts": 0
+        },
+        {
+          "pos": 4,
+          "team_id": "paraguay",
+          "pld": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 4,
+          "gd": "-3",
           "pts": 0
         }
       ]

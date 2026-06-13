@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --fifa-navy: #003F72;
+  --fifa-blue: #005BBB;
+  --fifa-red: #DA291C;
+  --fifa-sky: #00A3E0;
+  --fifa-gold: #C6A15B;
 }
 
 @theme inline {
@@ -13,7 +18,7 @@
 }
 
 body {
-  background: var(--background);
+  background: #f3f4f6;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }

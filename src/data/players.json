@@ -3753,20 +3753,6 @@
       "national_goals": 20
     },
     {
-      "id": "norway-erling-braut-haaland",
-      "name": "Erling Braut Haaland",
-      "name_zh": "",
-      "team_id": "norway",
-      "position": "FW",
-      "jersey_number": 9,
-      "age": 25,
-      "birthplace": "",
-      "height_cm": 195,
-      "club": "",
-      "national_caps": 0,
-      "national_goals": 0
-    },
-    {
       "id": "norway-erling-haaland",
       "name": "Erling Haaland",
       "name_zh": "哈蘭德",

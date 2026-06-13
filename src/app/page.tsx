@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
   const completed = matches.filter((m: any) => m.status === "completed").slice(0, 4);
-  const upcoming = matches.filter((m: any) => m.status === "upcoming").slice(0, 4);
+  const upcoming = matches.filter((m: any) => m.status === "scheduled").slice(0, 4);
 
   const stats = [
     { label: "參賽隊伍", value: teams.length, icon: "🏆", color: "bg-blue-500" },

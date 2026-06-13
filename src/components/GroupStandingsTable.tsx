@@ -1,6 +1,27 @@
 import { groups } from "@/data/groups";
 import TeamBadge from "./TeamBadge";
 
+
+const GROUP_COLORS: Record<string, { bg: string; text: string }> = {
+  A: { bg: "from-red-600 to-red-700", text: "text-red-600" },
+  B: { bg: "from-blue-600 to-blue-700", text: "text-blue-600" },
+  C: { bg: "from-yellow-500 to-yellow-600", text: "text-yellow-600" },
+  D: { bg: "from-green-600 to-green-700", text: "text-green-600" },
+  E: { bg: "from-purple-600 to-purple-700", text: "text-purple-600" },
+  F: { bg: "from-orange-500 to-orange-600", text: "text-orange-600" },
+  G: { bg: "from-pink-500 to-pink-600", text: "text-pink-600" },
+  H: { bg: "from-cyan-500 to-cyan-600", text: "text-cyan-600" },
+  I: { bg: "from-red-700 to-red-800", text: "text-red-700" },
+  J: { bg: "from-blue-800 to-blue-900", text: "text-blue-800" },
+  K: { bg: "from-green-700 to-green-800", text: "text-green-700" },
+  L: { bg: "from-amber-800 to-amber-900", text: "text-amber-800" },
+};
+
+function getGroupLetter(name: string): string {
+  // Group name like "A組" or "Group A"
+  const match = name.match(/[A-L]/);
+  return match ? match[0] : "A";
+}
 interface StandingsRow {
   pos: number;
   team_id: string;
@@ -35,7 +56,7 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
     <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-2"}`}>
       {groupList.map((group: Group) => (
         <div key={group.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-3">
+          <div className={`bg-gradient-to-r ${GROUP_COLORS[getGroupLetter(group.name)]?.bg || "from-blue-600 to-blue-700"} px-4 py-3`}>
             <h3 className="text-white font-bold text-lg">{group.name}</h3>
           </div>
           <div className="overflow-x-auto">
