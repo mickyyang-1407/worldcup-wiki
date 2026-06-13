@@ -28,16 +28,28 @@ export default function RootLayout({
       lang="zh-TW"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-gray-50">
-        <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
-        <footer className="border-t border-gray-200 bg-white py-6">
-          <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
-            <p>2026 世界盃百科 &copy; 2026 &middot; 僅供參考用途</p>
-          </div>
-        </footer>
+      <body className="min-h-full flex flex-col">
+        {/* Fixed background elements */}
+        <div className="wc-bg-wrapper flex flex-col min-h-full">
+          <div className="wc-trophy-deco" />
+          <div className="wc-stadium-deco" />
+          <div className="wc-brand-bar" />
+
+          <Navbar />
+          <main className="flex-1">
+            {/* Wrap content in a semi-transparent card */}
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="wc-content-card p-6 md:p-8">
+                {children}
+              </div>
+            </div>
+          </main>
+          <footer className="border-t border-white/10 bg-black/20 backdrop-blur-md py-6 mt-auto">
+            <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
+              <p>2026 世界盃百科 &copy; 2026 &middot; 僅供參考用途</p>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );

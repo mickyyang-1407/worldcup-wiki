@@ -26,3 +26,90 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* World Cup 2026 themed decorative backgrounds */
+.wc-bg-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.wc-bg-wrapper::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 30%, #2d1b4e 60%, #1a1a3e 100%);
+}
+
+.wc-bg-wrapper::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* Large abstract shapes inspired by FIFA 2026 branding */
+    radial-gradient(ellipse 600px 400px at 5% 20%, rgba(108, 43, 217, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 95% 30%, rgba(220, 38, 38, 0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 85%, rgba(34, 197, 94, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 350px 350px at 20% 75%, rgba(234, 179, 8, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Decorative trophy silhouette on the right side */
+.wc-trophy-deco {
+  position: fixed;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 500px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.06;
+  background: url('/images/worldcup-logo-official.jpg') no-repeat center/contain;
+  filter: brightness(2) contrast(0.5);
+}
+
+/* Decorative stadium silhouette on the left */
+.wc-stadium-deco {
+  position: fixed;
+  left: -80px;
+  top: 60%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 300px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background: url('/images/worldcup-stadium.jpg') no-repeat center/contain;
+  filter: brightness(2) contrast(0.5);
+}
+
+/* FIFA brand banner strip at top */
+.wc-brand-bar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 40;
+  background: linear-gradient(90deg,
+    #6c2bd9 0%, #6c2bd9 20%,
+    #dc2626 20%, #dc2626 40%,
+    #2563eb 40%, #2563eb 60%,
+    #22c55e 60%, #22c55e 80%,
+    #eab308 80%, #eab308 100%
+  );
+  opacity: 0.6;
+}
+
+/* Content area card effect */
+.wc-content-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.1);
+}
