@@ -31,3 +31,17 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* FIFA 2026 watermark */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("/logo-watermark.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40%;
+  opacity: 0.04;
+}
