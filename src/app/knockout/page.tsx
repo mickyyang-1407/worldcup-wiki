@@ -1,7 +1,4 @@
-"use client";
-
 import MatchCard from "@/components/MatchCard";
-import TeamBadge from "@/components/TeamBadge";
 import { matches } from "@/data/schedule";
 
 const stageOrder = [
