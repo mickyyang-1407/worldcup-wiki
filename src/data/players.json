@@ -3753,20 +3753,6 @@
       "national_goals": 20
     },
     {
-      "id": "norway-erling-haaland",
-      "name": "Erling Haaland",
-      "name_zh": "哈蘭德",
-      "team_id": "norway",
-      "position": "FW",
-      "jersey_number": 9,
-      "age": 25,
-      "birthplace": "Leeds",
-      "height_cm": 195,
-      "club": "Manchester City",
-      "national_caps": 35,
-      "national_goals": 35
-    },
-    {
       "id": "norway-martin-odegaard",
       "name": "Martin Ødegaard",
       "name_zh": "厄德高",
