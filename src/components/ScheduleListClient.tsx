@@ -79,9 +79,10 @@ export default function ScheduleListClient() {
               onClick={() => setStageFilter(s.value)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 stageFilter === s.value
-                  ? "bg-blue-600 text-white"
+                  ? "text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
+              style={stageFilter === s.value ? { background: '#6404eb' } : undefined}
             >
               {s.label}
             </button>
