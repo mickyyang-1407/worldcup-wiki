@@ -87,17 +87,18 @@ export default function HomePage() {
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#0a0a23]/80 to-transparent z-20" />
       </div>
 
-      {/* Quick Stats Row */}
+      {/* Quick Stats Row — FIFA brand colors */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[
-          { label: "參賽隊伍", value: "48", icon: "🏳️", color: "from-blue-500 to-blue-600" },
-          { label: "比賽場次", value: "104", icon: "⚽", color: "from-green-500 to-green-600" },
-          { label: "主辦城市", value: "15", icon: "🏟️", color: "from-purple-500 to-purple-600" },
-          { label: "主辦國家", value: "3", icon: "🌎", color: "from-orange-500 to-orange-600" },
+          { label: "參賽隊伍", value: "48", icon: "🏳️", color: "#6404eb" },
+          { label: "比賽場次", value: "104", icon: "⚽", color: "#d40404" },
+          { label: "主辦城市", value: "15", icon: "🏟️", color: "#b7e710" },
+          { label: "主辦國家", value: "3", icon: "🌎", color: "#523c1b" },
         ].map((stat) => (
           <div
             key={stat.label}
-            className={`bg-gradient-to-br ${stat.color} rounded-xl p-4 text-white shadow-lg`}
+            className="rounded-xl p-4 text-white shadow-lg"
+            style={{ background: `linear-gradient(135deg, ${stat.color} 0%, ${stat.color}dd 100%)` }}
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
             <div className="text-2xl font-bold">{stat.value}</div>
@@ -112,10 +113,15 @@ export default function HomePage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#a4c44d' }} />
-          即將開賽
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
+            即將開賽
+          </h2>
+          <Link href="/schedule" className="text-sm font-medium" style={{ color: '#b7e710' }}>
+            完整賽程 →
+          </Link>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {upcoming.length > 0 ? upcoming.map((m: any) => (
             <MatchCard key={m.id} match={m} />
@@ -132,10 +138,10 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#26458b' }} />
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#6404eb' }} />
             小組積分
           </h2>
-          <Link href="/groups" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          <Link href="/groups" className="text-sm font-medium" style={{ color: '#6404eb' }}>
             查看全部 →
           </Link>
         </div>
@@ -169,9 +175,12 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 bg-purple-500 rounded-full inline-block" />
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#523c1b' }} />
             世界盃新聞
           </h2>
+          <Link href="/news" className="text-sm font-medium" style={{ color: '#523c1b' }}>
+            更多新聞 →
+          </Link>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {latestNews.map((item: any) => (

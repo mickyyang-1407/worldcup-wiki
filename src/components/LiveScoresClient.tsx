@@ -86,7 +86,7 @@ export default function LiveScoresClient() {
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
           <span
             className="w-1 h-6 rounded-full inline-block"
-            style={{ backgroundColor: "#af3525" }}
+            style={{ backgroundColor: "#d40404" }}
           />
           最新賽果
         </h2>
