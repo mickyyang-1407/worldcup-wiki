@@ -1,5 +1,6 @@
 import MatchCard from "@/components/MatchCard";
 import NewsCard from "@/components/NewsCard";
+import LiveScoresClient from "@/components/LiveScoresClient";
 import { matches } from "@/data/schedule";
 import newsData from "@/data/news.json";
 import { groups } from "@/data/groups";
@@ -105,22 +106,9 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Matches Section */}
+      {/* Live Scores Section — auto-refreshes every 60s */}
       <section className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#af3525' }} />
-          最新賽果
-        </h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          {completed.length > 0 ? completed.map((m: any) => (
-            <MatchCard key={m.id} match={m} />
-          )) : (
-            <div className="col-span-2 text-center py-8 text-gray-400">
-              <p className="text-3xl mb-2">⚽</p>
-              <p>暫無已完成賽事</p>
-            </div>
-          )}
-        </div>
+        <LiveScoresClient />
       </section>
 
       <section className="mb-8">
