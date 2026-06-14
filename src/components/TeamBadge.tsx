@@ -58,19 +58,29 @@ export default function TeamBadge({ teamId, showName = true, size = "sm", linkab
   const team = teams.find((t: any) => t.id === teamId);
   if (!team) return <span className="text-gray-400">{teamId}</span>;
 
-  const sizeClasses = size === "sm" ? "w-5 h-5 text-[10px]" : size === "md" ? "w-7 h-7 text-sm" : "w-10 h-10 text-lg";
-  const isoCode = isoCodes[teamId] || "??";
-  const flag = getFlagEmoji(isoCode);
+  const sizeMap = { sm: 20, md: 28, lg: 40 };
+  const px = sizeMap[size];
   const bgColor = teamColors[teamId] || "#666";
 
   const content = (
     <div className="flex items-center gap-1.5">
       <span
-        className={`${sizeClasses} rounded-full flex items-center justify-center`}
-        style={{ backgroundColor: bgColor }}
+        className="rounded-full inline-flex items-center justify-center overflow-hidden shrink-0"
+        style={{ width: px, height: px, backgroundColor: bgColor }}
         title={team.name}
       >
-        {flag}
+        <img
+          src={`/flags/${teamId}.png`}
+          alt={team.name}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback to emoji if flag image not available
+            const isoCode = isoCodes[teamId] || "??";
+            const flag = getFlagEmoji(isoCode);
+            (e.target as HTMLElement).style.display = 'none';
+            (e.target as HTMLElement).parentElement!.textContent = flag;
+          }}
+        />
       </span>
       {showName && <span className="text-sm font-medium text-gray-800">{team.name_zh}</span>}
     </div>

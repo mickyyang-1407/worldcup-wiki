@@ -36,7 +36,7 @@ export default function RootLayout({
             background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 25%, #2d1b4e 50%, #1a1a3e 75%, #0f1b3d 100%);
           }
 
-          /* WC 2026 brand gradient mesh overlay */
+          /* WC 2026 brand gradient mesh overlay — FIFA 2026 brand colors */
           .wc-body-bg::before {
             content: '';
             position: fixed;
@@ -44,12 +44,12 @@ export default function RootLayout({
             z-index: 0;
             pointer-events: none;
             background:
-              radial-gradient(ellipse 700px 500px at 5% 15%, rgba(108, 43, 217, 0.3) 0%, transparent 70%),
-              radial-gradient(ellipse 600px 600px at 92% 25%, rgba(220, 38, 38, 0.25) 0%, transparent 70%),
-              radial-gradient(ellipse 500px 400px at 50% 80%, rgba(34, 197, 94, 0.15) 0%, transparent 70%),
-              radial-gradient(ellipse 400px 400px at 80% 65%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
-              radial-gradient(ellipse 450px 350px at 15% 70%, rgba(234, 179, 8, 0.12) 0%, transparent 70%),
-              radial-gradient(ellipse 300px 300px at 50% 40%, rgba(236, 72, 153, 0.1) 0%, transparent 60%);
+              radial-gradient(ellipse 700px 500px at 5% 15%, rgba(130, 134, 205, 0.3) 0%, transparent 70%),
+              radial-gradient(ellipse 600px 600px at 92% 25%, rgba(175, 53, 37, 0.25) 0%, transparent 70%),
+              radial-gradient(ellipse 500px 400px at 50% 80%, rgba(164, 196, 77, 0.15) 0%, transparent 70%),
+              radial-gradient(ellipse 400px 400px at 80% 65%, rgba(38, 69, 139, 0.2) 0%, transparent 70%),
+              radial-gradient(ellipse 450px 350px at 15% 70%, rgba(91, 34, 39, 0.12) 0%, transparent 70%),
+              radial-gradient(ellipse 300px 300px at 50% 40%, rgba(144, 122, 214, 0.1) 0%, transparent 60%);
           }
 
           /* Subtle hexagon pattern overlay */
@@ -63,7 +63,7 @@ export default function RootLayout({
             background-size: 100px 100px;
           }
 
-          /* Diagonal stripe accent bar - top */
+          /* Diagonal stripe accent bar - top - FIFA 2026 brand colors */
           .wc-accent-bar-top {
             position: fixed;
             top: 56px;
@@ -72,17 +72,17 @@ export default function RootLayout({
             height: 5px;
             z-index: 40;
             background: linear-gradient(90deg,
-              #6c2bd9 0%, #6c2bd9 16%,
-              #dc2626 16%, #dc2626 32%,
-              #2563eb 32%, #2563eb 48%,
-              #22c55e 48%, #22c55e 64%,
-              #eab308 64%, #eab308 80%,
-              #ec4899 80%, #ec4899 100%
+              #8286cd 0%, #8286cd 16%,
+              #af3525 16%, #af3525 32%,
+              #26458b 32%, #26458b 48%,
+              #a4c44d 48%, #a4c44d 64%,
+              #5b2227 64%, #5b2227 80%,
+              #907ad6 80%, #907ad6 100%
             );
             opacity: 0.7;
           }
 
-          /* Floating WC 2026 brand circles */
+          /* Floating WC 2026 brand circles — FIFA 2026 brand colors */
           .wc-brand-circle-1 {
             position: fixed;
             width: 500px;
@@ -92,7 +92,7 @@ export default function RootLayout({
             top: 10%;
             z-index: 0;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(108, 43, 217, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(130, 134, 205, 0.08) 0%, transparent 70%);
           }
           .wc-brand-circle-2 {
             position: fixed;
@@ -103,7 +103,7 @@ export default function RootLayout({
             bottom: 5%;
             z-index: 0;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(175, 53, 37, 0.06) 0%, transparent 70%);
           }
           .wc-brand-circle-3 {
             position: fixed;
@@ -114,7 +114,7 @@ export default function RootLayout({
             top: 50%;
             z-index: 0;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(38, 69, 139, 0.06) 0%, transparent 70%);
           }
 
           /* Semi-transparent content card */

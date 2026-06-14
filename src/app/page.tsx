@@ -13,6 +13,14 @@ const GROUP_COLORS: Record<string, string> = {
   I: "#9d6d7b", J: "#98783d", K: "#c64524", L: "#7c2926",
 };
 
+function adjustColor(hex: string, amount: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+  const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+  return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+}
+
 export default function HomePage() {
   const matchList = [...matches];
 
@@ -100,7 +108,7 @@ export default function HomePage() {
       {/* Matches Section */}
       <section className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <span className="w-1 h-6 bg-blue-600 rounded-full inline-block" />
+          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#af3525' }} />
           最新賽果
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
@@ -117,7 +125,7 @@ export default function HomePage() {
 
       <section className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <span className="w-1 h-6 bg-yellow-500 rounded-full inline-block" />
+          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#a4c44d' }} />
           即將開賽
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
@@ -136,7 +144,7 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 bg-green-500 rounded-full inline-block" />
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#26458b' }} />
             小組積分
           </h2>
           <Link href="/groups" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
@@ -150,7 +158,7 @@ export default function HomePage() {
               href={`/groups/${group.id}`}
               className="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all overflow-hidden group"
             >
-              <div className="bg-gradient-to-r from-green-600 to-emerald-700 px-4 py-2">
+              <div className="px-4 py-2" style={{ background: `linear-gradient(135deg, ${GROUP_COLORS[group.id] || '#2d47cb'} 0%, ${adjustColor(GROUP_COLORS[group.id] || '#2d47cb', -20)} 100%)` }}>
                 <h3 className="text-white font-bold text-sm">{group.name}</h3>
               </div>
               <div className="p-3 space-y-1.5">

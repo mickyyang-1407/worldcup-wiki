@@ -4,6 +4,13 @@ import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
 import Link from "next/link";
 
+/* FIFA 2026 brand group colors */
+const GROUP_COLORS: Record<string, string> = {
+  A: "#a4c44d", B: "#b1301f", C: "#2d47cb", D: "#907ad6",
+  E: "#5b2227", F: "#1c433a", G: "#4b1cc3", H: "#7cd4c2",
+  I: "#9d6d7b", J: "#98783d", K: "#c64524", L: "#7c2926",
+};
+
 interface Goal {
   player: string;
   minute: number;
@@ -56,8 +63,9 @@ export default function MatchCard({ match }: MatchCardProps) {
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4">
       {match.stage === "group" && match.group && (
-        <div className="text-xs font-semibold text-blue-600 mb-2">
-          {match.group}組
+        <div className="text-xs font-semibold mb-2 flex items-center gap-1.5">
+          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}></span>
+          <span style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>{match.group}組</span>
         </div>
       )}
       {match.stage !== "group" && (

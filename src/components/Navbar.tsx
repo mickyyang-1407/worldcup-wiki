@@ -20,11 +20,11 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200" style={{ borderBottomColor: '#8286cd40' }}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           <Link href="/" className="flex items-center gap-2 font-bold text-lg text-gray-900 shrink-0">
-            <span className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">⚽</span>
+            <span className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm" style={{ background: 'linear-gradient(135deg, #8286cd, #26458b)' }}>⚽</span>
             <span className="hidden sm:inline">2026 世界盃</span>
           </Link>
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
@@ -36,9 +36,10 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                     isActive
-                      ? "bg-blue-100 text-blue-700"
+                      ? "text-white"
                       : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                   }`}
+                  style={isActive ? { background: 'linear-gradient(135deg, #8286cd, #26458b)' } : {}}
                 >
                   {link.label}
                 </Link>

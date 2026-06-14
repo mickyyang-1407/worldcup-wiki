@@ -95,7 +95,7 @@ export default function HighlightsListClient() {
             全部影片
           </a>
           <a
-            href="https://www.youtube.com/results?search_query=world+cup+2026+live+text+commentary"
+            href="https://www.youtube.com/@NDTVProfit/search?query=World+Cup+2026+commentary"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
@@ -108,7 +108,7 @@ export default function HighlightsListClient() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
           >
-            Bilibili 世界盃精華
+            世界盃精華
           </a>
         </div>
       </div>

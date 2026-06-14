@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* FIFA 2026 brand colors extracted from official brand image */
+  --fifa-primary: #8286cd;
+  --fifa-secondary: #26458b;
+  --fifa-accent-1: #af3525;
+  --fifa-accent-2: #a4c44d;
+  --fifa-accent-3: #5b2227;
   --fifa-navy: #003F72;
   --fifa-blue: #005BBB;
   --fifa-red: #DA291C;
