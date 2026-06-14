@@ -19,9 +19,9 @@ const GROUP_COLORS: Record<string, { bg: string; text: string; hex: string }> = 
 };
 
 function getGroupLetter(name: string): string {
-  // Group name like "A組" or "Group A"
-  const match = name.match(/[A-L]/);
-  return match ? match[0] : "A";
+  // Group name like "A組" or "Group A" — extract the actual group letter
+  const match = name.match(/([A-L])(?:組|$)/);
+  return match ? match[1] : "A";
 }
 interface StandingsRow {
   pos: number;
