@@ -29,6 +29,7 @@ export default function LiveScoresClient() {
   const [data, setData] = useState<LiveScoresResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchData = useCallback(async () => {
@@ -38,6 +39,7 @@ export default function LiveScoresClient() {
       const json: LiveScoresResponse = await res.json();
       setData(json);
       setError(false);
+      setLastUpdated(new Date());
     } catch {
       setError(true);
     } finally {
@@ -58,13 +60,21 @@ export default function LiveScoresClient() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <div className="animate-pulse space-y-3">
-          <div className="h-5 bg-gray-200 rounded w-1/3" />
-          <div className="h-16 bg-gray-100 rounded" />
-          <div className="h-16 bg-gray-100 rounded" />
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
+            最新賽果
+          </h2>
         </div>
-      </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="animate-pulse space-y-3">
+            <div className="h-5 bg-gray-200 rounded w-1/3" />
+            <div className="h-16 bg-gray-100 rounded" />
+            <div className="h-16 bg-gray-100 rounded" />
+          </div>
+        </div>
+      </section>
     );
   }
 
@@ -74,24 +84,34 @@ export default function LiveScoresClient() {
     return null; // No results yet
   }
 
+  const timeSinceUpdate = lastUpdated
+    ? Math.floor((Date.now() - lastUpdated.getTime()) / 1000)
+    : 0;
+
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <span
-            className="w-1 h-6 rounded-full inline-block"
-            style={{ backgroundColor: "#d40404" }}
-          />
+          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
           最新賽果
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
           </span>
           <span className="text-xs text-gray-400">
-            {data?.source === "football-data.org" ? "即時" : "更新"}
+            {timeSinceUpdate < 120
+              ? `${timeSinceUpdate}秒前更新`
+              : `${Math.floor(timeSinceUpdate / 60)}分前更新`}
           </span>
+          <button
+            onClick={fetchData}
+            disabled={loading}
+            className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+          >
+            🔄 重新整理
+          </button>
         </div>
       </div>
 

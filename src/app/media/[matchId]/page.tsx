@@ -53,7 +53,7 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
   const eltaChannelUrl = `https://www.youtube.com/@ELTASPORTSHD`;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div>
       <Link href="/schedule" className="text-sm text-blue-600 hover:text-blue-700 mb-4 inline-block">← 返回賽程</Link>
 
       {/* Match Info Header */}
@@ -143,7 +143,7 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
         <p className="text-sm text-gray-500 mb-4">
           前往 <a href={eltaChannelUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">ELTA SPORTS HD</a> 頻道，觀看完整比賽精華與即時報導。
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <a href="https://www.youtube.com/results?search_query=%E6%84%9B%E7%88%BE%E9%81%94+%E4%B8%96%E7%95%8C%E7%9B%83+2026+%E7%B2%BE%E8%8F%AF"
              target="_blank" rel="noopener noreferrer"
              className="bg-gray-50 rounded-xl p-4 text-center hover:bg-gray-100 transition-colors">
@@ -155,12 +155,6 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
              className="bg-gray-50 rounded-xl p-4 text-center hover:bg-gray-100 transition-colors">
             <div className="text-2xl mb-1">📝</div>
             <div className="text-sm font-medium text-gray-700">文字直播</div>
-          </a>
-          <a href="https://search.bilibili.com/all?keyword=2026%E4%B8%96%E7%95%8C%E7%9B%83"
-             target="_blank" rel="noopener noreferrer"
-             className="bg-gray-50 rounded-xl p-4 text-center hover:bg-gray-100 transition-colors">
-            <div className="text-2xl mb-1">🏆</div>
-            <div className="text-sm font-medium text-gray-700">世界盃精華</div>
           </a>
         </div>
       </div>

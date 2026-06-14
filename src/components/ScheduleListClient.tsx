@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import MatchCard from "./MatchCard";
 import matchesData from "@/data/schedule.json";
 import groupsData from "@/data/groups.json";
+import { toTaipeiTime, formatDate } from "@/lib/timezone";
 
 const stages = [
   { value: "all", label: "全部" },
@@ -42,41 +43,80 @@ interface Group {
   name: string;
 }
 
+function getTodayStr(): string {
+  const now = new Date();
+  // Taipei time
+  const taipei = new Date(now.getTime() + 8 * 3600000);
+  return taipei.toISOString().slice(0, 10);
+}
+
 export default function ScheduleListClient() {
   const [stageFilter, setStageFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [groupFilter, setGroupFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [showTodayOnly, setShowTodayOnly] = useState(false);
 
   const matches = matchesData.matches as any[];
   const groups: Group[] = groupsData.groups;
+  const todayStr = getTodayStr();
 
   const filtered = useMemo(() => {
     let result = [...matches];
     if (stageFilter !== "all") result = result.filter((m) => m.stage === stageFilter);
     if (statusFilter !== "all") result = result.filter((m) => m.status === statusFilter);
     if (groupFilter !== "all") result = result.filter((m) => m.group === groupFilter);
+    if (showTodayOnly) result = result.filter((m) => m.date === todayStr);
     result.sort((a, b) => {
       const cmp = a.date.localeCompare(b.date) || a.time.localeCompare(b.time);
       return sortOrder === "asc" ? cmp : -cmp;
     });
     return result;
-  }, [stageFilter, statusFilter, groupFilter, sortOrder, matches]);
+  }, [stageFilter, statusFilter, groupFilter, sortOrder, showTodayOnly, matches, todayStr]);
+
+  // Group by date when showing all stages
+  const groupedByDate = useMemo(() => {
+    const groups: Record<string, Match[]> = {};
+    for (const m of filtered) {
+      if (!groups[m.date]) groups[m.date] = [];
+      groups[m.date].push(m);
+    }
+    return groups;
+  }, [filtered]);
+
+  const stageLabels: Record<string, string> = {
+    group: "小組賽",
+    "round-of-16": "16強",
+    "quarter-finals": "8強",
+    "semi-finals": "準決賽",
+    "third-place": "季軍戰",
+    final: "決賽",
+  };
+
+  const stageColors: Record<string, string> = {
+    group: "#8286cd",
+    "round-of-16": "#af3525",
+    "quarter-finals": "#26458b",
+    "semi-finals": "#a4c44d",
+    "third-place": "#5b2227",
+    final: "#907ad6",
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
+    <div>
+      {/* Header */}
+      <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">賽程</h1>
-        <p className="text-gray-500 mt-1">2026 世界盃全部 104 場比賽</p>
+        <p className="text-gray-500 mt-1">2026 世界盃全部 104 場比賽 · 時間已轉換為台北時間 (UTC+8)</p>
       </div>
 
       {/* Stage filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex flex-wrap gap-1">
           {stages.map((s) => (
             <button
               key={s.value}
-              onClick={() => setStageFilter(s.value)}
+              onClick={() => { setStageFilter(s.value); setShowTodayOnly(false); }}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 stageFilter === s.value
                   ? "text-white"
@@ -90,6 +130,7 @@ export default function ScheduleListClient() {
         </div>
       </div>
 
+      {/* Status + Group + Today + Sort filters */}
       <div className="flex flex-wrap gap-3 mb-6 items-center">
         <div className="flex gap-1">
           {statusFilters.map((s) => (
@@ -119,6 +160,17 @@ export default function ScheduleListClient() {
         </select>
 
         <button
+          onClick={() => setShowTodayOnly(!showTodayOnly)}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            showTodayOnly
+              ? "bg-orange-500 text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          📅 今天
+        </button>
+
+        <button
           onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
           className="px-3 py-1.5 rounded-lg text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
         >
@@ -129,12 +181,64 @@ export default function ScheduleListClient() {
       {/* Results count */}
       <p className="text-sm text-gray-500 mb-4">共 {filtered.length} 場比賽</p>
 
-      {/* Matches grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((m) => (
-          <MatchCard key={m.id} match={m} />
-        ))}
-      </div>
+      {/* Matches grouped by date */}
+      {stageFilter === "all" && !showTodayOnly ? (
+        Object.keys(groupedByDate)
+          .sort((a, b) => sortOrder === "asc" ? a.localeCompare(b) : b.localeCompare(a))
+          .map((date) => {
+            const dayMatches = groupedByDate[date];
+            const isToday = date === todayStr;
+            return (
+              <div key={date} className="mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`text-sm font-bold ${isToday ? "text-orange-600" : "text-gray-700"}`}>
+                    {(() => {
+                      // Try to parse date in Taipei timezone context
+                      const d = new Date(date + "T00:00:00");
+                      return d.toLocaleDateString("zh-TW", {
+                        month: "long",
+                        day: "numeric",
+                        weekday: "long",
+                      });
+                    })()}
+                  </div>
+                  {isToday && (
+                    <span className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full font-medium">
+                      今天
+                    </span>
+                  )}
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <span className="text-xs text-gray-400">{dayMatches.length} 場</span>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {dayMatches.map((m) => (
+                    <MatchCard key={m.id} match={m} />
+                  ))}
+                </div>
+              </div>
+            );
+          })
+      ) : (
+        <>
+          {/* Stage section view when filtering by stage */}
+          {stageFilter !== "all" && (
+            <div className="mb-4 flex items-center gap-2">
+              <span
+                className="inline-block w-3 h-3 rounded-full"
+                style={{ backgroundColor: stageColors[stageFilter] || "#6404eb" }}
+              />
+              <span className="text-sm font-bold" style={{ color: stageColors[stageFilter] || "#6404eb" }}>
+                {stageLabels[stageFilter] || stageFilter}
+              </span>
+            </div>
+          )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map((m) => (
+              <MatchCard key={m.id} match={m} />
+            ))}
+          </div>
+        </>
+      )}
 
       {filtered.length === 0 && (
         <div className="text-center py-16 text-gray-400">

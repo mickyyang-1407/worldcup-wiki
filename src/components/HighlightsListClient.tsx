@@ -23,6 +23,15 @@ const stageOrder = [
   "final",
 ];
 
+const stageColors: Record<string, string> = {
+  group: "#8286cd",
+  "round-of-16": "#af3525",
+  "quarter-finals": "#26458b",
+  "semi-finals": "#a4c44d",
+  "third-place": "#5b2227",
+  final: "#907ad6",
+};
+
 interface Match {
   id: string;
   stage: string;
@@ -74,17 +83,17 @@ export default function HighlightsListClient() {
   }, [filteredMatches]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div>
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">📺 所有精華影片</h1>
-        <p className="text-sm text-gray-500">
-          瀏覽所有世界盃比賽的精華影片，支援 YouTube 觀看
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">📺 精華影片</h1>
+        <p className="text-gray-500 mt-1">
+          瀏覽所有已完賽比賽的精華影片
         </p>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-8">
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="flex gap-1 overflow-x-auto scrollbar-none pb-1">
           <button
             onClick={() => setSelectedStage("all")}
@@ -102,9 +111,10 @@ export default function HighlightsListClient() {
               onClick={() => setSelectedStage(stage)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedStage === stage
-                  ? "bg-blue-600 text-white"
+                  ? "text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
+              style={selectedStage === stage ? { background: stageColors[stage] } : undefined}
             >
               {stageLabels[stage]}
             </button>
@@ -149,13 +159,19 @@ export default function HighlightsListClient() {
 
         return (
           <div key={stage} className="mb-10">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              {stageLabels[stage]}
+            <div className="flex items-center gap-3 mb-4">
+              <span
+                className="inline-block w-3 h-3 rounded-full"
+                style={{ backgroundColor: stageColors[stage] }}
+              />
+              <h2 className="text-lg font-bold text-gray-900">
+                {stageLabels[stage]}
+              </h2>
               <span className="text-sm font-normal text-gray-400">
                 ({stageMatches.length} 場)
               </span>
-            </h2>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {stageMatches.map((match) => (
                 <HighlightCard
@@ -186,7 +202,7 @@ export default function HighlightsListClient() {
         </div>
       )}
 
-      {/* Video source links — bottom of page */}
+      {/* Video source links */}
       <div className="mt-12 p-6 bg-gray-50 rounded-xl border border-gray-200">
         <h3 className="text-sm font-bold text-gray-700 mb-3">🔗 更多影片來源</h3>
         <div className="flex flex-wrap gap-3">
@@ -206,14 +222,6 @@ export default function HighlightsListClient() {
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
           >
             📝 文字直播
-          </a>
-          <a
-            href="https://search.bilibili.com/all?keyword=2026%E4%B8%96%E7%95%8C%E7%9B%83"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
-          >
-            世界盃精華
           </a>
         </div>
       </div>
