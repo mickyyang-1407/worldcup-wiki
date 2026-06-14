@@ -6,6 +6,13 @@ import { groups } from "@/data/groups";
 import Link from "next/link";
 import TeamBadge from "@/components/TeamBadge";
 
+/* FIFA 2026 brand colors for groups (from official brand image) */
+const GROUP_COLORS: Record<string, string> = {
+  A: "#a4c44d", B: "#b1301f", C: "#2d47cb", D: "#907ad6",
+  E: "#5b2227", F: "#1c433a", G: "#4b1cc3", H: "#7cd4c2",
+  I: "#9d6d7b", J: "#98783d", K: "#c64524", L: "#7c2926",
+};
+
 export default function HomePage() {
   const matchList = [...matches];
 
@@ -26,7 +33,10 @@ export default function HomePage() {
     <div>
       {/* Hero Section */}
       <div className="relative -m-6 md:-m-8 mb-6 md:mb-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-indigo-800/85 to-purple-900/80 z-10" />
+        {/* Banner gradient based on extracted palette: #6404eb, #d40404, #b7e710, #a8da13, #523c1b */}
+        <div className="absolute inset-0 z-10" style={{
+          background: 'linear-gradient(135deg, rgba(100,4,235,0.92) 0%, rgba(212,4,4,0.75) 35%, rgba(82,60,27,0.5) 60%, rgba(183,231,16,0.2) 100%)',
+        }} />
         <div className="absolute inset-0 opacity-20 z-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           backgroundSize: '60px 60px'

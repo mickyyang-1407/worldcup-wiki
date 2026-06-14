@@ -2,19 +2,20 @@ import { groups } from "@/data/groups";
 import TeamBadge from "./TeamBadge";
 
 
-const GROUP_COLORS: Record<string, { bg: string; text: string }> = {
-  A: { bg: "from-red-600 to-red-700", text: "text-red-600" },
-  B: { bg: "from-blue-600 to-blue-700", text: "text-blue-600" },
-  C: { bg: "from-yellow-500 to-yellow-600", text: "text-yellow-600" },
-  D: { bg: "from-green-600 to-green-700", text: "text-green-600" },
-  E: { bg: "from-purple-600 to-purple-700", text: "text-purple-600" },
-  F: { bg: "from-orange-500 to-orange-600", text: "text-orange-600" },
-  G: { bg: "from-pink-500 to-pink-600", text: "text-pink-600" },
-  H: { bg: "from-cyan-500 to-cyan-600", text: "text-cyan-600" },
-  I: { bg: "from-red-700 to-red-800", text: "text-red-700" },
-  J: { bg: "from-blue-800 to-blue-900", text: "text-blue-800" },
-  K: { bg: "from-green-700 to-green-800", text: "text-green-700" },
-  L: { bg: "from-amber-800 to-amber-900", text: "text-amber-800" },
+/* FIFA 2026 brand colors extracted from official brand image */
+const GROUP_COLORS: Record<string, { bg: string; text: string; hex: string }> = {
+  A: { bg: "linear-gradient(135deg, #a4c44d 0%, #8fb33e 100%)", text: "#a4c44d", hex: "#a4c44d" },
+  B: { bg: "linear-gradient(135deg, #b1301f 0%, #8f2618 100%)", text: "#b1301f", hex: "#b1301f" },
+  C: { bg: "linear-gradient(135deg, #2d47cb 0%, #2339a8 100%)", text: "#2d47cb", hex: "#2d47cb" },
+  D: { bg: "linear-gradient(135deg, #907ad6 0%, #7560be 100%)", text: "#907ad6", hex: "#907ad6" },
+  E: { bg: "linear-gradient(135deg, #5b2227 0%, #3d1619 100%)", text: "#5b2227", hex: "#5b2227" },
+  F: { bg: "linear-gradient(135deg, #1c433a 0%, #122d27 100%)", text: "#1c433a", hex: "#1c433a" },
+  G: { bg: "linear-gradient(135deg, #4b1cc3 0%, #3a15a0 100%)", text: "#4b1cc3", hex: "#4b1cc3" },
+  H: { bg: "linear-gradient(135deg, #7cd4c2 0%, #5cbfaa 100%)", text: "#7cd4c2", hex: "#7cd4c2" },
+  I: { bg: "linear-gradient(135deg, #9d6d7b 0%, #805763 100%)", text: "#9d6d7b", hex: "#9d6d7b" },
+  J: { bg: "linear-gradient(135deg, #98783d 0%, #7a6030 100%)", text: "#98783d", hex: "#98783d" },
+  K: { bg: "linear-gradient(135deg, #c64524 0%, #a5381d 100%)", text: "#c64524", hex: "#c64524" },
+  L: { bg: "linear-gradient(135deg, #7c2926 0%, #5e1e1c 100%)", text: "#7c2926", hex: "#7c2926" },
 };
 
 function getGroupLetter(name: string): string {
@@ -56,7 +57,7 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
     <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-2"}`}>
       {groupList.map((group: Group) => (
         <div key={group.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className={`bg-gradient-to-r ${GROUP_COLORS[getGroupLetter(group.name)]?.bg || "from-blue-600 to-blue-700"} px-4 py-3`}>
+          <div className="px-4 py-3" style={{ background: GROUP_COLORS[getGroupLetter(group.name)]?.bg || "linear-gradient(135deg, #2d47cb 0%, #2339a8 100%)" }}>
             <h3 className="text-white font-bold text-lg">{group.name}</h3>
           </div>
           <div className="overflow-x-auto">

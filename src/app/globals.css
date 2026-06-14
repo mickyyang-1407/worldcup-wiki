@@ -32,12 +32,12 @@ body {
   scrollbar-width: none;
 }
 
-/* FIFA 2026 watermark */
+/* FIFA 2026 watermark — 2026 official logo */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 0;
   pointer-events: none;
   background-image: url("/logo-watermark.png");
   background-repeat: no-repeat;
