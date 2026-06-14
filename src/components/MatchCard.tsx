@@ -3,6 +3,7 @@
 import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
 import Link from "next/link";
+import { formatMatchTime } from "@/lib/timezone";
 
 /* FIFA 2026 brand group colors */
 const GROUP_COLORS: Record<string, string> = {
@@ -55,11 +56,6 @@ export default function MatchCard({ match }: MatchCardProps) {
   const homeTeam = teams.find((t: any) => t.id === match.home);
   const awayTeam = teams.find((t: any) => t.id === match.away);
 
-  const formatDate = (d: string) => {
-    const date = new Date(d + "T00:00:00");
-    return date.toLocaleDateString("zh-TW", { month: "short", day: "numeric", weekday: "short" });
-  };
-
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4">
       {match.stage === "group" && match.group && (
@@ -76,7 +72,7 @@ export default function MatchCard({ match }: MatchCardProps) {
 
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 text-right">
-          <TeamBadge teamId={match.home} size="md" />
+          <TeamBadge teamId={match.home} size="xl" showName={false} linkable={false} />
         </div>
 
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -87,15 +83,14 @@ export default function MatchCard({ match }: MatchCardProps) {
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
-          <span className="text-xs text-gray-500">{formatDate(match.date)}</span>
-          <span className="text-xs text-gray-400">{match.time}</span>
+          <span className="text-xs text-gray-500">{formatMatchTime(match.date, match.time)}</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>
         </div>
 
         <div className="flex-1 text-left">
-          <TeamBadge teamId={match.away} size="md" />
+          <TeamBadge teamId={match.away} size="xl" showName={false} linkable={false} />
         </div>
       </div>
 

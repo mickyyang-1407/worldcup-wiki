@@ -69,7 +69,7 @@ export default function HomePage() {
               <div className="flex gap-3">
                 <Link
                   href="/schedule"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 hover:bg-white/25 text-white rounded-xl font-medium transition-all backdrop-blur-sm border border-white/20"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25"
                 >
                   📅 完整賽程
                 </Link>
@@ -92,7 +92,7 @@ export default function HomePage() {
         {[
           { label: "參賽隊伍", value: "48", icon: "🏳️", color: "#6404eb" },
           { label: "比賽場次", value: "104", icon: "⚽", color: "#d40404" },
-          { label: "主辦城市", value: "15", icon: "🏟️", color: "#b7e710" },
+          { label: "主辦城市", value: "16", icon: "🏟️", color: "#1a3a5c" },
           { label: "主辦國家", value: "3", icon: "🌎", color: "#523c1b" },
         ].map((stat) => (
           <div

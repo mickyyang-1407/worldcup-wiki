@@ -52,7 +52,7 @@ const teamColors: Record<string, string> = {
 interface TeamBadgeProps {
   teamId: string;
   showName?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   linkable?: boolean;
 }
 
@@ -60,7 +60,7 @@ export default function TeamBadge({ teamId, showName = true, size = "sm", linkab
   const team = teams.find((t: any) => t.id === teamId);
   if (!team) return <span className="text-gray-400">{teamId}</span>;
 
-  const sizeMap = { sm: 20, md: 28, lg: 40 };
+  const sizeMap = { sm: 20, md: 28, lg: 40, xl: 36 };
   const px = sizeMap[size];
   const bgColor = teamColors[teamId] || "#666";
 

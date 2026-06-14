@@ -5,6 +5,7 @@ import Link from "next/link";
 import { matches } from "@/data/schedule";
 import { teams } from "@/data/teams";
 import TeamBadge from "@/components/TeamBadge";
+import { formatMatchTime } from "@/lib/timezone";
 
 export default function MediaPage({ params }: { params: Promise<{ matchId: string }> }) {
   const [matchId, setMatchId] = useState<string | null>(null);
@@ -29,11 +30,6 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
 
   const homeTeam = (teams as any[]).find((t: any) => t.id === match.home);
   const awayTeam = (teams as any[]).find((t: any) => t.id === match.away);
-
-  const formatDate = (d: string) => {
-    const date = new Date(d + "T00:00:00");
-    return date.toLocaleDateString("zh-TW", { year: "numeric", month: "long", day: "numeric", weekday: "long" });
-  };
 
   const stageLabel = (stage: string) => {
     const labels: Record<string, string> = {
@@ -64,7 +60,7 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
         <div className="text-center mb-6">
           <div className="text-sm text-gray-500 mb-2">
-            {formatDate(match.date)} · {stageLabel(match.stage)}{match.group ? ` · ${match.group}組` : ""}
+            {formatMatchTime(match.date, match.time)} · {stageLabel(match.stage)}{match.group ? ` · ${match.group}組` : ""}
           </div>
           <div className="flex items-center justify-center gap-6">
             <div className="text-center">

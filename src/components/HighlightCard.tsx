@@ -1,6 +1,7 @@
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
+import { formatDate } from "@/lib/timezone";
 
 interface VideoLink {
   id?: string;
@@ -44,11 +45,6 @@ export default function HighlightCard({
 }: HighlightCardProps) {
   const home = (teams as any[]).find((t: any) => t.id === homeTeam);
   const away = (teams as any[]).find((t: any) => t.id === awayTeam);
-
-  const formatDate = (d: string) => {
-    const date = new Date(d + "T00:00:00");
-    return date.toLocaleDateString("zh-TW", { month: "short", day: "numeric", weekday: "short" });
-  };
 
   return (
     <Link
