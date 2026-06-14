@@ -15,3 +15,4 @@
 || 任務 10｜LiveScoresClient 統一 MatchCard | ✅ 完成 | 2026-06-14 21:14:00 | 2026-06-14 21:14:00 | LiveScoresClient 改用 MatchCard 統一卡片結構，移除重複樣式 |
 || 任務 11｜全部 48 隊國旗圖片 | ✅ 完成 | 2026-06-14 21:40:00 | 2026-06-14 21:42:00 | 從 flagcdn.com 下載 32 面缺少國旗，移除重複檔；現在每隊頁面都顯示真實國旗不再 fallback emoji |
 | SUB-01｜首頁修復 | ✅ 完成 | 2026-06-15 10:00:00 | 2026-06-15 10:20:00 | 統計卡片螢光綠→深藍(#1a3a5c)；國旗放大至36px(xl尺寸)；全站時區改Asia/Taipei(UTC+8)；完整賽程按鈕移除毛玻璃改實心藍色 |
+| SUB-02｜國旗統一 flag-icons | ✅ 完成 | 2026-06-15 10:25:00 | 2026-06-15 10:30:00 | npm install flag-icons，TeamBadge 改為 fi fi-{iso2} fis，建立 src/data/teamFlags.ts 對應表 |

@@ -5,6 +5,7 @@ import { players } from "@/data/players";
 import GroupStandingsTable from "@/components/GroupStandingsTable";
 import MatchCard from "@/components/MatchCard";
 import TeamBadge from "@/components/TeamBadge";
+import { getFlagClass } from "@/data/teamFlags";
 
 export function generateStaticParams() {
   return (teams as any[]).map((t: any) => ({ team: t.id }));
@@ -35,51 +36,66 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
     { key: "FW", label: "前鋒" },
   ];
 
+  const flagClass = getFlagClass(team.id);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <Link href="/teams" className="text-sm text-blue-600 hover:text-blue-700 mb-4 inline-block">← 所有隊伍</Link>
 
-      {/* Team Header */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-          <TeamBadge teamId={team.id} size="lg" showName={false} linkable={false} />
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{team.name_zh}</h1>
-            <p className="text-gray-500">{team.name} · {team.nickname}</p>
+      {/* Team Hero — Flag Banner */}
+      <div className="relative rounded-xl overflow-hidden mb-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        {/* Large flag as hero background */}
+        {flagClass && (
+          <div className="absolute inset-0 opacity-[0.07] flex items-center justify-center pointer-events-none">
+            <span className={`${flagClass} text-[300px] md:text-[500px] scale-150`} />
           </div>
-          <div className="md:ml-auto flex items-center gap-2">
-            <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
-              {team.group}組
-            </span>
-            <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-medium">
-              FIFA #{team.fifa_ranking}
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div className="bg-gray-50 rounded-lg p-3">
-            <div className="text-gray-500">教練</div>
-            <div className="font-semibold text-gray-800">{team.coach.name}</div>
-            <div className="text-xs text-gray-400">{team.coach.nationality}</div>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-3">
-            <div className="text-gray-500">隊長</div>
-            <div className="font-semibold text-gray-800">{team.captain}</div>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-3">
-            <div className="text-gray-500">世界盃參賽</div>
-            <div className="font-semibold text-gray-800">{team.appearances} 次</div>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-3">
-            <div className="text-gray-500">最佳成績</div>
-            <div className="font-semibold text-gray-800">{team.best_wc_result}</div>
-          </div>
-        </div>
-
-        {team.description && (
-          <p className="mt-4 text-sm text-gray-600 leading-relaxed">{team.description}</p>
         )}
+        <div className="relative z-10 p-6 md:p-8">
+          <div className="flex items-center gap-6">
+            {/* Giant flag badge */}
+            <span className={`${flagClass} text-7xl md:text-8xl rounded-sm shrink-0 shadow-2xl`} />
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">{team.name_zh}</h1>
+              <p className="text-lg text-gray-300">{team.name} · {team.nickname}</p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <span className="text-xs bg-white/15 text-white px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                  {team.group}組
+                </span>
+                <span className="text-xs bg-white/15 text-white px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                  FIFA #{team.fifa_ranking}
+                </span>
+                <span className="text-xs bg-white/15 text-white px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                  {team.appearances} 次參賽
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Info grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+              <div className="text-xs text-gray-400">教練</div>
+              <div className="font-semibold text-white text-sm">{team.coach.name}</div>
+              <div className="text-xs text-gray-400">{team.coach.nationality}</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+              <div className="text-xs text-gray-400">隊長</div>
+              <div className="font-semibold text-white text-sm">{team.captain}</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+              <div className="text-xs text-gray-400">最佳成績</div>
+              <div className="font-semibold text-white text-sm">{team.best_wc_result}</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+              <div className="text-xs text-gray-400">協會</div>
+              <div className="font-semibold text-white text-sm truncate" title={team.association}>{team.association}</div>
+            </div>
+          </div>
+
+          {team.description && (
+            <p className="mt-4 text-sm text-gray-300 leading-relaxed">{team.description}</p>
+          )}
+        </div>
       </div>
 
       {/* Group Standings */}
