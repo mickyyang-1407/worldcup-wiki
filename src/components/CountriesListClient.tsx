@@ -3,7 +3,21 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import countriesData from "@/data/countries.json";
-import { getFlagClass } from "@/data/teamFlags";
+
+const countryFlags: Record<string, string> = {
+  mexico: "🇲🇽", "south-korea": "🇰🇷", "czech-republic": "🇨🇿", "south-africa": "🇿🇦",
+  canada: "🇨🇦", brazil: "🇧🇷", "united-states": "🇺🇸", germany: "🇩🇪",
+  netherlands: "🇳🇱", japan: "🇯🇵", france: "🇫🇷", argentina: "🇦🇷",
+  portugal: "🇵🇹", england: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", spain: "🇪🇸", belgium: "🇧🇪",
+  morocco: "🇲🇦", haiti: "🇭🇹", scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", paraguay: "🇵🇾",
+  australia: "🇦🇺", turkey: "🇹🇷", curacao: "🇨🇼", "ivory-coast": "🇨🇮",
+  ecuador: "🇪🇨", sweden: "🇸🇪", tunisia: "🇹🇳", egypt: "🇪🇬",
+  iran: "🇮🇷", "new-zealand": "🇳🇿", "cape-verde": "🇨🇻", "saudi-arabia": "🇸🇦",
+  uruguay: "🇺🇾", senegal: "🇸🇳", iraq: "🇮🇶", norway: "🇳🇴",
+  algeria: "🇩🇿", austria: "🇦🇹", jordan: "🇯🇴", "dr-congo": "🇨🇩",
+  uzbekistan: "🇺🇿", colombia: "🇨🇴", croatia: "🇭🇷", ghana: "🇬🇭",
+  panama: "🇵🇦", "bosnia-and-herzegovina": "🇧🇦", qatar: "🇶🇦", switzerland: "🇨🇭",
+};
 
 const continents = [
   { value: "all", label: "所有洲" },
@@ -75,50 +89,35 @@ export default function CountriesListClient() {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((country) => {
-          const teamId = country.teams[0];
-          const flagClass = getFlagClass(teamId);
-          return (
-            <Link
-              key={country.id}
-              href={`/teams/${teamId}`}
-              className="relative bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all overflow-hidden"
-            >
-              {/* Background flag */}
-              {flagClass && (
-                <span
-                  className={`${flagClass} absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none`}
-                  style={{ fontSize: "300px", objectFit: "cover" }}
-                />
-              )}
-
-              {/* Content */}
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-gray-900 text-lg">{country.name_zh}</h3>
-                  <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
-                    {continentFilter !== "all" ? country.continent :
-                      continents.find((c) => c.value === country.continent)?.label || country.continent}
-                  </span>
-                </div>
-                <div className="space-y-1.5 text-sm text-gray-500">
-                  <div className="flex justify-between">
-                    <span>世界盃參賽</span>
-                    <span className="font-semibold text-gray-700">{country.wc_appearances} 次</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>最佳成績</span>
-                    <span className="font-semibold text-gray-700">{country.best_result}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>參賽隊伍</span>
-                    <span className="font-semibold text-gray-700">{country.total_teams} 隊</span>
-                  </div>
-                </div>
+        {filtered.map((country) => (
+          <Link
+            key={country.id}
+            href={`/teams/${country.teams[0]}`}
+            className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-bold text-gray-900 text-lg">{countryFlags[country.id] || ""} {country.name_zh}</h3>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
+                {continentFilter !== "all" ? country.continent :
+                  continents.find((c) => c.value === country.continent)?.label || country.continent}
+              </span>
+            </div>
+            <div className="space-y-1.5 text-sm text-gray-500">
+              <div className="flex justify-between">
+                <span>世界盃參賽</span>
+                <span className="font-semibold text-gray-700">{country.wc_appearances} 次</span>
               </div>
-            </Link>
-          );
-        })}
+              <div className="flex justify-between">
+                <span>最佳成績</span>
+                <span className="font-semibold text-gray-700">{country.best_result}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>參賽隊伍</span>
+                <span className="font-semibold text-gray-700">{country.total_teams} 隊</span>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

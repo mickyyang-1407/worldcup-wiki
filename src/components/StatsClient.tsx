@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import TeamBadge from "./TeamBadge";
 import matchesData from "@/data/schedule.json";
 import teamsData from "@/data/teams.json";
@@ -21,236 +21,200 @@ interface Team {
   name_zh: string;
 }
 
-const medalColors: Record<number, { bg: string; text: string; label: string }> = {
-  0: { bg: "bg-gradient-to-r from-yellow-300 to-yellow-500", text: "text-yellow-900", label: "🥇" },
-  1: { bg: "bg-gradient-to-r from-gray-300 to-gray-400", text: "text-gray-700", label: "🥈" },
-  2: { bg: "bg-gradient-to-r from-amber-500 to-amber-600", text: "text-amber-100", label: "🥉" },
-};
-
 export default function StatsClient() {
-  const [now, setNow] = useState(Date.now());
-
-  // Auto-refresh every 60 seconds
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   const matches = matchesData.matches as any[];
   const teams: Team[] = teamsData.teams;
 
-  const completed = useMemo(
-    () => matches.filter((m) => m.status === "completed"),
-    [matches]
-  );
-  const upcoming = useMemo(
-    () => matches.filter((m) => m.status === "scheduled"),
-    [matches]
-  );
+  const completed = matches.filter((m) => m.status === "completed");
+  const upcoming = matches.filter((m) => m.status === "upcoming");
 
-  const totalGoals = useMemo(
-    () => completed.reduce((sum: number, m: any) => sum + m.score.home + m.score.away, 0),
-    [completed]
-  );
-  const avgGoals = useMemo(
-    () => (completed.length > 0 ? (totalGoals / completed.length).toFixed(1) : "0"),
-    [completed, totalGoals]
-  );
+  const totalGoals = completed.reduce((sum, m) => sum + m.score.home + m.score.away, 0);
+  const avgGoals = completed.length > 0 ? (totalGoals / completed.length).toFixed(1) : "0";
+
+  const biggestWin = useMemo(() => {
+    let max = 0;
+    let match = null as Match | null;
+    for (const m of completed) {
+      const diff = Math.abs(m.score.home - m.score.away);
+      if (diff > max) { max = diff; match = m; }
+    }
+    return { match, diff: max };
+  }, [completed]);
 
   const topScorers = useMemo(() => {
     const goalMap: Record<string, { name: string; goals: number; team: string }> = {};
     for (const m of completed) {
       if (!m.goals) continue;
       for (const g of m.goals) {
-        const key = g.player;
-        if (!goalMap[key]) {
-          goalMap[key] = { name: g.player, goals: 0, team: g.team === "home" ? m.home : m.away };
-        }
-        goalMap[key].goals++;
+        if (!goalMap[g.player]) goalMap[g.player] = { name: g.player, goals: 0, team: g.team === "home" ? m.home : m.away };
+        goalMap[g.player].goals++;
       }
     }
     return Object.values(goalMap).sort((a, b) => b.goals - a.goals).slice(0, 10);
   }, [completed]);
 
+  const groupStats = useMemo(() => {
+    const stats: Record<string, { played: number; homeWins: number; draws: number; awayWins: number; goals: number }> = {};
+    for (const m of completed) {
+      if (m.stage !== "group" || !m.group) continue;
+      if (!stats[m.group]) stats[m.group] = { played: 0, homeWins: 0, draws: 0, awayWins: 0, goals: 0 };
+      stats[m.group].played++;
+      stats[m.group].goals += m.score.home + m.score.away;
+      if (m.score.home > m.score.away) stats[m.group].homeWins++;
+      else if (m.score.home < m.score.away) stats[m.group].awayWins++;
+      else stats[m.group].draws++;
+    }
+    return stats;
+  }, [completed]);
+
+  const homeWins = completed.filter((m) => m.score.home > m.score.away).length;
+  const awayWins = completed.filter((m) => m.score.home < m.score.away).length;
+  const draws = completed.filter((m) => m.score.home === m.score.away).length;
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">賽事統計</h1>
-        <p className="text-gray-500 mt-1">即時統計 · 每 60 秒自動更新</p>
+        <p className="text-gray-500 mt-1">截至目前的各項數據統計</p>
       </div>
 
-      {/* Big number cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg p-6">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -translate-y-1/2 translate-x-1/4" />
-          <div className="relative z-10">
-            <div className="text-4xl sm:text-5xl font-black text-white mb-1">{totalGoals}</div>
-            <div className="text-sm text-blue-300/80 font-medium">總進球數</div>
-          </div>
+      {/* Overview cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="text-xs text-gray-500 mb-1">已完成比賽</div>
+          <div className="text-3xl font-bold text-gray-900">{completed.length}</div>
         </div>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg p-6">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full -translate-y-1/2 translate-x-1/4" />
-          <div className="relative z-10">
-            <div className="text-4xl sm:text-5xl font-black text-white mb-1">{completed.length}</div>
-            <div className="text-sm text-green-300/80 font-medium">已賽場次</div>
-          </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="text-xs text-gray-500 mb-1">總進球數</div>
+          <div className="text-3xl font-bold text-green-600">{totalGoals}</div>
         </div>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg p-6">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full -translate-y-1/2 translate-x-1/4" />
-          <div className="relative z-10">
-            <div className="text-4xl sm:text-5xl font-black text-white mb-1">{avgGoals}</div>
-            <div className="text-sm text-purple-300/80 font-medium">場均進球</div>
-          </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="text-xs text-gray-500 mb-1">場均進球</div>
+          <div className="text-3xl font-bold text-blue-600">{avgGoals}</div>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="text-xs text-gray-500 mb-1">未賽比賽</div>
+          <div className="text-3xl font-bold text-gray-900">{upcoming.length}</div>
         </div>
       </div>
 
-      {/* Top Scorers */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg mb-10">
-        <div className="px-6 py-5 border-b border-white/10">
-          <h2 className="text-lg font-bold text-white">射手榜</h2>
-        </div>
-        {topScorers.length > 0 ? (
-          <div className="divide-y divide-white/5">
-            {topScorers.map((player, idx) => {
-              const team = teams.find((t) => t.id === player.team);
-              const medal = medalColors[idx];
-              return (
-                <div
-                  key={player.name}
-                  className={`flex items-center gap-4 px-6 py-3.5 transition-colors ${
-                    idx < 3 ? "hover:bg-white/10" : "hover:bg-white/5"
-                  }`}
-                >
-                  {/* Rank */}
-                  <div className="w-8 text-center shrink-0">
-                    {idx < 3 ? (
-                      <span className="text-lg">{medal.label}</span>
-                    ) : (
-                      <span className="text-sm font-bold text-gray-500">#{idx + 1}</span>
-                    )}
-                  </div>
-
-                  {/* Player info */}
-                  <div className="flex-1 min-w-0">
-                    <span className="font-semibold text-white">{player.name}</span>
-                    <div className="inline-block ml-2 align-middle">
-                      <TeamBadge teamId={player.team} size="sm" showName={false} linkable={false} />
-                    </div>
-                  </div>
-
-                  {/* Goals */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xl font-black text-white">{player.goals}</span>
-                    <span className="text-xs text-gray-400">球</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="px-6 py-12 text-center text-gray-500">
-            <p className="text-3xl mb-2">⚽</p>
-            <p>暫無進球數據</p>
-          </div>
-        )}
-      </div>
-
-      {/* Additional stats grid */}
-      <div className="grid md:grid-cols-2 gap-5">
-        {/* Win/Draw/Loss */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg p-6">
-          <h2 className="text-base font-bold text-white mb-5">比賽結果分布</h2>
-          <div className="space-y-4">
+      {/* Win/Draw/Loss */}
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <h2 className="font-bold text-gray-900 mb-4">比賽結果分布</h2>
+          <div className="space-y-3">
             <div>
-              <div className="flex justify-between text-sm mb-1.5">
-                <span className="text-blue-400">主隊勝</span>
-                <span className="font-semibold text-white">
-                  {completed.filter((m: any) => m.score.home > m.score.away).length}
-                  <span className="text-gray-400 font-normal ml-1">
-                    ({completed.length > 0 ? Math.round(completed.filter((m: any) => m.score.home > m.score.away).length / completed.length * 100) : 0}%)
-                  </span>
-                </span>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-blue-600">主隊勝</span>
+                <span className="font-semibold">{homeWins} ({completed.length > 0 ? Math.round(homeWins/completed.length*100) : 0}%)</span>
               </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-blue-500 rounded-full transition-all"
-                  style={{ width: `${completed.length > 0 ? completed.filter((m: any) => m.score.home > m.score.away).length / completed.length * 100 : 0}%` }}
-                />
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-blue-500 rounded-full" style={{ width: `${completed.length > 0 ? homeWins/completed.length*100 : 0}%` }}></div>
               </div>
             </div>
             <div>
-              <div className="flex justify-between text-sm mb-1.5">
-                <span className="text-gray-400">平局</span>
-                <span className="font-semibold text-white">
-                  {completed.filter((m: any) => m.score.home === m.score.away).length}
-                  <span className="text-gray-400 font-normal ml-1">
-                    ({completed.length > 0 ? Math.round(completed.filter((m: any) => m.score.home === m.score.away).length / completed.length * 100) : 0}%)
-                  </span>
-                </span>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-gray-600">平局</span>
+                <span className="font-semibold">{draws} ({completed.length > 0 ? Math.round(draws/completed.length*100) : 0}%)</span>
               </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gray-500 rounded-full transition-all"
-                  style={{ width: `${completed.length > 0 ? completed.filter((m: any) => m.score.home === m.score.away).length / completed.length * 100 : 0}%` }}
-                />
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gray-400 rounded-full" style={{ width: `${completed.length > 0 ? draws/completed.length*100 : 0}%` }}></div>
               </div>
             </div>
             <div>
-              <div className="flex justify-between text-sm mb-1.5">
-                <span className="text-orange-400">客隊勝</span>
-                <span className="font-semibold text-white">
-                  {completed.filter((m: any) => m.score.home < m.score.away).length}
-                  <span className="text-gray-400 font-normal ml-1">
-                    ({completed.length > 0 ? Math.round(completed.filter((m: any) => m.score.home < m.score.away).length / completed.length * 100) : 0}%)
-                  </span>
-                </span>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-orange-600">客隊勝</span>
+                <span className="font-semibold">{awayWins} ({completed.length > 0 ? Math.round(awayWins/completed.length*100) : 0}%)</span>
               </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-orange-500 rounded-full transition-all"
-                  style={{ width: `${completed.length > 0 ? completed.filter((m: any) => m.score.home < m.score.away).length / completed.length * 100 : 0}%` }}
-                />
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-orange-500 rounded-full" style={{ width: `${completed.length > 0 ? awayWins/completed.length*100 : 0}%` }}></div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Biggest Win */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border border-white/10 shadow-lg p-6">
-          <h2 className="text-base font-bold text-white mb-5">最大比分差</h2>
-          {(() => {
-            let max = 0;
-            let match: any = null;
-            for (const m of completed) {
-              const diff = Math.abs(m.score.home - m.score.away);
-              if (diff > max) { max = diff; match = m; }
-            }
-            if (match) {
-              const homeTeam = teams.find((t) => t.id === match.home);
-              const awayTeam = teams.find((t) => t.id === match.away);
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <h2 className="font-bold text-gray-900 mb-4">最大比分差</h2>
+          {biggestWin.match ? (
+            <div>
+              <div className="text-4xl font-bold text-center text-gray-900 mb-2">
+                {biggestWin.match.score.home} - {biggestWin.match.score.away}
+              </div>
+              <p className="text-center text-sm text-gray-500">
+                差 {biggestWin.diff} 球
+              </p>
+            </div>
+          ) : (
+            <p className="text-gray-400 text-center">暫無數據</p>
+          )}
+        </div>
+      </div>
+
+      {/* Top Scorers */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h2 className="font-bold text-gray-900">射手榜</h2>
+        </div>
+        {topScorers.length > 0 ? (
+          <div className="divide-y divide-gray-50">
+            {topScorers.map((player, idx) => {
+              const team = teams.find((t) => t.id === player.team);
               return (
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-4 mb-3">
-                    <div className="text-center">
-                      <TeamBadge teamId={match.home} size="lg" showName={false} linkable={false} />
-                      <div className="text-xs text-gray-400 mt-1">{homeTeam?.name_zh || match.home}</div>
-                    </div>
-                    <div className="text-3xl font-black text-white">
-                      {match.score.home} - {match.score.away}
-                    </div>
-                    <div className="text-center">
-                      <TeamBadge teamId={match.away} size="lg" showName={false} linkable={false} />
-                      <div className="text-xs text-gray-400 mt-1">{awayTeam?.name_zh || match.away}</div>
+                <div key={player.name} className="flex items-center gap-3 px-5 py-3">
+                  <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white ${
+                    idx === 0 ? "bg-yellow-400" : idx === 1 ? "bg-gray-400" : idx === 2 ? "bg-amber-600" : "bg-gray-200 text-gray-500"
+                  }`}>
+                    {idx + 1}
+                  </span>
+                  <div className="flex-1">
+                    <span className="font-medium text-gray-800">{player.name}</span>
+                    <div className="inline-block ml-2 align-middle">
+                      <TeamBadge teamId={player.team} size="sm" showName={false} linkable={false} />
                     </div>
                   </div>
-                  <p className="text-sm text-gray-400">
-                    相差 <span className="font-bold text-white">{max}</span> 球
-                  </p>
+                  <span className="text-lg font-bold text-gray-900">{player.goals}</span>
                 </div>
               );
-            }
-            return <p className="text-gray-500 text-center py-4">暫無數據</p>;
-          })()}
+            })}
+          </div>
+        ) : (
+          <div className="px-5 py-8 text-center text-gray-400">暫無進球數據</div>
+        )}
+      </div>
+
+      {/* Group Stats */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h2 className="font-bold text-gray-900">各組比賽統計</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-gray-50">
+                <th className="px-4 py-3 text-left text-gray-500 font-medium">小組</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">已賽</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">主勝</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">平局</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">客勝</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">總進球</th>
+                <th className="px-4 py-3 text-center text-gray-500 font-medium">場均進球</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(groupStats).map(([group, stats]) => (
+                <tr key={group} className="border-b border-gray-50">
+                  <td className="px-4 py-3 font-semibold text-gray-800">第 {group} 組</td>
+                  <td className="px-4 py-3 text-center text-gray-700">{stats.played}</td>
+                  <td className="px-4 py-3 text-center text-blue-600">{stats.homeWins}</td>
+                  <td className="px-4 py-3 text-center text-gray-600">{stats.draws}</td>
+                  <td className="px-4 py-3 text-center text-orange-600">{stats.awayWins}</td>
+                  <td className="px-4 py-3 text-center font-semibold text-gray-800">{stats.goals}</td>
+                  <td className="px-4 py-3 text-center text-gray-700">{(stats.goals / stats.played).toFixed(1)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
