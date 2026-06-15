@@ -29,12 +29,44 @@ const positionBgColors: Record<string, string> = {
   FW: "#fee2e2",
 };
 
+interface WikipediaResult {
+  thumbnail?: { source: string };
+  extract?: string;
+}
+
 export default function PlayerDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const [slug, setSlug] = useState<string | null>(null);
+  const [wikiData, setWikiData] = useState<WikipediaResult | null>(null);
+  const [wikiLoading, setWikiLoading] = useState(true);
 
   useEffect(() => {
     params.then((p) => setSlug(p.slug));
   }, [params]);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const players = playersData.players as any[];
+    const player = players.find((p: any) => p.id === slug);
+    if (!player) {
+      setWikiLoading(false);
+      return;
+    }
+
+    const encodedName = encodeURIComponent(player.name);
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodedName}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Not found");
+        return res.json();
+      })
+      .then((data: WikipediaResult) => {
+        setWikiData(data);
+        setWikiLoading(false);
+      })
+      .catch(() => {
+        setWikiLoading(false);
+      });
+  }, [slug]);
 
   if (!slug) return null;
 
@@ -65,13 +97,21 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
       {/* Player Header */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
         <div className="flex items-center gap-6">
-          {/* Avatar placeholder */}
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold shrink-0"
-            style={{ background: `linear-gradient(135deg, ${positionColors[player.position] || "#6404eb"}, ${positionColors[player.position] || "#6404eb"}88)` }}
-          >
-            {player.jersey_number}
-          </div>
+          {/* Avatar: Wikipedia photo or gradient placeholder */}
+          {wikiData?.thumbnail?.source ? (
+            <img
+              src={wikiData.thumbnail.source}
+              alt={player.name}
+              className="w-20 h-20 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <div
+              className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold shrink-0"
+              style={{ background: `linear-gradient(135deg, ${positionColors[player.position] || "#6404eb"}, ${positionColors[player.position] || "#6404eb"}88)` }}
+            >
+              {player.jersey_number}
+            </div>
+          )}
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-1">
