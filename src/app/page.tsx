@@ -122,7 +122,7 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1.5 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
+            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
             即將開賽
           </h2>
           <Link href="/schedule" className="text-sm font-medium" style={{ color: '#b7e710' }}>

@@ -51,11 +51,13 @@ const statusLabels: Record<string, string> = {
 };
 
 function formatDate(dateStr: string): string {
+  // Data format: "2026-06-11" — plain date only, no time component
+  // Time is stored in a separate "time" field (e.g. "1:00p.m. UTC−6")
+  // Show only MM/DD, no hour/minute
   let date: Date;
   if (dateStr.includes("T") || dateStr.includes("Z")) {
     date = new Date(dateStr);
   } else {
-    // Plain date like "2026-06-11" — parse as UTC midnight
     date = new Date(dateStr + "T00:00:00Z");
   }
   if (isNaN(date.getTime())) return "";
@@ -63,9 +65,6 @@ function formatDate(dateStr: string): string {
     timeZone: "Asia/Taipei",
     month: "2-digit",
     day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
   });
 }
 
