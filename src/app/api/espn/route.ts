@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { espnNameToSlug, espnStatusToLocal } from "@/lib/espnTeamMap";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
     const dateRange = getDateRange();
     const res = await fetch(
       `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateRange}&limit=100`,
-      { cache: "no-store" }
+      { cache: "no-store", signal: AbortSignal.timeout(10000) }
     );
     if (!res.ok) throw new Error("ESPN fetch failed");
 
@@ -72,6 +73,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ source: "espn", matches: filtered.slice(0, limit) });
   } catch (e) {
-    return NextResponse.json({ source: "error", matches: [], error: String(e) }, { status: 500 });
+    return NextResponse.json({ source: "error", matches: [], error: String(e), type: "catch_block", url: "espn/scoreboard" }, { status: 500 });
   }
 }

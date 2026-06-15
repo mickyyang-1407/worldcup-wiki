@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { espnNameToSlug } from "@/lib/espnTeamMap";
 
 export const dynamic = "force-dynamic";

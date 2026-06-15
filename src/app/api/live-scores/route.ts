@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+
 import { matches } from "@/data/schedule";
+
 import { teams } from "@/data/teams";
+
 import type { MatchWithLiveData } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
