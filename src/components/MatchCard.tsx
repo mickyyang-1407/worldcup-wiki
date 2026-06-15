@@ -2,8 +2,7 @@
 
 import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
-import Link from "next/link";
-import { formatMatchTime } from "@/lib/timezone";
+
 
 /* FIFA 2026 brand group colors */
 const GROUP_COLORS: Record<string, string> = {
@@ -76,13 +75,13 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex-1 text-right">
+      <div className="grid grid-cols-3 items-center">
+        <div className="text-right">
           <TeamBadge teamId={match.home} size="xl" showName={true} linkable={false} />
           {homeTeam && <span className="text-sm font-medium text-gray-800 ml-1">{homeTeam.name}</span>}
         </div>
 
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1">
           {match.status === "completed" ? (
             <span className="text-2xl font-bold text-gray-900 font-mono">
               {match.score.home} - {match.score.away}
@@ -90,13 +89,13 @@ export default function MatchCard({ match }: MatchCardProps) {
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
-          <span className="text-xs text-gray-500">{formatMatchTime(match.date, match.time)}</span>
+          <span className="text-xs text-gray-500">{new Date(match.date).toLocaleString('zh-TW', {timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false})}</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>
         </div>
 
-        <div className="flex-1 text-left">
+        <div className="text-left">
           <TeamBadge teamId={match.away} size="xl" showName={true} linkable={false} />
           {awayTeam && <span className="text-sm font-medium text-gray-800 ml-1">{awayTeam.name}</span>}
         </div>
@@ -130,15 +129,6 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
       )}
 
-      <div className="mt-2 pt-2 border-t border-gray-50">
-        <Link
-          href={`/media/${match.id}`}
-          className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-600 font-medium transition-colors"
-        >
-          <span>📺</span>
-          <span>精華</span>
-        </Link>
-      </div>
     </div>
   );
 }
