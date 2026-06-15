@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import teamsData from "@/data/teams.json";
+import { getFlagClass } from "@/data/teamFlags";
 
 interface Team {
   id: string;
@@ -16,23 +17,35 @@ interface Team {
   best_wc_result: string;
 }
 
+const GROUP_COLORS: Record<string, string> = {
+  A: "#a4c44d", B: "#b1301f", C: "#2d47cb", D: "#907ad6",
+  E: "#5b2227", F: "#1c433a", G: "#4b1cc3", H: "#7cd4c2",
+  I: "#9d6d7b", J: "#98783d", K: "#c64524", L: "#7c2926",
+};
+
 export default function TeamsListClient() {
   const [search, setSearch] = useState("");
-  const [groupFilter, setGroupFilter] = useState("all");
 
   const teams: Team[] = teamsData.teams;
 
   const filtered = useMemo(() => {
     return teams.filter((t) => {
-      const matchesSearch = !search ||
-        t.name_zh.includes(search) ||
-        t.name.toLowerCase().includes(search.toLowerCase());
-      const matchesGroup = groupFilter === "all" || t.group === groupFilter;
-      return matchesSearch && matchesGroup;
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return t.name_zh.includes(q) || t.name.toLowerCase().includes(q);
     });
-  }, [search, groupFilter, teams]);
+  }, [search, teams]);
 
-  const groups = [...new Set(teams.map((t) => t.group))].sort();
+  const groupedByGroup = useMemo(() => {
+    const groups: Record<string, Team[]> = {};
+    for (const t of filtered) {
+      if (!groups[t.group]) groups[t.group] = [];
+      groups[t.group].push(t);
+    }
+    return groups;
+  }, [filtered]);
+
+  const groupKeys = Object.keys(groupedByGroup).sort();
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -49,50 +62,60 @@ export default function TeamsListClient() {
           onChange={(e) => setSearch(e.target.value)}
           className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm flex-1 min-w-[200px] max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
-        <select
-          value={groupFilter}
-          onChange={(e) => setGroupFilter(e.target.value)}
-          className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-sm text-gray-700"
-        >
-          <option value="all">所有小組</option>
-          {groups.map((g) => <option key={g} value={g}>第 {g} 組</option>)}
-        </select>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((team) => (
-          <Link
-            key={team.id}
-            href={`/teams/${team.id}`}
-            className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all group"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <TeamBadge teamId={team.id} size="lg" />
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
-                {team.group}組
-              </span>
+      {groupKeys.map((groupKey) => {
+        const color = GROUP_COLORS[groupKey] || "#2d47cb";
+        return (
+          <div key={groupKey} className="mb-8">
+            {/* Group header */}
+            <div
+              className="inline-block px-4 py-1.5 rounded-lg text-base font-black mb-4"
+              style={{ backgroundColor: color + "20", color }}
+            >
+              第 {groupKey} 組
             </div>
-            <div className="space-y-1.5 text-sm text-gray-500">
-              <div className="flex justify-between">
-                <span>FIFA 排名</span>
-                <span className="font-semibold text-gray-700">#{team.fifa_ranking}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>教練</span>
-                <span className="text-gray-700">{team.coach.name}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>隊長</span>
-                <span className="text-gray-700">{team.captain}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>最佳成績</span>
-                <span className="text-gray-700">{team.best_wc_result}</span>
+
+            {/* Group box */}
+            <div
+              className="rounded-xl p-5"
+              style={{
+                backgroundColor: color + "0d",
+                borderColor: color + "30",
+                borderWidth: 1,
+              }}
+            >
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {groupedByGroup[groupKey].map((team) => {
+                  const flagClass = getFlagClass(team.id);
+                  return (
+                    <Link
+                      key={team.id}
+                      href={`/teams/${team.id}`}
+                      className="flex flex-col items-center gap-2 p-4 bg-white/70 backdrop-blur-sm rounded-xl hover:bg-white hover:shadow-md transition-all group"
+                    >
+                      {flagClass ? (
+                        <span
+                          className={`${flagClass} text-5xl rounded-sm`}
+                          title={team.name}
+                        />
+                      ) : (
+                        <span className="text-5xl">🏳️</span>
+                      )}
+                      <span className="text-sm font-bold text-gray-800 text-center leading-tight">
+                        {team.name_zh}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        FIFA #{team.fifa_ranking}
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
-          </Link>
-        ))}
-      </div>
+          </div>
+        );
+      })}
 
       {filtered.length === 0 && (
         <div className="text-center py-16 text-gray-400">
