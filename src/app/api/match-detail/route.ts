@@ -97,28 +97,25 @@ export async function GET(request: Request) {
   }
 
   // --- Key Events ---
-  const KEY_SHOW = new Set(["Goal", "Goal - Header", "Goal - Penalty", "Yellow Card", "Red Card", "Own Goal", "Substitution"]);
   const keyEvents: any[] = [];
 
   for (const ke of sum.keyEvents || []) {
     const typeText: string = ke.type?.text || "";
-    if (!KEY_SHOW.has(typeText)) continue;
-
     const minute: string = ke.clock?.displayValue || "";
     const teamId: string = ke.team?.id || "";
     const side = teamId === homeEspnId ? "home" : teamId === awayEspnId ? "away" : "unknown";
     const parts: any[] = ke.participants || [];
 
     if (ke.scoringPlay) {
-      const scorer = parts.find((p: any) => p.type?.text === "scorer") || parts[0];
-      const assister = parts.find((p: any) => p.type?.text === "assister");
+      // participants[0] is scorer, participants[1] is assister (type.text is often null)
+      const scorer = parts[0];
+      const assister = parts.length > 1 ? parts[1] : null;
       keyEvents.push({
-        type: ke.ownGoal ? "own-goal" : typeText === "Goal - Penalty" ? "penalty" : "goal",
+        type: ke.ownGoal ? "own-goal" : typeText.toLowerCase().includes("penalty") ? "penalty" : "goal",
         minute,
         player: scorer?.athlete?.displayName || "",
         assist: assister?.athlete?.displayName || null,
         team: side,
-        text: ke.shortText || "",
       });
     } else if (typeText === "Yellow Card" || typeText === "Red Card") {
       keyEvents.push({
@@ -128,8 +125,8 @@ export async function GET(request: Request) {
         team: side,
       });
     } else if (typeText === "Substitution") {
-      const out = parts.find((p: any) => p.type?.text === "exit" || p.subbedOut);
-      const inn = parts.find((p: any) => p.type?.text === "entry" || p.subbedIn);
+      const out = parts.find((p: any) => p.type?.text === "exit" || p.subbedOut) || parts[0];
+      const inn = parts.find((p: any) => p.type?.text === "entry" || p.subbedIn) || parts[1];
       if (out || inn) {
         keyEvents.push({
           type: "sub",
