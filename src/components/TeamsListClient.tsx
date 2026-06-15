@@ -94,37 +94,34 @@ export default function TeamsListClient() {
         className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-8"
       />
 
-      <div className="space-y-8">
+      <div className="space-y-6">
         {GROUP_ORDER.map((group) => {
           const groupTeams = teams.filter((t) => t.group === group);
           if (groupTeams.length === 0) return null;
           const color = GROUP_COLORS[group] || "#2d47cb";
           return (
-            <div key={group}>
+            <div
+              key={group}
+              className="rounded-xl overflow-hidden border-2"
+              style={{ borderColor: color }}
+            >
+              {/* Group header — full-width colored bar */}
               <div
-                className="flex items-center gap-3 mb-4 pb-2"
-                style={{ borderBottom: `3px solid ${color}` }}
+                className="px-4 py-3 flex items-center gap-2"
+                style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` }}
               >
-                <div
-                  className="w-1.5 h-7 rounded-full"
-                  style={{ backgroundColor: color }}
-                />
-                <h2 className="text-xl font-bold" style={{ color }}>
-                  {group} 組
-                </h2>
-                <span className="text-sm text-gray-400 font-normal ml-1">
-                  {groupTeams.length} 隊
-                </span>
+                <h2 className="text-white font-bold text-lg">{group} 組</h2>
+                <span className="text-white/60 text-sm">{groupTeams.length} 隊</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {/* Teams grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white p-4">
                 {groupTeams.map((team) => {
                   const iso2 = TEAM_FLAGS[team.id];
                   return (
                     <Link
                       key={team.id}
                       href={`/teams/${team.id}`}
-                      className="flex flex-col items-center gap-2 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all group"
-                      style={{ borderTop: `3px solid ${color}` }}
+                      className="flex flex-col items-center gap-2 bg-gray-50 hover:bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all group"
                     >
                       {iso2 ? (
                         <span

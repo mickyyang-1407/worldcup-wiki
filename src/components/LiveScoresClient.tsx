@@ -34,7 +34,7 @@ export default function LiveScoresClient() {
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch("/api/live-scores?type=results&limit=4");
+      const res = await fetch("/api/espn?type=results&limit=4");
       if (!res.ok) throw new Error("Failed to fetch");
       const json: LiveScoresResponse = await res.json();
       setData(json);

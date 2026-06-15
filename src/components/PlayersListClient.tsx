@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import playersData from "@/data/players.json";
@@ -33,13 +34,32 @@ interface Team {
 }
 
 export default function PlayersListClient() {
-  const [search, setSearch] = useState("");
-  const [teamFilter, setTeamFilter] = useState("all");
-  const [positionFilter, setPositionFilter] = useState("all");
-  const [sortBy, setSortBy] = useState<"name" | "age" | "caps">("name");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [search, setSearch] = useState(searchParams.get("q") || "");
+  const [teamFilter, setTeamFilter] = useState(searchParams.get("team") || "all");
+  const [positionFilter, setPositionFilter] = useState(searchParams.get("pos") || "all");
+  const [sortBy, setSortBy] = useState<"name" | "age" | "caps">((searchParams.get("sort") as any) || "name");
 
   const players: Player[] = playersData.players;
   const teams: Team[] = teamsData.teams;
+
+  const updateURL = useCallback((q: string, team: string, pos: string, sort: string) => {
+    const params = new URLSearchParams();
+    if (q) params.set("q", q);
+    if (team !== "all") params.set("team", team);
+    if (pos !== "all") params.set("pos", pos);
+    if (sort !== "name") params.set("sort", sort);
+    const qs = params.toString();
+    router.replace(pathname + (qs ? "?" + qs : ""), { scroll: false });
+  }, [router, pathname]);
+
+  const handleSearch = (v: string) => { setSearch(v); updateURL(v, teamFilter, positionFilter, sortBy); };
+  const handleTeam = (v: string) => { setTeamFilter(v); updateURL(search, v, positionFilter, sortBy); };
+  const handlePosition = (v: string) => { setPositionFilter(v); updateURL(search, teamFilter, v, sortBy); };
+  const handleSort = (v: "name" | "age" | "caps") => { setSortBy(v); updateURL(search, teamFilter, positionFilter, v); };
 
   const filtered = useMemo(() => {
     let result = [...players];
@@ -53,9 +73,7 @@ export default function PlayersListClient() {
     if (positionFilter !== "all") result = result.filter((p) => p.position === positionFilter);
     result.sort((a, b) => {
       if (sortBy === "name") {
-        const na = a.name_zh || a.name || "";
-        const nb = b.name_zh || b.name || "";
-        return na.localeCompare(nb);
+        return (a.name_zh || a.name || "").localeCompare(b.name_zh || b.name || "");
       }
       if (sortBy === "age") return (a.age || 0) - (b.age || 0);
       return (b.national_caps || 0) - (a.national_caps || 0);
@@ -75,12 +93,12 @@ export default function PlayersListClient() {
           type="text"
           placeholder="搜尋球員姓名、英文名、球會..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearch(e.target.value)}
           className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm flex-1 min-w-[200px] max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <select
           value={teamFilter}
-          onChange={(e) => setTeamFilter(e.target.value)}
+          onChange={(e) => handleTeam(e.target.value)}
           className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-sm text-gray-700"
         >
           <option value="all">所有隊伍</option>
@@ -90,7 +108,7 @@ export default function PlayersListClient() {
         </select>
         <select
           value={positionFilter}
-          onChange={(e) => setPositionFilter(e.target.value)}
+          onChange={(e) => handlePosition(e.target.value)}
           className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-sm text-gray-700"
         >
           {positions.map((p) => (
@@ -99,7 +117,7 @@ export default function PlayersListClient() {
         </select>
         <select
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as any)}
+          onChange={(e) => handleSort(e.target.value as any)}
           className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-sm text-gray-700"
         >
           <option value="name">依姓名</option>
@@ -127,7 +145,6 @@ export default function PlayersListClient() {
             </thead>
             <tbody>
               {filtered.map((p) => {
-                const team = teams.find((t) => t.id === p.team_id);
                 const posLabel = positions.find((po) => po.value === p.position)?.label || p.position;
                 return (
                   <tr key={p.id} className="border-b border-gray-50 hover:bg-blue-50/50 transition-colors">

@@ -17,6 +17,24 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "2026 世界盃百科 | FIFA World Cup 2026",
   description: "2026 年 FIFA 世界盃完整資訊 — 小組賽程、隊伍球員、淘汰賽對陣、場館統計，一手掌握。",
+  openGraph: {
+    title: "2026 世界盃百科 | FIFA World Cup 2026",
+    description: "48 隊 · 12 組 · 16 座場館 · 橫跨三國 · 巔峰對決",
+    images: [{
+      url: "https://upload.wikimedia.org/wikipedia/zh/thumb/5/5c/2026_FIFA_World_Cup_emblem_logo.svg/800px-2026_FIFA_World_Cup_emblem_logo.svg.png",
+      width: 800,
+      height: 800,
+      alt: "FIFA World Cup 2026 Official Emblem",
+    }],
+    locale: "zh_TW",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "2026 世界盃百科",
+    description: "48 隊 · 12 組 · 16 座場館",
+    images: ["https://upload.wikimedia.org/wikipedia/zh/thumb/5/5c/2026_FIFA_World_Cup_emblem_logo.svg/800px-2026_FIFA_World_Cup_emblem_logo.svg.png"],
+  },
 };
 
 export default function RootLayout({

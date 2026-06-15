@@ -50,22 +50,56 @@ const statusLabels: Record<string, string> = {
   upcoming: "未開始",
 };
 
-function formatDate(dateStr: string): string {
-  // Data format: "2026-06-11" — plain date only, no time component
-  // Time is stored in a separate "time" field (e.g. "1:00p.m. UTC−6")
-  // Show only MM/DD, no hour/minute
-  let date: Date;
-  if (dateStr.includes("T") || dateStr.includes("Z")) {
-    date = new Date(dateStr);
-  } else {
-    date = new Date(dateStr + "T00:00:00Z");
+// Parse match time to Asia/Taipei display string (MM/DD HH:mm)
+function getMatchDateTime(dateStr: string, timeStr: string): string {
+  // Case 1: ISO UTC from ESPN e.g. "2026-06-14T04:00Z"
+  if (timeStr && timeStr.includes("T")) {
+    try {
+      const d = new Date(timeStr);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleString("zh-TW", {
+          timeZone: "Asia/Taipei",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+      }
+    } catch {}
   }
-  if (isNaN(date.getTime())) return "";
-  return date.toLocaleString("zh-TW", {
-    timeZone: "Asia/Taipei",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  // Case 2: "1:00p.m. UTC−6" from local data (− is U+2212 MINUS SIGN)
+  if (timeStr && timeStr.includes("UTC")) {
+    const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(p\.m\.|a\.m\.)\s*UTC([+\-−])(\d{1,2})/i);
+    if (m) {
+      let hour = parseInt(m[1], 10);
+      const minute = parseInt(m[2], 10);
+      const isPM = m[3].toLowerCase().includes("p");
+      const isNeg = m[4] === "-" || m[4] === "−";
+      const offsetH = parseInt(m[5], 10);
+      if (isPM && hour !== 12) hour += 12;
+      if (!isPM && hour === 12) hour = 0;
+      const offsetMs = (isNeg ? -1 : 1) * offsetH * 3600000;
+      const localAsUtc = new Date(`${dateStr}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00Z`);
+      const utc = new Date(localAsUtc.getTime() - offsetMs);
+      if (!isNaN(utc.getTime())) {
+        return utc.toLocaleString("zh-TW", {
+          timeZone: "Asia/Taipei",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+      }
+    }
+  }
+  // Fallback: date only
+  const d = new Date(dateStr + "T00:00:00Z");
+  if (!isNaN(d.getTime())) {
+    return d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit" });
+  }
+  return dateStr;
 }
 
 export default function MatchCard({ match }: MatchCardProps) {
@@ -117,7 +151,8 @@ export default function MatchCard({ match }: MatchCardProps) {
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
-          <span className="text-xs text-gray-500">{formatDate(match.date)}</span>
+          <span className="text-xs text-gray-500">{getMatchDateTime(match.date, match.time)}</span>
+          <span className="text-[10px] text-gray-300">台北時間</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>

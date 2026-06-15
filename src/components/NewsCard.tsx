@@ -37,6 +37,8 @@ export default function NewsCard({ id, title, source, date, summary, url, catego
   return (
     <Link
       href={url}
+      target="_blank"
+      rel="noopener noreferrer"
       className="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-5 group"
     >
       <div className="flex items-center justify-between mb-2">
