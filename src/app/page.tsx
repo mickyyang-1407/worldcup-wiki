@@ -1,7 +1,6 @@
-import NewsCard from "@/components/NewsCard";
 import LiveScoresClient from "@/components/LiveScoresClient";
 import HomeUpcomingClient from "@/components/HomeUpcomingClient";
-import newsData from "@/data/news.json";
+import HomeNewsClient from "@/components/HomeNewsClient";
 import { groups } from "@/data/groups";
 import Link from "next/link";
 import TeamBadge from "@/components/TeamBadge";
@@ -22,8 +21,6 @@ function adjustColor(hex: string, amount: number): string {
 }
 
 export default function HomePage() {
-  const latestNews = [...newsData].sort((a: any, b: any) => b.date.localeCompare(a.date)).slice(0, 6);
-
   const groupList = groups as any[];
 
   return (
@@ -149,22 +146,7 @@ export default function HomePage() {
           <h2 className="text-xl font-bold text-white">世界盃新聞</h2>
           {/* 更多新聞連結暫時隱藏（頁面尚未完成） */}
         </div>
-        {/* Mobile: horizontal scroll; desktop: grid */}
-        <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory">
-          {latestNews.map((item: any) => (
-            <div key={item.id} className="min-w-[280px] snap-start md:min-w-0">
-              <NewsCard
-                id={item.id}
-                title={item.title}
-                source={item.source}
-                date={item.date}
-                summary={item.summary}
-                url={item.url}
-                category={item.category}
-              />
-            </div>
-          ))}
-        </div>
+        <HomeNewsClient />
       </section>
     </div>
   );
