@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import TeamBadge from "./TeamBadge";
 import matchesData from "@/data/schedule.json";
 import teamsData from "@/data/teams.json";
@@ -22,6 +22,13 @@ interface Team {
 }
 
 export default function StatsClient() {
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setLastUpdated(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   const matches = matchesData.matches as any[];
   const teams: Team[] = teamsData.teams;
 
@@ -73,9 +80,14 @@ export default function StatsClient() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">賽事統計</h1>
-        <p className="text-gray-500 mt-1">截至目前的各項數據統計</p>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">賽事統計</h1>
+          <p className="text-gray-500 mt-1">截至目前的各項數據統計</p>
+        </div>
+        <span className="text-xs text-gray-400">
+          {lastUpdated.toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit" })} 更新
+        </span>
       </div>
 
       {/* Overview cards */}

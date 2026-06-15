@@ -1,9 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import TeamBadge from "./TeamBadge";
 import teamsData from "@/data/teams.json";
+import { TEAM_FLAGS } from "@/data/teamFlags";
+
+const GROUP_COLORS: Record<string, string> = {
+  A: "#a4c44d", B: "#b1301f", C: "#2d47cb", D: "#907ad6",
+  E: "#5b2227", F: "#1c433a", G: "#4b1cc3", H: "#7cd4c2",
+  I: "#9d6d7b", J: "#98783d", K: "#c64524", L: "#7c2926",
+};
+
+const GROUP_ORDER = ["A","B","C","D","E","F","G","H","I","J","K","L"];
 
 interface Team {
   id: string;
@@ -18,88 +26,126 @@ interface Team {
 
 export default function TeamsListClient() {
   const [search, setSearch] = useState("");
-  const [groupFilter, setGroupFilter] = useState("all");
 
   const teams: Team[] = teamsData.teams;
 
-  const filtered = useMemo(() => {
-    return teams.filter((t) => {
-      const matchesSearch = !search ||
+  const filtered = search
+    ? teams.filter((t) =>
         t.name_zh.includes(search) ||
-        t.name.toLowerCase().includes(search.toLowerCase());
-      const matchesGroup = groupFilter === "all" || t.group === groupFilter;
-      return matchesSearch && matchesGroup;
-    });
-  }, [search, groupFilter, teams]);
+        t.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : teams;
 
-  const groups = [...new Set(teams.map((t) => t.group))].sort();
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">參賽隊伍</h1>
-        <p className="text-gray-500 mt-1">48 支來自六大洲的頂尖國家隊</p>
-      </div>
-
-      <div className="flex flex-wrap gap-3 mb-6">
+  if (search) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">參賽隊伍</h1>
+          <p className="text-gray-500 mt-1">48 支來自六大洲的頂尖國家隊</p>
+        </div>
         <input
           type="text"
           placeholder="搜尋隊伍..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm flex-1 min-w-[200px] max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
         />
-        <select
-          value={groupFilter}
-          onChange={(e) => setGroupFilter(e.target.value)}
-          className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-sm text-gray-700"
-        >
-          <option value="all">所有小組</option>
-          {groups.map((g) => <option key={g} value={g}>第 {g} 組</option>)}
-        </select>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((team) => (
-          <Link
-            key={team.id}
-            href={`/teams/${team.id}`}
-            className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-blue-200 transition-all group"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <TeamBadge teamId={team.id} size="lg" />
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
-                {team.group}組
-              </span>
-            </div>
-            <div className="space-y-1.5 text-sm text-gray-500">
-              <div className="flex justify-between">
-                <span>FIFA 排名</span>
-                <span className="font-semibold text-gray-700">#{team.fifa_ranking}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>教練</span>
-                <span className="text-gray-700">{team.coach.name}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>隊長</span>
-                <span className="text-gray-700">{team.captain}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>最佳成績</span>
-                <span className="text-gray-700">{team.best_wc_result}</span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {filtered.length === 0 && (
-        <div className="text-center py-16 text-gray-400">
-          <p className="text-4xl mb-4">🔍</p>
-          <p>找不到符合條件的隊伍</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+          {filtered.map((team) => {
+            const iso2 = TEAM_FLAGS[team.id];
+            return (
+              <Link
+                key={team.id}
+                href={`/teams/${team.id}`}
+                className="flex flex-col items-center gap-2 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all"
+              >
+                {iso2 ? (
+                  <span className={`fi fi-${iso2} fis`} style={{ fontSize: "2.5rem", borderRadius: "4px" }} />
+                ) : (
+                  <span style={{ fontSize: "2.5rem" }}>🏳️</span>
+                )}
+                <span className="text-sm font-medium text-gray-800 text-center leading-tight">{team.name_zh}</span>
+              </Link>
+            );
+          })}
         </div>
-      )}
+        {filtered.length === 0 && (
+          <div className="text-center py-16 text-gray-400">
+            <p className="text-4xl mb-4">🔍</p>
+            <p>找不到符合條件的隊伍</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">參賽隊伍</h1>
+        <p className="text-gray-500 mt-1">48 支來自六大洲的頂尖國家隊</p>
+      </div>
+
+      <input
+        type="text"
+        placeholder="搜尋隊伍..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-8"
+      />
+
+      <div className="space-y-8">
+        {GROUP_ORDER.map((group) => {
+          const groupTeams = teams.filter((t) => t.group === group);
+          if (groupTeams.length === 0) return null;
+          const color = GROUP_COLORS[group] || "#2d47cb";
+          return (
+            <div key={group}>
+              <div
+                className="flex items-center gap-3 mb-4 pb-2"
+                style={{ borderBottom: `3px solid ${color}` }}
+              >
+                <div
+                  className="w-1.5 h-7 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+                <h2 className="text-xl font-bold" style={{ color }}>
+                  {group} 組
+                </h2>
+                <span className="text-sm text-gray-400 font-normal ml-1">
+                  {groupTeams.length} 隊
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {groupTeams.map((team) => {
+                  const iso2 = TEAM_FLAGS[team.id];
+                  return (
+                    <Link
+                      key={team.id}
+                      href={`/teams/${team.id}`}
+                      className="flex flex-col items-center gap-2 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all group"
+                      style={{ borderTop: `3px solid ${color}` }}
+                    >
+                      {iso2 ? (
+                        <span
+                          className={`fi fi-${iso2} fis`}
+                          style={{ fontSize: "2.5rem", borderRadius: "4px" }}
+                        />
+                      ) : (
+                        <span style={{ fontSize: "2.5rem" }}>🏳️</span>
+                      )}
+                      <span className="text-sm font-medium text-gray-800 text-center leading-tight group-hover:text-blue-600 transition-colors">
+                        {team.name_zh}
+                      </span>
+                      <span className="text-xs text-gray-400">#{team.fifa_ranking}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

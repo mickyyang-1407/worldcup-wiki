@@ -79,7 +79,7 @@ export default function MatchCard({ match }: MatchCardProps) {
       {/* Left color bar for group matches */}
       {match.stage === "group" && match.group && (
         <div
-          className="absolute left-0 top-0 bottom-0 w-[6px]"
+          className="absolute left-0 top-0 bottom-0 w-[14px]"
           style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}
         />
       )}

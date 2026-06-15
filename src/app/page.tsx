@@ -120,12 +120,9 @@ export default function HomePage() {
       </section>
 
       <section className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
-            即將開賽
-          </h2>
-          <Link href="/schedule" className="text-sm font-medium" style={{ color: '#b7e710' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #8ab800 0%, #6e9400 100%)' }}>
+          <h2 className="text-xl font-bold text-white">即將開賽</h2>
+          <Link href="/schedule" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
             完整賽程 →
           </Link>
         </div>
@@ -143,12 +140,9 @@ export default function HomePage() {
 
       {/* Group Standings Preview */}
       <section className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#6404eb' }} />
-            小組積分
-          </h2>
-          <Link href="/groups" className="text-sm font-medium" style={{ color: '#6404eb' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #6404eb 0%, #4a02b0 100%)' }}>
+          <h2 className="text-xl font-bold text-white">小組積分</h2>
+          <Link href="/groups" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
             查看全部 →
           </Link>
         </div>
@@ -180,12 +174,9 @@ export default function HomePage() {
 
       {/* News Section */}
       <section className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#523c1b' }} />
-            世界盃新聞
-          </h2>
-          <Link href="/news" className="text-sm font-medium" style={{ color: '#523c1b' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #523c1b 0%, #3a2a12 100%)' }}>
+          <h2 className="text-xl font-bold text-white">世界盃新聞</h2>
+          <Link href="/news" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
             更多新聞 →
           </Link>
         </div>
