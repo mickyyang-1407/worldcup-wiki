@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 
 import { espnNameToSlug, espnStatusToLocal } from "@/lib/espnTeamMap";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 function getDateRange() {
   const now = new Date();
-  const past = new Date(now.getTime() - 7 * 24 * 3600000);
-  const future = new Date(now.getTime() + 14 * 24 * 3600000);
+  const past = new Date(now.getTime() - 21 * 24 * 3600000);
+  const future = new Date(now.getTime() + 21 * 24 * 3600000);
   const fmt = (d: Date) =>
     `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, "0")}${String(d.getUTCDate()).padStart(2, "0")}`;
   return `${fmt(past)}-${fmt(future)}`;
@@ -69,6 +70,8 @@ export async function GET(request: Request) {
       filtered = matches
         .filter((m: any) => m.status === "scheduled")
         .sort((a: any, b: any) => a.time.localeCompare(b.time));
+    } else if (type === "all") {
+      filtered = matches.sort((a: any, b: any) => a.time.localeCompare(b.time));
     }
 
     return NextResponse.json({ source: "espn", matches: filtered.slice(0, limit) });

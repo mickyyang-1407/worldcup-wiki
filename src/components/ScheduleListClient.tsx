@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import MatchCard from "./MatchCard";
 import PageHero from "./PageHero";
 import matchesData from "@/data/schedule.json";
@@ -57,9 +57,30 @@ export default function ScheduleListClient() {
   const [groupFilter, setGroupFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [showTodayOnly, setShowTodayOnly] = useState(false);
-
-  const matches = matchesData.matches as any[];
+  const [matches, setMatches] = useState<any[]>(matchesData.matches as any[]);
   const groups: Group[] = groupsData.groups;
+
+  // Overlay ESPN live scores/status onto static schedule
+  useEffect(() => {
+    fetch("/api/espn?type=all&limit=150")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.matches?.length) return;
+        const espnMap: Record<string, any> = {};
+        for (const m of data.matches) {
+          const key = `${m.home}|${m.away}`;
+          espnMap[key] = m;
+        }
+        setMatches((prev) =>
+          prev.map((m) => {
+            const live = espnMap[`${m.home}|${m.away}`];
+            if (!live) return m;
+            return { ...m, status: live.status, score: live.score };
+          })
+        );
+      })
+      .catch(() => {});
+  }, []);
   const todayStr = getTodayStr();
 
   const filtered = useMemo(() => {

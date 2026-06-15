@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { teams } from "@/data/teams";
-import { matches } from "@/data/schedule";
 import { players } from "@/data/players";
-import GroupStandingsTable from "@/components/GroupStandingsTable";
-import MatchCard from "@/components/MatchCard";
+import LiveTeamData from "@/components/LiveTeamData";
 import TeamBadge from "@/components/TeamBadge";
 import { getFlagClass } from "@/data/teamFlags";
 
@@ -22,10 +20,6 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
       </div>
     );
   }
-
-  const teamMatches = (matches as any[]).filter(
-    (m: any) => m.home === team.id || m.away === team.id
-  );
 
   const teamPlayers = (players as any[]).filter((p: any) => p.team_id === team.id);
 
@@ -98,21 +92,8 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
         </div>
       </div>
 
-      {/* Group Standings */}
-      <section className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">小組積分</h2>
-        <GroupStandingsTable groupId={team.group} compact />
-      </section>
-
-      {/* Matches */}
-      <section className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">比賽記錄</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          {teamMatches.map((m: any) => (
-            <MatchCard key={m.id} match={m} />
-          ))}
-        </div>
-      </section>
+      {/* Live Group Standings + Matches */}
+      <LiveTeamData teamId={team.id} groupId={team.group} />
 
       {/* Players */}
       <section>

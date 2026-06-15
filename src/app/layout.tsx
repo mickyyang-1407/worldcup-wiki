@@ -5,6 +5,7 @@ import "flag-icons/css/flag-icons.min.css";
 import Navbar from "@/components/Navbar";
 import Intro from "@/components/Intro";
 import IntroTrigger from "@/components/IntroTrigger";
+import Providers from "@/components/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,8 +49,10 @@ export default function RootLayout({
     <html
       lang="zh-TW"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <Providers>
         <style>{`
           .wc-body-bg {
             position: relative;
@@ -182,6 +185,7 @@ export default function RootLayout({
             </div>
           </footer>
         </div>
+      </Providers>
       </body>
     </html>
   );

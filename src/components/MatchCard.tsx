@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { teams } from "@/data/teams";
 import { getFlagClass } from "@/data/teamFlags";
 
@@ -108,8 +109,11 @@ export default function MatchCard({ match }: MatchCardProps) {
   const homeFlag = homeTeam ? getFlagClass(match.home) : null;
   const awayFlag = awayTeam ? getFlagClass(match.away) : null;
 
+  const detailSlug = `${match.home}--${match.away}--${match.date}`;
+
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4 relative overflow-hidden">
+    <Link href={`/matches/${detailSlug}`} className="block">
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-4 relative overflow-hidden cursor-pointer">
       {/* Left color bar for group matches */}
       {match.stage === "group" && match.group && (
         <div
@@ -172,15 +176,18 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
       </div>
 
-      <div className="mt-3 pt-3 border-t border-gray-50 flex items-center gap-1 text-xs text-gray-400">
-        <span>&#128205;</span>
-        <span>{match.city}</span>
-        {match.referee && (
-          <>
-            <span className="mx-1">·</span>
-            <span>&#128695; {match.referee}</span>
-          </>
-        )}
+      <div className="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between gap-1 text-xs text-gray-400">
+        <div className="flex items-center gap-1">
+          <span>&#128205;</span>
+          <span>{match.city}</span>
+          {match.referee && (
+            <>
+              <span className="mx-1">·</span>
+              <span>&#128695; {match.referee}</span>
+            </>
+          )}
+        </div>
+        <span className="text-blue-400 text-[10px] shrink-0">詳情 →</span>
       </div>
 
       {match.goals && match.goals.length > 0 && (
@@ -201,5 +208,6 @@ export default function MatchCard({ match }: MatchCardProps) {
       )}
 
     </div>
+    </Link>
   );
 }

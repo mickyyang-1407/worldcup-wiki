@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { href: "/", label: "首頁" },
@@ -19,14 +20,14 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200" style={{ borderBottomColor: '#8286cd40' }}>
+    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10" style={{ borderBottomColor: '#8286cd40' }}>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg text-gray-900 shrink-0">
+        <div className="flex items-center justify-between h-14 gap-2">
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg text-gray-900 dark:text-white shrink-0">
             <span className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm" style={{ background: 'linear-gradient(135deg, #8286cd, #26458b)' }}>⚽</span>
             <span className="hidden sm:inline">2026 世界盃</span>
           </Link>
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 justify-end">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
               return (
@@ -36,7 +37,7 @@ export default function Navbar() {
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                     isActive
                       ? "text-white"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                   }`}
                   style={isActive ? { background: 'linear-gradient(135deg, #8286cd, #26458b)' } : {}}
                 >
@@ -45,6 +46,7 @@ export default function Navbar() {
               );
             })}
           </div>
+          <ThemeToggle />
         </div>
       </div>
     </nav>

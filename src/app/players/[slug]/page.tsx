@@ -124,8 +124,26 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
           {/* Player Header */}
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
             <div className="flex items-center gap-4">
+              {/* Mobile photo or jersey badge */}
+              <div className="shrink-0 md:hidden">
+                {photoUrl ? (
+                  <img
+                    src={photoUrl}
+                    alt={player.name}
+                    className="w-16 h-16 rounded-xl object-cover shadow-md"
+                  />
+                ) : (
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold"
+                    style={{ background: `linear-gradient(135deg, ${posColor}, ${posColor}88)` }}
+                  >
+                    {player.jersey_number}
+                  </div>
+                )}
+              </div>
+              {/* Desktop jersey badge (hidden on mobile since we show photo above) */}
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold shrink-0"
+                className="w-16 h-16 rounded-full hidden md:flex items-center justify-center text-white text-2xl font-bold shrink-0"
                 style={{ background: `linear-gradient(135deg, ${posColor}, ${posColor}88)` }}
               >
                 {player.jersey_number}
@@ -207,7 +225,7 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
           )}
         </div>
 
-        {/* Right: big photo */}
+        {/* Right: big photo — desktop only */}
         <div className="w-64 lg:w-80 shrink-0 hidden md:block">
           <div className="sticky top-6">
             {photoUrl ? (

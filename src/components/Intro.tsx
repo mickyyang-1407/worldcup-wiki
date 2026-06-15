@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const C = ["#8286cd", "#af3525", "#26458b", "#a4c44d", "#5b2227", "#907ad6"];
+const C = ["#ee5511", "#dd2266", "#3355ee", "#8833cc", "#1ec8c0", "#c8e03a"];
 
 export default function Intro() {
   const [phase, setPhase] = useState<"hidden" | "in" | "out">("hidden");
@@ -57,7 +57,7 @@ export default function Intro() {
         {/* Background */}
         <div style={{
           position: "absolute", inset: 0,
-          background: "radial-gradient(ellipse 100% 100% at 50% 55%, #12123a 0%, #080818 55%, #000 100%)",
+          background: "radial-gradient(ellipse 120% 120% at 50% 60%, #1a0525 0%, #0d0d1a 50%, #000 100%)",
           animation: "wc-bg .5s ease forwards",
         }} />
 
@@ -134,7 +134,7 @@ export default function Intro() {
           <div style={{
             fontSize: 70, fontWeight: 900, lineHeight: 1,
             letterSpacing: "-.03em", fontFamily: "system-ui,sans-serif",
-            background: "linear-gradient(135deg,#8286cd 0%,#fff 45%,#a4c44d 100%)",
+            background: "linear-gradient(135deg,#ee5511 0%,#dd2266 25%,#fff 50%,#1ec8c0 75%,#c8e03a 100%)",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             backgroundClip: "text",
           }}>

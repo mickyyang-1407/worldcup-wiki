@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { espnNameToSlug } from "@/lib/espnTeamMap";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 

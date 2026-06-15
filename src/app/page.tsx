@@ -1,7 +1,6 @@
-import MatchCard from "@/components/MatchCard";
 import NewsCard from "@/components/NewsCard";
 import LiveScoresClient from "@/components/LiveScoresClient";
-import { matches } from "@/data/schedule";
+import HomeUpcomingClient from "@/components/HomeUpcomingClient";
 import newsData from "@/data/news.json";
 import { groups } from "@/data/groups";
 import Link from "next/link";
@@ -23,17 +22,6 @@ function adjustColor(hex: string, amount: number): string {
 }
 
 export default function HomePage() {
-  const matchList = [...matches];
-
-  const completed = matchList
-    .filter((m: any) => m.status === "completed")
-    .slice(0, 4);
-
-  const upcoming = matchList
-    .filter((m: any) => m.status === "scheduled")
-    .sort((a: any, b: any) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
-    .slice(0, 4);
-
   const latestNews = [...newsData].sort((a: any, b: any) => b.date.localeCompare(a.date)).slice(0, 6);
 
   const groupList = groups as any[];
@@ -119,24 +107,7 @@ export default function HomePage() {
         <LiveScoresClient />
       </section>
 
-      <section className="mb-8">
-        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #8ab800 0%, #6e9400 100%)' }}>
-          <h2 className="text-xl font-bold text-white">即將開賽</h2>
-          <Link href="/schedule" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
-            完整賽程 →
-          </Link>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          {upcoming.length > 0 ? upcoming.map((m: any) => (
-            <MatchCard key={m.id} match={m} />
-          )) : (
-            <div className="col-span-2 text-center py-8 text-gray-400">
-              <p className="text-3xl mb-2">📅</p>
-              <p>暫無即將開賽的賽事</p>
-            </div>
-          )}
-        </div>
-      </section>
+      <HomeUpcomingClient />
 
       {/* Group Standings Preview */}
       <section className="mb-8">
@@ -180,18 +151,20 @@ export default function HomePage() {
             更多新聞 →
           </Link>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Mobile: horizontal scroll; desktop: grid */}
+        <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory">
           {latestNews.map((item: any) => (
-            <NewsCard
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              source={item.source}
-              date={item.date}
-              summary={item.summary}
-              url={item.url}
-              category={item.category}
-            />
+            <div key={item.id} className="min-w-[280px] snap-start md:min-w-0">
+              <NewsCard
+                id={item.id}
+                title={item.title}
+                source={item.source}
+                date={item.date}
+                summary={item.summary}
+                url={item.url}
+                category={item.category}
+              />
+            </div>
           ))}
         </div>
       </section>

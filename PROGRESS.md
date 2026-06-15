@@ -1,5 +1,5 @@
 # FIFA 2026 網站修改進度
-最後更新：2026-06-15 23:59:00
+最後更新：2026-06-15（第二輪 Vercel 手機修復）
 
 | 任務 | 狀態 | 開始時間 | 完成時間 | 備註 |
 |------|------|----------|----------|------|
@@ -30,6 +30,8 @@
 | 球員名單重整 | ✅ 完成 | 2026-06-15 17:30:00 | 2026-06-15 19:00:00 | 舊資料 AI 假球員全換掉；從 ESPN 官方 roster API 抓 48 隊 × 26 人；球會資料平行抓取 89% 填入；中文名保留已有的 312 筆 |
 | 統計頁黃紅牌資料 | ✅ 完成 | 2026-06-15 17:00:00 | 2026-06-15 17:15:00 | espn-scorers route 擴充：從 keyEvents 計算黃牌(33)、紅牌(3)、烏龍球；移除舊的「比賽結果分布」和「最大比分差」；各組統計改用 ESPN standings 即時資料 |
 | 球員照片修復 | ✅ 完成 | 2026-06-15 17:15:00 | 2026-06-15 17:20:00 | 改用 Wikipedia mediawiki prop=pageimages API + 搜尋 fallback；大明星照片顯示率大幅提升 |
+| Intro 動畫 + PageHero | ✅ 完成 | 2026-06-15 20:00:00 | 2026-06-15 20:30:00 | Intro.tsx（全螢幕動畫，sessionStorage 防重播，↺ Intro footer 按鈕）；PageHero.tsx（各頁面彩色 mini hero）；IntroTrigger.tsx；整合至 layout.tsx 及全部頁面（隊伍/球員/統計/賽程/場館/國家/小組/淘汰賽）|
+| Vercel 手機端 6 項修復 | ✅ 完成 | 2026-06-15 21:00:00 | 2026-06-15 22:00:00 | Intro 換 FIFA 2026 活潑品牌色；runtime=edge 補齊 2 個 API route；新聞改橫向 snap scroll；賽程 ESPN overlay；隊伍頁 LiveTeamData 即時積分+記錄；球員照片手機版顯示 |
 
 ---
 
@@ -37,8 +39,7 @@
 
 | 項目 | 說明 |
 |------|------|
-| Cloudflare Pages 部署 | 使用 @cloudflare/next-on-pages；API routes 需加 `export const runtime = 'edge'` |
-| 部署腳本 | 見 README 或 Codex prompt |
+| Vercel push | 把本次修改 push 到 Vercel（或手動觸發部署）|
 
 ---
 
