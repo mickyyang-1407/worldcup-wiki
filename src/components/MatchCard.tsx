@@ -61,12 +61,12 @@ export default function MatchCard({ match }: MatchCardProps) {
       {/* Left color bar for group matches */}
       {match.stage === "group" && match.group && (
         <div
-          className="absolute left-0 top-0 bottom-0 w-1"
+          className="absolute left-0 top-0 bottom-0 w-[6px]"
           style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}
         />
       )}
       {match.stage === "group" && match.group && (
-        <div className="text-sm font-bold mb-3 pl-1" style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>
+        <div className="text-base font-black mb-3 pl-1" style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>
           {match.group}組
         </div>
       )}
@@ -78,7 +78,7 @@ export default function MatchCard({ match }: MatchCardProps) {
 
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 text-right">
-          <TeamBadge teamId={match.home} size="xl" showName={false} linkable={false} />
+          <TeamBadge teamId={match.home} size="xl" showName={true} linkable={false} />
         </div>
 
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -96,7 +96,7 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
 
         <div className="flex-1 text-left">
-          <TeamBadge teamId={match.away} size="xl" showName={false} linkable={false} />
+          <TeamBadge teamId={match.away} size="xl" showName={true} linkable={false} />
         </div>
       </div>
 

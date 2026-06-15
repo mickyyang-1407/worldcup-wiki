@@ -12,15 +12,11 @@ export function formatMatchTime(dateStr: string, timeStr: string): string {
     return `${dateStr} ${timeStr}`;
   }
 
-  return taipeiDate.toLocaleDateString("zh-TW", {
-    month: "numeric",
-    day: "numeric",
-    weekday: "short",
-  }) + " " + taipeiDate.toLocaleTimeString("zh-TW", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  const month = String(taipeiDate.getMonth() + 1).padStart(2, "0");
+  const day = String(taipeiDate.getDate()).padStart(2, "0");
+  const hour = String(taipeiDate.getHours()).padStart(2, "0");
+  const minute = String(taipeiDate.getMinutes()).padStart(2, "0");
+  return `${month}/${day} ${hour}:${minute}`;
 }
 
 /**
