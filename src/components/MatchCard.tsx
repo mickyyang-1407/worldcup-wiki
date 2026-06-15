@@ -1,8 +1,7 @@
 "use client";
 
-import TeamBadge from "./TeamBadge";
 import { teams } from "@/data/teams";
-
+import { getFlagClass } from "@/data/teamFlags";
 
 /* FIFA 2026 brand group colors */
 const GROUP_COLORS: Record<string, string> = {
@@ -51,9 +50,29 @@ const statusLabels: Record<string, string> = {
   upcoming: "未開始",
 };
 
+function formatDate(dateStr: string): string {
+  console.log(dateStr);
+  let date: Date;
+  if (dateStr.includes("Z") || dateStr.includes("UTC")) {
+    date = new Date(dateStr);
+  } else {
+    date = new Date(dateStr + "Z");
+  }
+  return date.toLocaleString("zh-TW", {
+    timeZone: "Asia/Taipei",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
 export default function MatchCard({ match }: MatchCardProps) {
   const homeTeam = teams.find((t: any) => t.id === match.home);
   const awayTeam = teams.find((t: any) => t.id === match.away);
+  const homeFlag = homeTeam ? getFlagClass(match.home) : null;
+  const awayFlag = awayTeam ? getFlagClass(match.away) : null;
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4 relative overflow-hidden">
@@ -76,11 +95,20 @@ export default function MatchCard({ match }: MatchCardProps) {
       )}
 
       <div className="grid grid-cols-3 items-center">
-        <div className="text-right">
-          <TeamBadge teamId={match.home} size="xl" showName={true} linkable={false} />
-          {homeTeam && <span className="text-sm font-medium text-gray-800 ml-1">{homeTeam.name}</span>}
+        {/* Left column: 中文隊名 + 英文隊名 + 國旗（國旗靠中間） */}
+        <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-col items-end">
+            {homeTeam && <span className="text-sm font-semibold text-gray-800 leading-tight">{homeTeam.name_zh}</span>}
+            {homeTeam && <span className="text-xs text-gray-400 leading-tight">{homeTeam.name}</span>}
+          </div>
+          {homeFlag ? (
+            <span className={`${homeFlag} text-3xl rounded-sm shrink-0`} title={homeTeam?.name} />
+          ) : (
+            <span className="inline-flex items-center justify-center rounded-full text-3xl shrink-0">🏳️</span>
+          )}
         </div>
 
+        {/* Middle column: 比分置中 */}
         <div className="flex flex-col items-center gap-1">
           {match.status === "completed" ? (
             <span className="text-2xl font-bold text-gray-900 font-mono">
@@ -89,15 +117,23 @@ export default function MatchCard({ match }: MatchCardProps) {
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
-          <span className="text-xs text-gray-500">{new Date(match.date).toLocaleString('zh-TW', {timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false})}</span>
+          <span className="text-xs text-gray-500">{formatDate(match.date)}</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>
         </div>
 
-        <div className="text-left">
-          <TeamBadge teamId={match.away} size="xl" showName={true} linkable={false} />
-          {awayTeam && <span className="text-sm font-medium text-gray-800 ml-1">{awayTeam.name}</span>}
+        {/* Right column: 國旗（靠中間）+ 中文隊名 + 英文隊名 */}
+        <div className="flex items-center gap-3">
+          {awayFlag ? (
+            <span className={`${awayFlag} text-3xl rounded-sm shrink-0`} title={awayTeam?.name} />
+          ) : (
+            <span className="inline-flex items-center justify-center rounded-full text-3xl shrink-0">🏳️</span>
+          )}
+          <div className="flex flex-col">
+            {awayTeam && <span className="text-sm font-semibold text-gray-800 leading-tight">{awayTeam.name_zh}</span>}
+            {awayTeam && <span className="text-xs text-gray-400 leading-tight">{awayTeam.name}</span>}
+          </div>
         </div>
       </div>
 
