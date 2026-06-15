@@ -51,14 +51,32 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
     if (!player?.name) return;
     const fetchPhoto = async () => {
       try {
-        const res = await fetch(
-          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(player.name)}`,
-          { signal: AbortSignal.timeout(5000) }
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data?.thumbnail?.source) {
-          setPhotoUrl(data.thumbnail.source.replace(/\/\d+px-/, "/600px-"));
+        // Try mediawiki pageimages API — more reliable than REST summary
+        const mwUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(player.name)}&prop=pageimages&pithumbsize=600&format=json&origin=*`;
+        const mwRes = await fetch(mwUrl, { signal: AbortSignal.timeout(6000) });
+        if (mwRes.ok) {
+          const mwData = await mwRes.json();
+          const pages = mwData.query?.pages;
+          if (pages) {
+            const page = Object.values(pages)[0] as any;
+            if (page?.thumbnail?.source) { setPhotoUrl(page.thumbnail.source); return; }
+          }
+        }
+        // Fallback: search Wikipedia and get image from first result
+        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(player.name + " footballer")}&format=json&origin=*&srlimit=1&srprop=`;
+        const searchRes = await fetch(searchUrl, { signal: AbortSignal.timeout(6000) });
+        if (!searchRes.ok) return;
+        const searchData = await searchRes.json();
+        const title = searchData.query?.search?.[0]?.title;
+        if (!title) return;
+        const imgUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&pithumbsize=600&format=json&origin=*`;
+        const imgRes = await fetch(imgUrl, { signal: AbortSignal.timeout(6000) });
+        if (!imgRes.ok) return;
+        const imgData = await imgRes.json();
+        const imgPages = imgData.query?.pages;
+        if (imgPages) {
+          const imgPage = Object.values(imgPages)[0] as any;
+          if (imgPage?.thumbnail?.source) setPhotoUrl(imgPage.thumbnail.source);
         }
       } catch {}
     };

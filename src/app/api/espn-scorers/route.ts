@@ -15,7 +15,6 @@ function getDateRange() {
 
 export async function GET() {
   try {
-    // Step 1: get all completed match IDs
     const dateRange = getDateRange();
     const boardRes = await fetch(
       `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateRange}&limit=100`,
@@ -30,13 +29,12 @@ export async function GET() {
       return espnStatusToLocal(status) === "completed";
     });
 
-    // Summary stats
     const totalGoals = completedEvents.reduce((sum: number, e: any) => {
       const comps = e.competitions?.[0]?.competitors || [];
       return sum + comps.reduce((s: number, c: any) => s + (parseInt(c.score) || 0), 0);
     }, 0);
 
-    // Step 2: fetch all match summaries in parallel for goal details
+    // Fetch all match summaries in parallel
     const summaries = await Promise.all(
       completedEvents.map((e: any) =>
         fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${e.id}`, { cache: "no-store" })
@@ -45,22 +43,35 @@ export async function GET() {
       )
     );
 
-    // Step 3: aggregate scorers
     const scorerMap: Record<string, { name: string; goals: number; team: string; teamSlug: string }> = {};
+    let yellowCards = 0;
+    let redCards = 0;
+    let ownGoals = 0;
 
     for (const summary of summaries) {
       if (!summary) continue;
       const keyEvents = summary.keyEvents || [];
       for (const event of keyEvents) {
-        if (!event.scoringPlay) continue;
-        const participants = event.participants || [];
-        const scorer = participants[0]?.athlete?.displayName;
-        const teamName = event.team?.displayName || "";
-        if (!scorer) continue;
-        if (!scorerMap[scorer]) {
-          scorerMap[scorer] = { name: scorer, goals: 0, team: teamName, teamSlug: espnNameToSlug(teamName) };
+        const typeText: string = event.type?.text || "";
+
+        if (event.scoringPlay) {
+          if (event.ownGoal) {
+            ownGoals++;
+          } else {
+            const scorer = event.participants?.[0]?.athlete?.displayName;
+            const teamName = event.team?.displayName || "";
+            if (scorer) {
+              if (!scorerMap[scorer]) {
+                scorerMap[scorer] = { name: scorer, goals: 0, team: teamName, teamSlug: espnNameToSlug(teamName) };
+              }
+              scorerMap[scorer].goals++;
+            }
+          }
+        } else if (typeText === "Yellow Card") {
+          yellowCards++;
+        } else if (typeText === "Red Card") {
+          redCards++;
         }
-        scorerMap[scorer].goals++;
       }
     }
 
@@ -75,6 +86,9 @@ export async function GET() {
       avgGoalsPerMatch: completedEvents.length > 0
         ? (totalGoals / completedEvents.length).toFixed(2)
         : "0",
+      yellowCards,
+      redCards,
+      ownGoals,
       topScorers,
     });
   } catch (e) {

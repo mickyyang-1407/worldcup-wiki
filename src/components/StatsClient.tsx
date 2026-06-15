@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import TeamBadge from "./TeamBadge";
-import matchesData from "@/data/schedule.json";
 
 interface EspnScorer {
   name: string;
@@ -15,20 +14,44 @@ interface EspnStats {
   totalGoals: number;
   completedMatches: number;
   avgGoalsPerMatch: string;
+  yellowCards: number;
+  redCards: number;
+  ownGoals: number;
   topScorers: EspnScorer[];
+}
+
+interface GroupStanding {
+  team_id: string;
+  team_name: string;
+  played: number;
+  gf: number;
+}
+
+interface Group {
+  id: string;
+  name: string;
+  standings: GroupStanding[];
 }
 
 export default function StatsClient() {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [espnStats, setEspnStats] = useState<EspnStats | null>(null);
+  const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchEspnStats = useCallback(async () => {
+  const fetchAll = useCallback(async () => {
     try {
-      const res = await fetch("/api/espn-scorers", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
+      const [scorersRes, standingsRes] = await Promise.all([
+        fetch("/api/espn-scorers", { cache: "no-store" }),
+        fetch("/api/espn-standings", { cache: "no-store" }),
+      ]);
+      if (scorersRes.ok) {
+        const data = await scorersRes.json();
         if (data.topScorers) setEspnStats(data);
+      }
+      if (standingsRes.ok) {
+        const data = await standingsRes.json();
+        if (data.groups) setGroups(data.groups);
       }
     } catch {}
     setLastUpdated(new Date());
@@ -36,52 +59,25 @@ export default function StatsClient() {
   }, []);
 
   useEffect(() => {
-    fetchEspnStats();
-    const timer = setInterval(fetchEspnStats, 5 * 60 * 1000);
+    fetchAll();
+    const timer = setInterval(fetchAll, 5 * 60 * 1000);
     return () => clearInterval(timer);
-  }, [fetchEspnStats]);
+  }, [fetchAll]);
 
-  const matches = matchesData.matches as any[];
-  const completed = matches.filter((m) => m.status === "completed");
-  const upcoming = matches.filter((m) => m.status === "upcoming");
+  // Group stats computed from standings
+  const groupStats = groups.map((g) => {
+    const totalGames = Math.round(g.standings.reduce((s, t) => s + t.played, 0) / 2);
+    const totalGoals = g.standings.reduce((s, t) => s + t.gf, 0);
+    return {
+      id: g.id,
+      name: g.name,
+      played: totalGames,
+      goals: totalGoals,
+      avg: totalGames > 0 ? (totalGoals / totalGames).toFixed(1) : "—",
+    };
+  });
 
-  // Fallback local stats
-  const localTotalGoals = completed.reduce((sum, m) => sum + m.score.home + m.score.away, 0);
-  const localAvgGoals = completed.length > 0 ? (localTotalGoals / completed.length).toFixed(1) : "0";
-
-  // Use ESPN data when available
-  const displayCompleted = espnStats?.completedMatches ?? completed.length;
-  const displayGoals = espnStats?.totalGoals ?? localTotalGoals;
-  const displayAvg = espnStats?.avgGoalsPerMatch ?? localAvgGoals;
-  const displayScorers = espnStats?.topScorers ?? [];
-
-  const biggestWin = useMemo(() => {
-    let max = 0;
-    let match = null as any;
-    for (const m of completed) {
-      const diff = Math.abs(m.score.home - m.score.away);
-      if (diff > max) { max = diff; match = m; }
-    }
-    return { match, diff: max };
-  }, [completed]);
-
-  const groupStats = useMemo(() => {
-    const stats: Record<string, { played: number; homeWins: number; draws: number; awayWins: number; goals: number }> = {};
-    for (const m of completed) {
-      if (m.stage !== "group" || !m.group) continue;
-      if (!stats[m.group]) stats[m.group] = { played: 0, homeWins: 0, draws: 0, awayWins: 0, goals: 0 };
-      stats[m.group].played++;
-      stats[m.group].goals += m.score.home + m.score.away;
-      if (m.score.home > m.score.away) stats[m.group].homeWins++;
-      else if (m.score.home < m.score.away) stats[m.group].awayWins++;
-      else stats[m.group].draws++;
-    }
-    return stats;
-  }, [completed]);
-
-  const homeWins = completed.filter((m) => m.score.home > m.score.away).length;
-  const awayWins = completed.filter((m) => m.score.home < m.score.away).length;
-  const draws = completed.filter((m) => m.score.home === m.score.away).length;
+  const v = (n: number | undefined) => (loading ? "…" : n ?? "—");
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -98,74 +94,37 @@ export default function StatsClient() {
         </div>
       </div>
 
-      {/* Overview cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      {/* Overview cards — 3 columns × 2 rows */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <div className="text-xs text-gray-500 mb-1">已完成比賽</div>
-          <div className="text-3xl font-bold text-gray-900">{loading ? "…" : displayCompleted}</div>
+          <div className="text-3xl font-bold text-gray-900">{v(espnStats?.completedMatches)}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <div className="text-xs text-gray-500 mb-1">總進球數</div>
-          <div className="text-3xl font-bold text-green-600">{loading ? "…" : displayGoals}</div>
+          <div className="text-3xl font-bold text-green-600">{v(espnStats?.totalGoals)}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <div className="text-xs text-gray-500 mb-1">場均進球</div>
-          <div className="text-3xl font-bold text-blue-600">{loading ? "…" : displayAvg}</div>
+          <div className="text-3xl font-bold text-blue-600">{loading ? "…" : (espnStats?.avgGoalsPerMatch ?? "—")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <div className="text-xs text-gray-500 mb-1">未賽比賽</div>
-          <div className="text-3xl font-bold text-gray-900">{upcoming.length}</div>
-        </div>
-      </div>
-
-      {/* Win/Draw/Loss */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <h2 className="font-bold text-gray-900 mb-4">比賽結果分布</h2>
-          <div className="space-y-3">
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-blue-600">主隊勝</span>
-                <span className="font-semibold">{homeWins} ({completed.length > 0 ? Math.round(homeWins/completed.length*100) : 0}%)</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-500 rounded-full" style={{ width: `${completed.length > 0 ? homeWins/completed.length*100 : 0}%` }}></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-600">平局</span>
-                <span className="font-semibold">{draws} ({completed.length > 0 ? Math.round(draws/completed.length*100) : 0}%)</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gray-400 rounded-full" style={{ width: `${completed.length > 0 ? draws/completed.length*100 : 0}%` }}></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-orange-600">客隊勝</span>
-                <span className="font-semibold">{awayWins} ({completed.length > 0 ? Math.round(awayWins/completed.length*100) : 0}%)</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-orange-500 rounded-full" style={{ width: `${completed.length > 0 ? awayWins/completed.length*100 : 0}%` }}></div>
-              </div>
-            </div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-4 h-4 rounded-sm bg-yellow-400 inline-block shrink-0" />
+            <span className="text-xs text-gray-500">黃牌</span>
           </div>
+          <div className="text-3xl font-bold text-yellow-500">{v(espnStats?.yellowCards)}</div>
         </div>
-
-        {/* Biggest Win */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <h2 className="font-bold text-gray-900 mb-4">最大比分差</h2>
-          {biggestWin.match ? (
-            <div>
-              <div className="text-4xl font-bold text-center text-gray-900 mb-2">
-                {biggestWin.match.score.home} - {biggestWin.match.score.away}
-              </div>
-              <p className="text-center text-sm text-gray-500">差 {biggestWin.diff} 球</p>
-            </div>
-          ) : (
-            <p className="text-gray-400 text-center">暫無數據</p>
-          )}
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-4 h-4 rounded-sm bg-red-600 inline-block shrink-0" />
+            <span className="text-xs text-gray-500">紅牌</span>
+          </div>
+          <div className="text-3xl font-bold text-red-600">{v(espnStats?.redCards)}</div>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="text-xs text-gray-500 mb-1">烏龍球</div>
+          <div className="text-3xl font-bold text-orange-500">{v(espnStats?.ownGoals)}</div>
         </div>
       </div>
 
@@ -177,9 +136,9 @@ export default function StatsClient() {
         </div>
         {loading ? (
           <div className="px-5 py-8 text-center text-gray-400">載入中...</div>
-        ) : displayScorers.length > 0 ? (
+        ) : espnStats?.topScorers && espnStats.topScorers.length > 0 ? (
           <div className="divide-y divide-gray-50">
-            {displayScorers.map((player, idx) => (
+            {espnStats.topScorers.map((player, idx) => (
               <div key={player.name} className="flex items-center gap-3 px-5 py-3">
                 <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white ${
                   idx === 0 ? "bg-yellow-400" : idx === 1 ? "bg-gray-400" : idx === 2 ? "bg-amber-600" : "bg-gray-200 text-gray-500"
@@ -205,35 +164,30 @@ export default function StatsClient() {
         )}
       </div>
 
-      {/* Group Stats */}
-      {Object.keys(groupStats).length > 0 && (
+      {/* Group Stats from ESPN standings */}
+      {groupStats.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100">
+          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-bold text-gray-900">各組比賽統計</h2>
+            {groups.length > 0 && <span className="text-xs text-green-500">ESPN 即時</span>}
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50">
                   <th className="px-4 py-3 text-left text-gray-500 font-medium">小組</th>
-                  <th className="px-4 py-3 text-center text-gray-500 font-medium">已賽</th>
-                  <th className="px-4 py-3 text-center text-gray-500 font-medium">主勝</th>
-                  <th className="px-4 py-3 text-center text-gray-500 font-medium">平局</th>
-                  <th className="px-4 py-3 text-center text-gray-500 font-medium">客勝</th>
+                  <th className="px-4 py-3 text-center text-gray-500 font-medium">已賽場次</th>
                   <th className="px-4 py-3 text-center text-gray-500 font-medium">總進球</th>
                   <th className="px-4 py-3 text-center text-gray-500 font-medium">場均進球</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(groupStats).map(([group, stats]) => (
-                  <tr key={group} className="border-b border-gray-50">
-                    <td className="px-4 py-3 font-semibold text-gray-800">第 {group} 組</td>
-                    <td className="px-4 py-3 text-center text-gray-700">{stats.played}</td>
-                    <td className="px-4 py-3 text-center text-blue-600">{stats.homeWins}</td>
-                    <td className="px-4 py-3 text-center text-gray-600">{stats.draws}</td>
-                    <td className="px-4 py-3 text-center text-orange-600">{stats.awayWins}</td>
-                    <td className="px-4 py-3 text-center font-semibold text-gray-800">{stats.goals}</td>
-                    <td className="px-4 py-3 text-center text-gray-700">{(stats.goals / stats.played).toFixed(1)}</td>
+                {groupStats.map((g) => (
+                  <tr key={g.id} className="border-b border-gray-50">
+                    <td className="px-4 py-3 font-semibold text-gray-800">{g.name}</td>
+                    <td className="px-4 py-3 text-center text-gray-700">{g.played}</td>
+                    <td className="px-4 py-3 text-center font-semibold text-gray-800">{g.goals}</td>
+                    <td className="px-4 py-3 text-center text-gray-700">{g.avg}</td>
                   </tr>
                 ))}
               </tbody>

@@ -142,6 +142,7 @@ export default function RootLayout({
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 16px;
+            overflow: hidden;
             box-shadow:
               0 1px 3px rgba(0, 0, 0, 0.06),
               0 4px 24px rgba(0, 0, 0, 0.1),

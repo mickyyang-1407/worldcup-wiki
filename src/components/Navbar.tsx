@@ -7,7 +7,6 @@ const navLinks = [
   { href: "/", label: "首頁" },
   { href: "/groups", label: "小組" },
   { href: "/schedule", label: "賽程" },
-  { href: "/highlights", label: "精華" },
   { href: "/teams", label: "隊伍" },
   { href: "/players", label: "球員" },
   { href: "/countries", label: "國家" },
