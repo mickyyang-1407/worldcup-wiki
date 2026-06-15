@@ -57,15 +57,21 @@ export default function MatchCard({ match }: MatchCardProps) {
   const awayTeam = teams.find((t: any) => t.id === match.away);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4">
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-4 relative overflow-hidden">
+      {/* Left color bar for group matches */}
       {match.stage === "group" && match.group && (
-        <div className="text-xs font-semibold mb-2 flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}></span>
-          <span style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>{match.group}組</span>
+        <div
+          className="absolute left-0 top-0 bottom-0 w-1"
+          style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}
+        />
+      )}
+      {match.stage === "group" && match.group && (
+        <div className="text-sm font-bold mb-3 pl-1" style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>
+          {match.group}組
         </div>
       )}
       {match.stage !== "group" && (
-        <div className="text-xs font-semibold text-purple-600 mb-2">
+        <div className="text-sm font-bold text-purple-600 mb-3 pl-1">
           {match.stage === "round-of-16" ? "16強" : match.stage === "quarter-finals" ? "8強" : match.stage === "semi-finals" ? "準決賽" : match.stage === "third-place" ? "季軍戰" : match.stage === "final" ? "決賽" : match.stage}
         </div>
       )}

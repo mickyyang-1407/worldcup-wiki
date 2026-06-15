@@ -50,11 +50,20 @@ export default function LiveScoresClient() {
   useEffect(() => {
     fetchData();
 
-    // Auto-refresh every 60 seconds
-    intervalRef.current = setInterval(fetchData, 60000);
+    // Auto-refresh every 30 seconds
+    intervalRef.current = setInterval(fetchData, 30000);
+
+    // Refresh immediately when page becomes visible again
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        fetchData();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, [fetchData]);
 
