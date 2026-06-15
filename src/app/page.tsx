@@ -147,9 +147,7 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #523c1b 0%, #3a2a12 100%)' }}>
           <h2 className="text-xl font-bold text-white">世界盃新聞</h2>
-          <Link href="/news" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
-            更多新聞 →
-          </Link>
+          {/* 更多新聞連結暫時隱藏（頁面尚未完成） */}
         </div>
         {/* Mobile: horizontal scroll; desktop: grid */}
         <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory">
