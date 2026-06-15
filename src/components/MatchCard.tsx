@@ -79,6 +79,7 @@ export default function MatchCard({ match }: MatchCardProps) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 text-right">
           <TeamBadge teamId={match.home} size="xl" showName={true} linkable={false} />
+          {homeTeam && <span className="text-sm font-medium text-gray-800 ml-1">{homeTeam.name}</span>}
         </div>
 
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -97,6 +98,7 @@ export default function MatchCard({ match }: MatchCardProps) {
 
         <div className="flex-1 text-left">
           <TeamBadge teamId={match.away} size="xl" showName={true} linkable={false} />
+          {awayTeam && <span className="text-sm font-medium text-gray-800 ml-1">{awayTeam.name}</span>}
         </div>
       </div>
 
