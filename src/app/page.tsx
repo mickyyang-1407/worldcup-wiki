@@ -66,19 +66,26 @@ export default function HomePage() {
                   48 隊 · 12 組 · 16 座場館 · 橫跨三國 · 巔峰對決
                 </p>
               </div>
-              <div className="flex gap-3">
-                <Link
-                  href="/schedule"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25"
-                >
-                  📅 完整賽程
-                </Link>
-                <Link
-                  href="/groups"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-semibold transition-all shadow-lg shadow-yellow-400/25"
-                >
-                  🏆 積分表
-                </Link>
+              <div className="flex gap-3 items-center">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/zh/5/5c/2026_FIFA_World_Cup_emblem_logo.svg"
+                  alt="FIFA 2026"
+                  className="h-24 md:h-32 w-auto opacity-90"
+                />
+                <div className="flex gap-3">
+                  <Link
+                    href="/schedule"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25"
+                  >
+                    📅 完整賽程
+                  </Link>
+                  <Link
+                    href="/groups"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-semibold transition-all shadow-lg shadow-yellow-400/25"
+                  >
+                    🏆 積分表
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -115,7 +122,7 @@ export default function HomePage() {
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
+            <span className="w-1.5 h-6 rounded-full inline-block" style={{ backgroundColor: '#b7e710' }} />
             即將開賽
           </h2>
           <Link href="/schedule" className="text-sm font-medium" style={{ color: '#b7e710' }}>

@@ -72,7 +72,7 @@ export default function LiveScoresClient() {
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
+            <span className="w-1.5 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
             最新賽果
           </h2>
         </div>
@@ -101,7 +101,7 @@ export default function LiveScoresClient() {
     <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <span className="w-1 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
+          <span className="w-1.5 h-6 rounded-full inline-block" style={{ backgroundColor: "#d40404" }} />
           最新賽果
         </h2>
         <div className="flex items-center gap-3">

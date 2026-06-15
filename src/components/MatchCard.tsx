@@ -51,13 +51,14 @@ const statusLabels: Record<string, string> = {
 };
 
 function formatDate(dateStr: string): string {
-  console.log(dateStr);
   let date: Date;
-  if (dateStr.includes("Z") || dateStr.includes("UTC")) {
+  if (dateStr.includes("T") || dateStr.includes("Z")) {
     date = new Date(dateStr);
   } else {
-    date = new Date(dateStr + "Z");
+    // Plain date like "2026-06-11" — parse as UTC midnight
+    date = new Date(dateStr + "T00:00:00Z");
   }
+  if (isNaN(date.getTime())) return "";
   return date.toLocaleString("zh-TW", {
     timeZone: "Asia/Taipei",
     month: "2-digit",
