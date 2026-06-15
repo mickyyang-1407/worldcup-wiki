@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import PageHero from "./PageHero";
 import teamsData from "@/data/teams.json";
 import { TEAM_FLAGS } from "@/data/teamFlags";
 
@@ -38,11 +39,14 @@ export default function TeamsListClient() {
 
   if (search) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">參賽隊伍</h1>
-          <p className="text-gray-500 mt-1">48 支來自六大洲的頂尖國家隊</p>
-        </div>
+      <div>
+        <PageHero
+          gradient="linear-gradient(135deg, #26458b 0%, #1c433a 100%)"
+          title="參賽隊伍"
+          subtitle="48 支來自六大洲的頂尖國家隊"
+          tag="Teams"
+          icon="⚽"
+        />
         <input
           type="text"
           placeholder="搜尋隊伍..."
@@ -80,11 +84,14 @@ export default function TeamsListClient() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">參賽隊伍</h1>
-        <p className="text-gray-500 mt-1">48 支來自六大洲的頂尖國家隊</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #26458b 0%, #1c433a 100%)"
+        title="參賽隊伍"
+        subtitle="48 支來自六大洲的頂尖國家隊"
+        tag="Teams"
+        icon="⚽"
+      />
 
       <input
         type="text"

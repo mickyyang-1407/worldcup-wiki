@@ -3679,7 +3679,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-      "bytes": 225858,
+      "bytes": 237246,
       "imports": [
         {
           "path": "path",
@@ -3749,11 +3749,6 @@
           "external": true
         }
       ],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js": {
-      "bytes": 7783,
-      "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage-instance.js": {
@@ -4196,6 +4191,42 @@
       ],
       "format": "cjs"
     },
+    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js": {
+      "bytes": 8629,
+      "imports": [
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js",
+          "kind": "require-call",
+          "original": "next/dist/compiled/next-server/app-page-turbo.runtime.prod.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/work-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/work-unit-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/after-task-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/action-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/dynamic-access-async-storage.external.js"
+        }
+      ],
+      "format": "cjs"
+    },
     ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js": {
       "bytes": 4779,
       "imports": [
@@ -4242,40 +4273,9 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js": {
-      "bytes": 3276,
-      "imports": [
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js",
-          "kind": "require-call",
-          "original": "next/dist/compiled/next-server/app-page-turbo.runtime.prod.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/work-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/work-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/work-unit-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/after-task-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/action-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/dynamic-access-async-storage.external.js"
-        }
-      ],
+    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js": {
+      "bytes": 9790,
+      "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app__not-found_page_actions_0pt47yr.js": {
@@ -4782,8 +4782,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js": {
-      "bytes": 5068,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js": {
+      "bytes": 6599,
       "imports": [],
       "format": "cjs"
     },
@@ -4829,8 +4829,8 @@
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js": {
-      "bytes": 2538,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js": {
+      "bytes": 4065,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
@@ -4893,8 +4893,8 @@
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js": {
-      "bytes": 3883,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js": {
+      "bytes": 5412,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
@@ -5080,8 +5080,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js": {
-      "bytes": 12578,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js": {
+      "bytes": 14103,
       "imports": [],
       "format": "cjs"
     },
@@ -5112,8 +5112,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js": {
-      "bytes": 15576,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js": {
+      "bytes": 17146,
       "imports": [],
       "format": "cjs"
     },
@@ -5176,8 +5176,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js": {
-      "bytes": 13314,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js": {
+      "bytes": 14795,
       "imports": [],
       "format": "cjs"
     },
@@ -5235,8 +5235,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js": {
-      "bytes": 4567,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js": {
+      "bytes": 5998,
       "imports": [],
       "format": "cjs"
     },
@@ -5267,8 +5267,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js": {
-      "bytes": 7965,
+    ".open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js": {
+      "bytes": 9496,
       "imports": [],
       "format": "cjs"
     },
@@ -5316,9 +5316,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0g84hko._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js",
@@ -5326,9 +5326,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[turbopack]_runtime.js",
@@ -5521,9 +5521,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0dkboiq.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/_next-internal_server_app_favicon_ico_route_actions_0g2jjls.js",
@@ -5556,9 +5556,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_17im19o._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_groups_page_actions_0w-t7vx.js",
@@ -5596,9 +5596,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0dp71dm._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_knockout_page_actions_0-xk6os.js",
@@ -5711,9 +5711,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1x900a4.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__01o9sqe._.js",
@@ -5731,9 +5731,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_04yb0ge.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0qg5b8o._.js",
@@ -5771,9 +5771,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1e1odqi.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0-kp--c._.js",
@@ -5806,9 +5806,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1jh7hep.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0ggv4n3._.js",
@@ -5826,9 +5826,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0f23h07.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js"
         },
         {
           "path": "<runtime>",
@@ -5882,9 +5882,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0g84hko._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js",
@@ -5892,9 +5892,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[turbopack]_runtime.js",
@@ -6087,9 +6087,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0dkboiq.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/_next-internal_server_app_favicon_ico_route_actions_0g2jjls.js",
@@ -6122,9 +6122,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_17im19o._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_groups_page_actions_0w-t7vx.js",
@@ -6162,9 +6162,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0dp71dm._.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_knockout_page_actions_0-xk6os.js",
@@ -6277,9 +6277,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1x900a4.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__01o9sqe._.js",
@@ -6297,9 +6297,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_04yb0ge.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0qg5b8o._.js",
@@ -6337,9 +6337,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1e1odqi.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0-kp--c._.js",
@@ -6372,9 +6372,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1jh7hep.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0ggv4n3._.js",
@@ -6392,9 +6392,9 @@
           "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0f23h07.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js",
+          "path": ".open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js",
           "kind": "require-call",
-          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js"
+          "original": "/Users/mickyyang/Projects/worldcup-wiki/.open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js"
         },
         {
           "path": "<runtime>",
@@ -9327,7 +9327,7 @@
           "bytesInOutput": 458
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-          "bytesInOutput": 172036
+          "bytesInOutput": 181690
         },
         ".open-next/cloudflare-templates/shims/throw.js": {
           "bytesInOutput": 215
@@ -9337,9 +9337,6 @@
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0g84hko._.js": {
           "bytesInOutput": 231899
-        },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__10vnyq1._.js": {
-          "bytesInOutput": 8159
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage-instance.js": {
           "bytesInOutput": 501
@@ -9407,11 +9404,14 @@
         ".open-next/server-functions/default/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js": {
           "bytesInOutput": 516
         },
+        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__138eie3._.js": {
+          "bytesInOutput": 8691
+        },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1r461z9._.js": {
           "bytesInOutput": 4799
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1vxelp1._.js": {
-          "bytesInOutput": 3278
+        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1ul6jfx._.js": {
+          "bytesInOutput": 10166
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app__not-found_page_actions_0pt47yr.js": {
           "bytesInOutput": 270
@@ -9524,8 +9524,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0dkboiq.js": {
           "bytesInOutput": 23537
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_20f7l3r._.js": {
-          "bytesInOutput": 5894
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_1rm3bjd._.js": {
+          "bytesInOutput": 7430
         },
         ".open-next/server-functions/default/.next/server/chunks/_next-internal_server_app_favicon_ico_route_actions_0g2jjls.js": {
           "bytesInOutput": 271
@@ -9545,8 +9545,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/src_17im19o._.js": {
           "bytesInOutput": 14863
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0sm3g-p._.js": {
-          "bytesInOutput": 2725
+        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__02ypdy-._.js": {
+          "bytesInOutput": 4256
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_groups_page_actions_0w-t7vx.js": {
           "bytesInOutput": 263
@@ -9569,8 +9569,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/src_0dp71dm._.js": {
           "bytesInOutput": 20025
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0b8lawm._.js": {
-          "bytesInOutput": 4156
+        ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0d__l75._.js": {
+          "bytesInOutput": 5692
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_knockout_page_actions_0-xk6os.js": {
           "bytesInOutput": 267
@@ -9638,8 +9638,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1x900a4.js": {
           "bytesInOutput": 23527
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_0rfr_wr._.js": {
-          "bytesInOutput": 16074
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_19g3vrn._.js": {
+          "bytesInOutput": 17604
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__01o9sqe._.js": {
           "bytesInOutput": 2325
@@ -9650,8 +9650,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_04yb0ge.js": {
           "bytesInOutput": 23532
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_20jyomn._.js": {
-          "bytesInOutput": 19267
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_1_wz8li._.js": {
+          "bytesInOutput": 20842
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0qg5b8o._.js": {
           "bytesInOutput": 2323
@@ -9674,8 +9674,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1e1odqi.js": {
           "bytesInOutput": 23517
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_0f7zule._.js": {
-          "bytesInOutput": 16754
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_1ux9-ob._.js": {
+          "bytesInOutput": 18240
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0-kp--c._.js": {
           "bytesInOutput": 15393
@@ -9695,8 +9695,8 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1jh7hep.js": {
           "bytesInOutput": 23515
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_017hb74._.js": {
-          "bytesInOutput": 4896
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_16izdpj._.js": {
+          "bytesInOutput": 6333
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0ggv4n3._.js": {
           "bytesInOutput": 2315
@@ -9707,14 +9707,14 @@
         ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0f23h07.js": {
           "bytesInOutput": 23522
         },
-        ".open-next/server-functions/default/.next/server/chunks/ssr/src_0r9vw87._.js": {
-          "bytesInOutput": 11285
+        ".open-next/server-functions/default/.next/server/chunks/ssr/src_1xncj0l._.js": {
+          "bytesInOutput": 12824
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[turbopack]_runtime.js": {
-          "bytesInOutput": 29739
+          "bytesInOutput": 29737
         },
         ".open-next/server-functions/default/.next/server/chunks/[turbopack]_runtime.js": {
-          "bytesInOutput": 29726
+          "bytesInOutput": 29724
         },
         ".open-next/server-functions/default/.next/server/app/api/espn-standings/route.js": {
           "bytesInOutput": 470
@@ -9939,7 +9939,7 @@
           "bytesInOutput": 114934
         }
       },
-      "bytes": 5613298
+      "bytes": 5642538
     }
   }
 }

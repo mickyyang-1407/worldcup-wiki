@@ -2,8 +2,6 @@
   "name": "worldcup-wiki",
   "version": "0.1.0",
   "private": true,
-  "cf:build": "opennextjs-cloudflare build",
-  "cf:deploy": "opennextjs-cloudflare deploy",
   "scripts": {
     "dev": "next dev -p 3056",
     "build": "next build",

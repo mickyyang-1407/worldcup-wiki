@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import MatchCard from "./MatchCard";
+import PageHero from "./PageHero";
 import matchesData from "@/data/schedule.json";
 import groupsData from "@/data/groups.json";
 import { toTaipeiTime, formatDate } from "@/lib/timezone";
@@ -104,11 +105,13 @@ export default function ScheduleListClient() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">賽程</h1>
-        <p className="text-gray-500 mt-1">2026 世界盃全部 104 場比賽 · 時間已轉換為台北時間 (UTC+8)</p>
-      </div>
+      <PageHero
+        gradient="linear-gradient(135deg, #1c433a 0%, #26458b 100%)"
+        title="賽程"
+        subtitle="2026 世界盃全部 104 場比賽 · 時間已轉換為台北時間 (UTC+8)"
+        tag="Schedule"
+        icon="📅"
+      />
 
       {/* Stage filters */}
       <div className="flex flex-wrap gap-2 mb-4">

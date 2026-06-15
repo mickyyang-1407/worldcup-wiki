@@ -1,5 +1,6 @@
 import MatchCard from "@/components/MatchCard";
 import { matches } from "@/data/schedule";
+import PageHero from "@/components/PageHero";
 
 const stageOrder = [
   { key: "round-of-16", label: "16 強", color: "bg-purple-500" },
@@ -11,11 +12,14 @@ const stageOrder = [
 
 export default function KnockoutPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">淘汰賽</h1>
-        <p className="text-gray-500 mt-1">16 強 → 8 強 → 準決賽 → 決賽</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #907ad6 0%, #af3525 100%)"
+        title="淘汰賽"
+        subtitle="16 強 → 8 強 → 準決賽 → 決賽"
+        tag="Knockout"
+        icon="🏆"
+      />
 
       <div className="space-y-8">
         {stageOrder.map(({ key, label, color }) => {

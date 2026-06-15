@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import TeamBadge from "./TeamBadge";
+import PageHero from "./PageHero";
 
 interface EspnScorer {
   name: string;
@@ -80,18 +81,19 @@ export default function StatsClient() {
   const v = (n: number | undefined) => (loading ? "…" : n ?? "—");
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8 flex items-end justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">賽事統計</h1>
-          <p className="text-gray-500 mt-1">截至目前的各項數據統計</p>
-        </div>
-        <div className="text-right">
-          <span className="text-xs text-gray-400">
-            {lastUpdated.toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit" })} 更新
-          </span>
-          {espnStats && <div className="text-xs text-green-500 mt-0.5">ESPN 即時資料</div>}
-        </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #af3525 0%, #8286cd 100%)"
+        title="賽事統計"
+        subtitle="截至目前的各項數據統計"
+        tag="Stats"
+        icon="📊"
+      />
+      <div className="flex justify-end mb-4 -mt-2">
+        <span className="text-xs text-gray-400">
+          {lastUpdated.toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit" })} 更新
+        </span>
+        {espnStats && <span className="text-xs text-green-500 ml-3">ESPN 即時資料</span>}
       </div>
 
       {/* Overview cards — 3 columns × 2 rows */}

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 import Navbar from "@/components/Navbar";
+import Intro from "@/components/Intro";
+import IntroTrigger from "@/components/IntroTrigger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -165,6 +167,7 @@ export default function RootLayout({
           <div className="wc-brand-circle-3" />
           <div className="wc-accent-bar-top" />
 
+          <Intro />
           <Navbar />
           <main className="flex-1 relative z-10">
             <div className="max-w-7xl mx-auto px-4 py-6">
@@ -175,7 +178,7 @@ export default function RootLayout({
           </main>
           <footer className="wc-footer py-6 mt-auto">
             <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
-              <p>2026 世界盃百科 &copy; 2026 &middot; 僅供參考用途</p>
+              <p>2026 世界盃百科 &copy; 2026 &middot; 僅供參考用途<IntroTrigger /></p>
             </div>
           </footer>
         </div>

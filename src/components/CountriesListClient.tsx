@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import countriesData from "@/data/countries.json";
+import PageHero from "./PageHero";
 import { TEAM_FLAGS } from "@/data/teamFlags";
 
 const countryFlags: Record<string, string> = {
@@ -58,11 +59,14 @@ export default function CountriesListClient() {
   }, [search, continentFilter, countries]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">參賽國家</h1>
-        <p className="text-gray-500 mt-1">48 支隊伍來自 48 個國家/地區</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #0a0a23 0%, #26458b 100%)"
+        title="參賽國家"
+        subtitle="48 支隊伍來自 48 個國家/地區"
+        tag="Countries"
+        icon="🌍"
+      />
 
       <div className="flex flex-wrap gap-3 mb-6">
         <input

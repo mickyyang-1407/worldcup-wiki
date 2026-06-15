@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import venuesData from "@/data/venues.json";
+import PageHero from "./PageHero";
 
 const countries = ["Mexico", "United States", "Canada"];
 
@@ -26,11 +27,14 @@ export default function VenuesListClient() {
   }, [countryFilter, venues]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">比賽場館</h1>
-        <p className="text-gray-500 mt-1">16 座橫跨三國的頂級足球場館</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #2d1b4e 0%, #5b2227 100%)"
+        title="比賽場館"
+        subtitle="16 座橫跨三國的頂級足球場館"
+        tag="Venues"
+        icon="🏟️"
+      />
 
       <div className="flex flex-wrap gap-2 mb-6">
         <button

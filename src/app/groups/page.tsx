@@ -1,12 +1,16 @@
 import LiveGroupStandings from "@/components/LiveGroupStandings";
+import PageHero from "@/components/PageHero";
 
 export default function GroupsPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">小組積分表</h1>
-        <p className="text-gray-500 mt-1">12 組 × 4 隊，各組前兩名晉級 16 強 · ESPN 即時同步</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #1a2d6e 0%, #a4c44d 100%)"
+        title="小組積分表"
+        subtitle="12 組 × 4 隊，各組前兩名晉級 16 強 · ESPN 即時同步"
+        tag="Groups"
+        icon="📋"
+      />
       <LiveGroupStandings />
     </div>
   );

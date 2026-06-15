@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
+import PageHero from "./PageHero";
 import playersData from "@/data/players.json";
 import teamsData from "@/data/teams.json";
 
@@ -82,11 +83,14 @@ export default function PlayersListClient() {
   }, [search, teamFilter, positionFilter, sortBy, players]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">球員名單</h1>
-        <p className="text-gray-500 mt-1">共 {players.length} 名參賽球員</p>
-      </div>
+    <div>
+      <PageHero
+        gradient="linear-gradient(135deg, #5b2227 0%, #907ad6 100%)"
+        title="球員名單"
+        subtitle={`共 ${players.length} 名參賽球員`}
+        tag="Players"
+        icon="👤"
+      />
 
       <div className="flex flex-wrap gap-3 mb-6">
         <input
