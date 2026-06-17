@@ -1,4 +1,5 @@
 import LiveScoresClient from "@/components/LiveScoresClient";
+import LiveCommentaryClient from "@/components/LiveCommentaryClient";
 import HomeUpcomingClient from "@/components/HomeUpcomingClient";
 import HomeNewsClient from "@/components/HomeNewsClient";
 import HomeStandingsClient from "@/components/HomeStandingsClient";
@@ -81,6 +82,9 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+
+      {/* Live Commentary — only renders when a match is in progress */}
+      <LiveCommentaryClient />
 
       {/* Live Scores Section — auto-refreshes every 60s */}
       <section className="mb-8">
