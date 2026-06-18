@@ -34,10 +34,22 @@ export async function GET() {
     if (!liveEvent) return NextResponse.json({ live: false });
 
     const eventId = liveEvent.id;
-    const comp = liveEvent.competitions?.[0] || {};
-    const competitors = comp.competitors || [];
+
+    // Use summary endpoint — it has commentary + full match details
+    const summaryRes = await fetch(
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${eventId}`,
+      { cache: "no-store", signal: AbortSignal.timeout(8000) }
+    );
+    if (!summaryRes.ok) return NextResponse.json({ live: false });
+
+    const summaryData = await summaryRes.json();
+
+    // Extract match info from header
+    const headerComp = summaryData.header?.competitions?.[0] || {};
+    const competitors: any[] = headerComp.competitors || [];
     const home = competitors.find((c: any) => c.homeAway === "home");
     const away = competitors.find((c: any) => c.homeAway === "away");
+    const venue = summaryData.gameInfo?.venue?.fullName || "";
 
     const matchInfo = {
       eventId,
@@ -45,56 +57,55 @@ export async function GET() {
       awayTeam: away?.team?.displayName || "",
       homeScore: home?.score != null ? parseInt(home.score) : 0,
       awayScore: away?.score != null ? parseInt(away.score) : 0,
-      homeId: home?.team?.id || "",
-      awayId: away?.team?.id || "",
-      clock: comp.status?.displayClock || "",
-      period: comp.status?.period || 1,
-      statusText: comp.status?.type?.shortDetail || "",
-      venue: comp.venue?.fullName || "",
+      clock: headerComp.status?.displayClock || "",
+      period: headerComp.status?.period || 1,
+      statusText: headerComp.status?.type?.shortDetail || "",
+      venue,
     };
 
-    const pbpRes = await fetch(
-      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/playbyplay?event=${eventId}`,
-      { cache: "no-store", signal: AbortSignal.timeout(8000) }
-    );
-    if (!pbpRes.ok) return NextResponse.json({ live: true, match: matchInfo, plays: [] });
+    // Parse commentary — deduplicate by play.id
+    const commentary: any[] = summaryData.commentary || [];
+    const seenIds = new Set<string>();
 
-    const pbpData = await pbpRes.json();
-    const allPlays: any[] = pbpData.plays || [];
-
-    const plays = allPlays
-      .slice(-80)
+    const plays = commentary
+      .filter((c: any) => {
+        const pid = c.play?.id;
+        if (!pid || seenIds.has(pid)) return false;
+        seenIds.add(pid);
+        return true;
+      })
+      .slice(-60)
       .reverse()
-      .slice(0, 30)
-      .map((p: any) => {
-        // ESPN soccer coords: x=0..100 (attacking left→right for home), y=0..100
-        const coord = p.coordinate ?? p.coordinates ?? null;
-        const teamId: string = p.team?.id || "";
-        const side = teamId === matchInfo.homeId ? "home" : teamId === matchInfo.awayId ? "away" : null;
+      .slice(0, 35)
+      .map((c: any) => {
+        const p = c.play;
+        const teamName: string = p.team?.displayName || "";
+        const side =
+          teamName === matchInfo.homeTeam
+            ? "home"
+            : teamName === matchInfo.awayTeam
+            ? "away"
+            : null;
 
-        // Normalize so home always attacks left→right (x: 0→105)
         let nx: number | null = null;
         let ny: number | null = null;
-        if (coord && coord.x != null && coord.y != null) {
-          nx = parseFloat(coord.x);
-          ny = parseFloat(coord.y);
-          // If away team, flip x so both teams' attacks go left→right from their own half
-          if (side === "away") nx = 100 - nx;
-          // Scale to pitch dimensions (0–105, 0–68)
-          nx = (nx / 100) * 105;
-          ny = (ny / 100) * 68;
+        if (p.fieldPositionX != null && p.fieldPositionY != null) {
+          nx = (p.fieldPositionX / 100) * 105;
+          ny = (p.fieldPositionY / 100) * 68;
+          // Flip away team so home always attacks left→right
+          if (side === "away") nx = 105 - nx;
         }
 
         return {
           id: p.id || String(Math.random()),
-          clock: p.clock?.displayValue || "",
-          text: p.text || "",
+          clock: c.time?.displayValue || p.clock?.displayValue || "",
+          text: c.text || p.text || "",
           scoringPlay: !!p.scoringPlay,
           type: p.type?.text || "",
           period: p.period?.number || 1,
-          homeScore: p.homeScore ?? null,
-          awayScore: p.awayScore ?? null,
-          team: side,
+          homeScore: null,
+          awayScore: null,
+          team: side as "home" | "away" | null,
           x: nx,
           y: ny,
         };

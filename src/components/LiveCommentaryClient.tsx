@@ -220,58 +220,58 @@ export default function LiveCommentaryClient() {
         </span>
       </div>
 
-      <div className="bg-[#0d1117] rounded-xl overflow-hidden border border-white/10 shadow-xl">
+      <div className="bg-white dark:bg-[#0d1117] rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-xl">
         {/* Scoreboard */}
-        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between gap-4">
-          <p className="flex-1 text-right text-white font-bold text-lg">{match.homeTeam}</p>
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-white/10 flex items-center justify-between gap-4">
+          <p className="flex-1 text-right text-gray-900 dark:text-white font-bold text-lg">{match.homeTeam}</p>
           <div className="flex flex-col items-center gap-0.5 min-w-[110px]">
-            <div className="text-3xl font-black text-white tabular-nums">
-              {match.homeScore} <span className="text-white/40">–</span> {match.awayScore}
+            <div className="text-3xl font-black text-gray-900 dark:text-white tabular-nums">
+              {match.homeScore} <span className="text-gray-400 dark:text-white/40">–</span> {match.awayScore}
             </div>
             <div className="flex items-center gap-1.5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
               </span>
-              <span className="text-xs font-semibold text-red-400 uppercase tracking-wider">
+              <span className="text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider">
                 {match.clock ? `${match.clock}′ · ${halfLabel}` : match.statusText}
               </span>
             </div>
             {match.venue && (
-              <p className="text-[10px] text-white/35 text-center mt-0.5">{match.venue}</p>
+              <p className="text-[10px] text-gray-500 dark:text-white/35 text-center mt-0.5">{match.venue}</p>
             )}
           </div>
-          <p className="flex-1 text-left text-white font-bold text-lg">{match.awayTeam}</p>
+          <p className="flex-1 text-left text-gray-900 dark:text-white font-bold text-lg">{match.awayTeam}</p>
         </div>
 
         {/* Two-column: Pitch + Commentary */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr]">
           {/* Left — Pitch */}
-          <div className="p-3 border-b md:border-b-0 md:border-r border-white/10 flex items-center justify-center bg-black/20">
+          <div className="p-3 border-b md:border-b-0 md:border-r border-gray-200 dark:border-white/10 flex items-center justify-center bg-gray-100 dark:bg-black/20">
             <PitchSVG plays={plays} />
           </div>
 
           {/* Right — Text feed */}
           <div className="max-h-[340px] overflow-y-auto">
             {plays.length === 0 ? (
-              <div className="px-6 py-10 text-center text-white/40 text-sm">實況載入中…</div>
+              <div className="px-6 py-10 text-center text-gray-400 dark:text-white/40 text-sm">實況載入中…</div>
             ) : (
-              <ul className="divide-y divide-white/5">
+              <ul className="divide-y divide-gray-100 dark:divide-white/5">
                 {plays.map((play) => (
                   <li
                     key={play.id}
                     className={`px-4 py-2.5 flex gap-3 items-start ${
                       play.scoringPlay
-                        ? "bg-yellow-500/10"
-                        : "hover:bg-white/5"
+                        ? "bg-yellow-50 dark:bg-yellow-500/10"
+                        : "hover:bg-gray-50 dark:hover:bg-white/5"
                     }`}
                   >
-                    <span className="text-xs font-mono text-white/35 w-9 shrink-0 pt-0.5 text-right">
-                      {play.clock ? `${play.clock}′` : "—"}
+                    <span className="text-xs font-mono text-gray-400 dark:text-white/35 w-9 shrink-0 pt-0.5 text-right">
+                      {play.clock ? `${play.clock}` : "—"}
                     </span>
                     <span
                       className={`text-sm leading-snug ${
-                        play.scoringPlay ? "text-yellow-300 font-semibold" : "text-white/75"
+                        play.scoringPlay ? "text-yellow-700 dark:text-yellow-300 font-semibold" : "text-gray-700 dark:text-white/75"
                       }`}
                     >
                       {play.scoringPlay && <span className="mr-1">⚽</span>}
