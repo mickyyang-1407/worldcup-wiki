@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
@@ -22,7 +21,14 @@ export async function GET() {
 
     const liveEvent = events.find((e: any) => {
       const s = e.competitions?.[0]?.status?.type?.name || "";
-      return s === "STATUS_IN_PROGRESS" || s === "STATUS_HALFTIME";
+      return (
+        s === "STATUS_IN_PROGRESS" ||
+        s === "STATUS_HALFTIME" ||
+        s === "STATUS_FIRST_HALF" ||
+        s === "STATUS_SECOND_HALF" ||
+        s === "STATUS_EXTRA_TIME" ||
+        s === "STATUS_PENALTIES"
+      );
     });
 
     if (!liveEvent) return NextResponse.json({ live: false });
