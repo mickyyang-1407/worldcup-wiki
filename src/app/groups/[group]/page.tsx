@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LiveGroupStandings from "@/components/LiveGroupStandings";
-import MatchCard from "@/components/MatchCard";
+import LiveMatchesGrid from "@/components/LiveMatchesGrid";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/schedule";
 
@@ -41,10 +41,8 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ gr
 
       <section>
         <h2 className="text-xl font-bold text-gray-900 mb-4">小組賽程</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          {groupMatches.map((m: any) => (
-            <MatchCard key={m.id} match={m} />
-          ))}
+        <div>
+          <LiveMatchesGrid initialMatches={groupMatches} />
         </div>
       </section>
     </div>

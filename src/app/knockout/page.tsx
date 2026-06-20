@@ -1,5 +1,6 @@
 import MatchCard from "@/components/MatchCard";
 import { matches } from "@/data/schedule";
+import LiveMatchesGrid from "@/components/LiveMatchesGrid";
 import PageHero from "@/components/PageHero";
 
 const stageOrder = [
@@ -46,11 +47,7 @@ export default function KnockoutPage() {
                 <h2 className="text-xl font-bold text-gray-900">{label}</h2>
                 <span className="text-xs text-gray-400">{stageMatches.length} 場</span>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {stageMatches.map((m: any) => (
-                  <MatchCard key={m.id} match={m} />
-                ))}
-              </div>
+              <LiveMatchesGrid initialMatches={stageMatches} />
             </section>
           );
         })}

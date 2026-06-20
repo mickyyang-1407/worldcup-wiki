@@ -12,13 +12,30 @@ export default function MediaPage({ params }: { params: Promise<{ matchId: strin
   const [embedError, setEmbedError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
 
+  const [matchData, setMatchData] = useState<any | null>(null);
+
   useEffect(() => {
-    params.then((p) => setMatchId(p.matchId));
+    params.then((p) => {
+      setMatchId(p.matchId);
+      const m = (matches as any[]).find((match: any) => match.id === p.matchId);
+      if (m) {
+        setMatchData(m);
+        fetch("/api/espn?type=all&limit=150")
+          .then((r) => r.json())
+          .then((data) => {
+            const liveMatch = data.matches?.find((lm: any) => lm.home === m.home && lm.away === m.away);
+            if (liveMatch) {
+              setMatchData((prev: any) => ({ ...prev, status: liveMatch.status, score: liveMatch.score }));
+            }
+          })
+          .catch(() => {});
+      }
+    });
   }, [params]);
 
-  if (!matchId) return null;
+  if (!matchId || !matchData) return null;
 
-  const match = (matches as any[]).find((m: any) => m.id === matchId);
+  const match = matchData;
   if (!match) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
