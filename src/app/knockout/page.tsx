@@ -2,8 +2,10 @@ import MatchCard from "@/components/MatchCard";
 import { matches } from "@/data/schedule";
 import LiveMatchesGrid from "@/components/LiveMatchesGrid";
 import PageHero from "@/components/PageHero";
+import LiveKnockoutBracket from "@/components/LiveKnockoutBracket";
 
 const stageOrder = [
+  { key: "round-of-32", label: "32 強 (新增)", color: "bg-pink-500" },
   { key: "round-of-16", label: "16 強", color: "bg-purple-500" },
   { key: "quarter-finals", label: "8 強 (半準決賽)", color: "bg-indigo-500" },
   { key: "semi-finals", label: "準決賽", color: "bg-blue-500" },
@@ -17,12 +19,21 @@ export default function KnockoutPage() {
       <PageHero
         gradient="linear-gradient(135deg, #907ad6 0%, #af3525 100%)"
         title="淘汰賽"
-        subtitle="16 強 → 8 強 → 準決賽 → 決賽"
+        subtitle="2026 世界盃擴編為 48 隊，淘汰賽由 32 強起步！"
         tag="Knockout"
         icon="🏆"
       />
 
+      <div className="mb-12">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+          <h2 className="text-2xl font-bold text-gray-900">即時戰況預測晉級樹 (Round of 32)</h2>
+        </div>
+        <LiveKnockoutBracket />
+      </div>
+
       <div className="space-y-8">
+        <h2 className="text-2xl font-bold text-gray-900 border-t border-gray-200 pt-8">官方賽程表</h2>
         {stageOrder.map(({ key, label, color }) => {
           const stageMatches = (matches as any[]).filter((m: any) => m.stage === key);
           if (stageMatches.length === 0) {
