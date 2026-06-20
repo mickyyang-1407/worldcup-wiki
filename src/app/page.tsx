@@ -3,6 +3,7 @@ import LiveCommentaryClient from "@/components/LiveCommentaryClient";
 import HomeUpcomingClient from "@/components/HomeUpcomingClient";
 import HomeNewsClient from "@/components/HomeNewsClient";
 import HomeStandingsClient from "@/components/HomeStandingsClient";
+import DonationBanner from "@/components/DonationBanner";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -62,6 +63,8 @@ export default function HomePage() {
         {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#0a0a23]/80 to-transparent z-20" />
       </div>
+
+      <DonationBanner />
 
       {/* Quick Stats Row — FIFA brand colors */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">

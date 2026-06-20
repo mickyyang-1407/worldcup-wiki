@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import LiveOddsWidget from "./LiveOddsWidget";
 
 interface Play {
   id: string;
@@ -285,6 +286,10 @@ export default function LiveCommentaryClient() {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <LiveOddsWidget homeTeam={match.homeTeam} awayTeam={match.awayTeam} />
       </div>
     </section>
   );
