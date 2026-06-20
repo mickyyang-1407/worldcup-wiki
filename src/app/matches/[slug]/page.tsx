@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import TeamBadge from "@/components/TeamBadge";
 import teamsData from "@/data/teams.json";
 
-function mlLabel(ml: number | null): string {
-  if (ml == null) return "—";
-  return ml > 0 ? `+${ml}` : `${ml}`;
-}
+
 
 function StatBar({ label, homeVal, awayVal }: { label: string; homeVal: any; awayVal: any }) {
   const h = parseFloat(homeVal) || 0;
@@ -244,59 +241,6 @@ export default function MatchDetailPage({ params }: { params: Promise<{ slug: st
         </>
       )}
 
-      {/* Upcoming: Odds */}
-      {isUpcoming && (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-          {detail.odds ? (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold text-gray-900">勝負賠率</h2>
-                <span className="text-xs text-gray-400">資料來源：{detail.odds.provider}</span>
-              </div>
-              <div className="grid grid-cols-3 gap-3 mb-5">
-                {[
-                  { label: homeTeam?.name_zh || detail.home, sub: "主隊勝", ml: detail.odds.homeMoneyLine, pct: detail.odds.homeWinPct, color: "blue" },
-                  { label: "平局", sub: "Draw", ml: detail.odds.drawMoneyLine, pct: detail.odds.drawPct, color: "gray" },
-                  { label: awayTeam?.name_zh || detail.away, sub: "客隊勝", ml: detail.odds.awayMoneyLine, pct: detail.odds.awayWinPct, color: "orange" },
-                ].map((o) => (
-                  <div key={o.sub} className={`text-center p-3 rounded-xl border-2 ${
-                    o.color === "blue" ? "border-blue-200 bg-blue-50" :
-                    o.color === "orange" ? "border-orange-200 bg-orange-50" :
-                    "border-gray-200 bg-gray-50"
-                  }`}>
-                    <div className="text-xs text-gray-500 mb-1">{o.sub}</div>
-                    <div className={`text-xl font-black font-mono ${
-                      o.color === "blue" ? "text-blue-700" : o.color === "orange" ? "text-orange-600" : "text-gray-700"
-                    }`}>{mlLabel(o.ml)}</div>
-                    <div className="text-xs text-gray-400 mt-1">美式賠率</div>
-                    <div className="text-sm font-bold text-gray-700 mt-2">{o.pct}%</div>
-                    <div className="text-xs text-gray-400">隱含勝率</div>
-                    <div className="mt-2 h-1.5 rounded-full bg-gray-200 overflow-hidden">
-                      <div className={`h-full rounded-full ${
-                        o.color === "blue" ? "bg-blue-500" : o.color === "orange" ? "bg-orange-400" : "bg-gray-400"
-                      }`} style={{ width: `${o.pct}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {detail.odds.overUnder && (
-                <div className="text-center text-xs text-gray-400 border-t border-gray-50 pt-3">
-                  大小分線：{detail.odds.overUnder} 球
-                  {detail.odds.spread != null && (
-                    <span className="ml-3">讓球：{detail.odds.spread > 0 ? `+${detail.odds.spread}` : detail.odds.spread}</span>
-                  )}
-                </div>
-              )}
-              <p className="text-center text-xs text-gray-300 mt-2">賠率僅供參考，請理性投注</p>
-            </>
-          ) : (
-            <div className="text-center py-6 text-gray-400">
-              <div className="text-3xl mb-2">📊</div>
-              <p className="text-sm">賠率資料尚未提供</p>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import MatchCard from "./MatchCard";
-import LiveOddsWidget from "./LiveOddsWidget";
 import Link from "next/link";
 
 interface LiveMatch {

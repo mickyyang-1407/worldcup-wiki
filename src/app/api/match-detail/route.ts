@@ -4,15 +4,6 @@ import { espnNameToSlug, espnStatusToLocal } from "@/lib/espnTeamMap";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-function moneylineToProb(ml: number): number {
-  if (ml > 0) return 100 / (ml + 100);
-  return Math.abs(ml) / (Math.abs(ml) + 100);
-}
-
-function normalizeProbs(h: number, d: number, a: number) {
-  const sum = h + d + a;
-  return { h: h / sum, d: d / sum, a: a / sum };
-}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -139,29 +130,7 @@ export async function GET(request: Request) {
     }
   }
 
-  // --- Odds ---
-  let odds: any = null;
-  const pc = (sum.pickcenter || []).find((p: any) => p.homeTeamOdds?.moneyLine != null);
-  if (pc) {
-    const hML = pc.homeTeamOdds?.moneyLine;
-    const aML = pc.awayTeamOdds?.moneyLine;
-    const dML = pc.drawOdds?.moneyLine;
-    const rawH = hML != null ? moneylineToProb(hML) : 0.33;
-    const rawD = dML != null ? moneylineToProb(dML) : 0.33;
-    const rawA = aML != null ? moneylineToProb(aML) : 0.33;
-    const probs = normalizeProbs(rawH, rawD, rawA);
-    odds = {
-      homeMoneyLine: hML ?? null,
-      drawMoneyLine: dML ?? null,
-      awayMoneyLine: aML ?? null,
-      homeWinPct: Math.round(probs.h * 100),
-      drawPct: Math.round(probs.d * 100),
-      awayWinPct: Math.round(probs.a * 100),
-      overUnder: pc.overUnder ?? null,
-      spread: pc.spread ?? null,
-      provider: pc.provider?.name || "ESPN BET",
-    };
-  }
+
 
   return NextResponse.json({
     eventId,
@@ -177,6 +146,5 @@ export async function GET(request: Request) {
     awayEspnId,
     stats: statsMap,
     keyEvents,
-    odds,
   });
 }
