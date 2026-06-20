@@ -11,6 +11,7 @@
     "cf:deploy": "opennextjs-cloudflare deploy"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "date-fns": "^4.4.0",
     "flag-icons": "^7.5.0",
     "fuse.js": "^7.4.2",
