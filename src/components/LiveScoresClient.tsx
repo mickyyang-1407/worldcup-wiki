@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import MatchCard from "./MatchCard";
+import LiveOddsWidget from "./LiveOddsWidget";
 import Link from "next/link";
 
 interface LiveMatch {
@@ -117,6 +118,15 @@ export default function LiveScoresClient() {
           </button>
         </div>
       </div>
+
+      {/* 將第一個賽事的隊伍帶入 Widget，作為即時盤口的展示 */}
+      {matches.length > 0 && (
+        <LiveOddsWidget 
+          homeTeam={matches[0].home} 
+          awayTeam={matches[0].away} 
+          donateUrl="https://portaly.cc/mickyyang/support" 
+        />
+      )}
 
       <div className="grid md:grid-cols-2 gap-4">
         {matches.map((match) => (
