@@ -1,5 +1,5 @@
 import Link from "next/link";
-import GroupStandingsTable from "@/components/GroupStandingsTable";
+import LiveGroupStandings from "@/components/LiveGroupStandings";
 import MatchCard from "@/components/MatchCard";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/schedule";
@@ -36,7 +36,7 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ gr
       </div>
 
       <div className="mb-8">
-        <GroupStandingsTable groupId={groupId} compact />
+        <LiveGroupStandings groupId={groupId} compact isLink={false} />
       </div>
 
       <section>

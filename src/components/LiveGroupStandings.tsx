@@ -40,9 +40,10 @@ interface GroupData {
 interface Props {
   groupId?: string;
   compact?: boolean;
+  isLink?: boolean;
 }
 
-export default function LiveGroupStandings({ groupId, compact = false }: Props) {
+export default function LiveGroupStandings({ groupId, compact = false, isLink = true }: Props) {
   const [groups, setGroups] = useState<GroupData[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -94,15 +95,12 @@ export default function LiveGroupStandings({ groupId, compact = false }: Props) 
         {displayGroups.map((group) => {
           const color = GROUP_COLORS[group.id] || "#2d47cb";
           const darkColor = darken(color);
-          return (
-            <Link
-              key={group.id}
-              href={`/groups/${group.id}`}
-              className="block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-            >
+          
+          const CardContent = (
+            <>
               <div className="px-4 py-3 flex items-center justify-between" style={{ background: `linear-gradient(135deg, ${color} 0%, ${darkColor} 100%)` }}>
                 <h3 className="text-white font-bold text-lg">{group.name}</h3>
-                <span className="text-white/70 text-xs">查看詳情 →</span>
+                {isLink && <span className="text-white/70 text-xs">查看詳情 →</span>}
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -126,7 +124,7 @@ export default function LiveGroupStandings({ groupId, compact = false }: Props) 
                         className={`border-b border-gray-50 last:border-0 ${idx < 2 ? "bg-green-50/40" : ""}`}
                       >
                         <td className="px-3 py-2">
-                          <TeamBadge teamId={row.team_id} size="sm" showName={true} linkable={false} />
+                          <TeamBadge teamId={row.team_id} size="sm" showName={true} linkable={!isLink} />
                         </td>
                         <td className="px-2 py-2 text-center text-gray-600">{row.played}</td>
                         <td className="px-2 py-2 text-center text-gray-600">{row.won}</td>
@@ -141,7 +139,25 @@ export default function LiveGroupStandings({ groupId, compact = false }: Props) 
                   </tbody>
                 </table>
               </div>
-            </Link>
+            </>
+          );
+
+          if (isLink) {
+            return (
+              <Link
+                key={group.id}
+                href={`/groups/${group.id}`}
+                className="block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+              >
+                {CardContent}
+              </Link>
+            );
+          }
+
+          return (
+            <div key={group.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+              {CardContent}
+            </div>
           );
         })}
       </div>
