@@ -38,7 +38,7 @@ export default function HomePage() {
               </div>
               <div className="flex gap-3 items-center">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/zh/5/5c/2026_FIFA_World_Cup_emblem_logo.svg"
+                  src="https://upload.wikimedia.org/wikipedia/zh/thumb/5/5c/2026_FIFA_World_Cup_emblem_logo.svg/800px-2026_FIFA_World_Cup_emblem_logo.svg.png"
                   alt="FIFA 2026"
                   className="h-24 md:h-32 w-auto opacity-90"
                 />
@@ -86,7 +86,25 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Live Commentary — only renders when a match is in progress */}
+      {/* 不負責任冠軍預測 */}
+      <section className="mb-8">
+        <Link href="/predictions" className="block group">
+          <div className="rounded-xl p-5 relative overflow-hidden transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-xl" style={{ background: 'linear-gradient(135deg, #8286cd 0%, #26458b 50%, #af3525 100%)' }}>
+            {/* Glow effect */}
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
+              background: 'radial-gradient(ellipse 600px 200px at 50% 0%, rgba(255,255,255,0.3) 0%, transparent 70%)'
+            }} />
+            <div className="relative z-10 flex items-center gap-4">
+              <div className="text-4xl md:text-5xl flex-shrink-0">🏆</div>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-xl md:text-2xl font-bold text-white">不負責任猜冠軍</h2>
+                <p className="text-sm md:text-base text-white/80 mt-0.5">即時賽況 × 賠率分析 × 數據模型 — 誰會捧起大力神盃？</p>
+              </div>
+              <div className="flex-shrink-0 text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all text-xl">→</div>
+            </div>
+          </div>
+        </Link>
+      </section>
       <LiveCommentaryClient />
 
       {/* Live Scores Section — auto-refreshes every 60s */}

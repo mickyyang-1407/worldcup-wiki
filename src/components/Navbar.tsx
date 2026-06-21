@@ -15,6 +15,7 @@ const navLinks = [
   { href: "/knockout", label: "淘汰賽" },
   { href: "/venues", label: "場館" },
   { href: "/stats", label: "統計" },
+  { href: "/predictions", label: "預測" },
 ];
 
 export default function Navbar() {
