@@ -38,7 +38,7 @@ export default function HomePage() {
               </div>
               <div className="flex gap-3 items-center">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/zh/thumb/5/5c/2026_FIFA_World_Cup_emblem_logo.svg/800px-2026_FIFA_World_Cup_emblem_logo.svg.png"
+                  src="/trophy.svg"
                   alt="FIFA 2026"
                   className="h-24 md:h-32 w-auto opacity-90"
                 />

@@ -133,11 +133,12 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
 
   return (
     <div
-      className="rounded-2xl p-4 flex flex-col gap-3 min-w-[200px] flex-1 border transition-shadow hover:shadow-md"
-      style={{
-        background: highlight ? 'linear-gradient(135deg,rgba(130,134,205,0.08),rgba(38,69,139,0.06))' : 'rgba(249,250,251,0.9)',
-        borderColor: highlight ? '#8286cd40' : '#e5e7eb',
-      }}
+      className={`rounded-2xl p-4 flex flex-col gap-3 min-w-[200px] flex-1 border transition-shadow hover:shadow-md ${
+        highlight
+          ? 'bg-white/80 dark:bg-gray-800/80 border-[#8286cd40]'
+          : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+      }`}
+      style={highlight ? { background: 'linear-gradient(135deg,rgba(130,134,205,0.08),rgba(38,69,139,0.06))' } : undefined}
     >
       {/* Header row */}
       <div className="flex items-center justify-between">
@@ -153,8 +154,8 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
             <span className={`fi fi-${p.flagCode} fis`} style={{ fontSize: 22, borderRadius: 3 }} />
           )}
           <div>
-            <p className="font-bold text-gray-900 text-sm leading-tight">{p.teamNameZh}</p>
-            <p className="text-xs text-gray-400 leading-tight">{p.teamName}</p>
+            <p className="font-bold text-gray-900 dark:text-white text-sm leading-tight">{p.teamNameZh}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 leading-tight">{p.teamName}</p>
           </div>
         </div>
 
@@ -170,10 +171,10 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
       {/* Probability bar */}
       <div>
         <div className="flex justify-between items-baseline mb-1">
-          <span className="text-xs text-gray-500">奪冠機率</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">奪冠機率</span>
           <span className="text-base font-black" style={{ color: rankColor }}>{pct}%</span>
         </div>
-        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{
@@ -192,16 +193,16 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-1 text-center text-xs">
         <div>
-          <p className="text-gray-400">FIFA</p>
-          <p className="font-semibold text-gray-700">#{p.dimensions.fifaRanking > 0 ? Math.round((110 - (110 * p.dimensions.fifaRanking / 100))) : '—'}</p>
+          <p className="text-gray-400 dark:text-gray-500">FIFA</p>
+          <p className="font-semibold text-gray-700 dark:text-gray-300">#{p.dimensions.fifaRanking > 0 ? Math.round((110 - (110 * p.dimensions.fifaRanking / 100))) : '—'}</p>
         </div>
         <div>
-          <p className="text-gray-400">小組分</p>
-          <p className="font-semibold text-gray-700">{p.groupPoints}pts</p>
+          <p className="text-gray-400 dark:text-gray-500">小組分</p>
+          <p className="font-semibold text-gray-700 dark:text-gray-300">{p.groupPoints}pts</p>
         </div>
         <div>
-          <p className="text-gray-400">賠率</p>
-          <p className="font-semibold text-gray-700">{p.odds ? p.odds.toFixed(1) : '—'}</p>
+          <p className="text-gray-400 dark:text-gray-500">賠率</p>
+          <p className="font-semibold text-gray-700 dark:text-gray-300">{p.odds ? p.odds.toFixed(1) : '—'}</p>
         </div>
       </div>
     </div>

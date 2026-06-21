@@ -20,7 +20,6 @@ export default function TrophyWidget({ topTeam }: Props) {
           height={309}
           className="trophy-glow"
         />
-
         <style>{`
           @keyframes trophyPulse {
             0%,100% { filter: drop-shadow(0 0 14px rgba(218,165,32,0.5)); }
