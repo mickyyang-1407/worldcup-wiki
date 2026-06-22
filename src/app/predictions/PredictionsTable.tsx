@@ -81,15 +81,17 @@ export default function PredictionsTable({ predictions }: Props) {
             </tr>
           </thead>
           <tbody>
-            {sorted.map((p, idx) => {
+            {sorted.map((p) => {
               const pct = (p.probability * 100).toFixed(2);
               const isTop8 = p.rank <= 8;
               const isTop16 = p.rank <= 16;
+              const isEliminated = p.qualificationStatus === 'eliminated';
+              const isQualified = p.qualificationStatus === 'qualified';
               return (
                 <tr
                   key={p.teamId}
-                  className={`border-t border-gray-50 hover:bg-gray-50 transition-colors ${p.eliminated ? 'bg-gray-100 opacity-50' : ''}`}
-                  style={{ opacity: p.eliminated ? 0.5 : (isTop16 ? 1 : 0.72) }}
+                  className={`border-t border-gray-50 hover:bg-gray-50 transition-colors ${isEliminated ? 'bg-gray-100' : ''}`}
+                  style={{ opacity: isEliminated ? 0.52 : (isTop16 ? 1 : 0.72) }}
                 >
                   <td className="px-4 py-2.5 font-bold text-gray-400 text-xs">{p.rank}</td>
                   <td className="px-4 py-2.5">
@@ -98,9 +100,19 @@ export default function PredictionsTable({ predictions }: Props) {
                         <span className={`fi fi-${p.flagCode} fis`} style={{ fontSize: 16, borderRadius: 2 }} />
                       )}
                       <div>
-                        <p className="font-semibold text-gray-800 leading-tight">{p.teamNameZh}</p>
+                        <p className={`font-semibold leading-tight ${isEliminated ? 'text-gray-400 line-through' : 'text-gray-800'}`}>{p.teamNameZh}</p>
                         <p className="text-xs text-gray-400 leading-tight">{p.teamName}</p>
                       </div>
+                      {isQualified && (
+                        <span className="ml-1 text-xs px-1.5 py-0.5 rounded font-medium bg-blue-50 text-blue-700">
+                          已晉級
+                        </span>
+                      )}
+                      {isEliminated && (
+                        <span className="ml-1 text-xs px-1.5 py-0.5 rounded font-medium bg-gray-200 text-gray-500">
+                          已淘汰
+                        </span>
+                      )}
                       {isTop8 && (
                         <span className="ml-1 text-xs px-1.5 py-0.5 rounded font-medium"
                           style={{ background: '#8286cd20', color: '#8286cd' }}>
@@ -116,15 +128,13 @@ export default function PredictionsTable({ predictions }: Props) {
                   </td>
                   <td className="px-4 py-2.5 text-right">
                     <div>
-                      <p className={`font-bold ${p.eliminated ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
-                        {p.eliminated ? '0.00' : pct}%
-                      </p>
+                      <p className={`font-bold ${isEliminated ? 'text-gray-400' : 'text-gray-800'}`}>{pct}%</p>
                       <div className="w-16 h-1 bg-gray-100 rounded-full ml-auto mt-0.5">
                         <div
                           className="h-full rounded-full"
                           style={{
-                            width: p.eliminated ? '0%' : `${Math.min(parseFloat(pct) * 5, 100)}%`,
-                            background: p.eliminated ? '#e5e7eb' : 'linear-gradient(90deg,#C9A227,#8286cd)',
+                            width: isEliminated ? '0%' : `${Math.min(parseFloat(pct) * 5, 100)}%`,
+                            background: isEliminated ? '#e5e7eb' : 'linear-gradient(90deg,#C9A227,#8286cd)',
                           }}
                         />
                       </div>
@@ -137,8 +147,8 @@ export default function PredictionsTable({ predictions }: Props) {
                   <td className="px-4 py-2.5 text-right text-gray-600">
                     {p.odds ? p.odds.toFixed(1) : '—'}
                   </td>
-                  <td className="px-4 py-2.5 text-center font-bold" style={{ color: p.eliminated ? '#9ca3af' : TREND_COLOR[p.trend] }}>
-                    {p.eliminated ? '❌' : TREND_ICON[p.trend]}
+                  <td className="px-4 py-2.5 text-center font-bold" style={{ color: isEliminated ? '#9ca3af' : TREND_COLOR[p.trend] }}>
+                    {isEliminated ? '0' : TREND_ICON[p.trend]}
                   </td>
                 </tr>
               );

@@ -32,12 +32,12 @@ export default function KnockoutPage() {
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 bg-white px-4 py-2 rounded-lg border border-gray-100">
             <div className="flex items-center gap-2">
-              <span>🟦</span>
-              <span>已確定晉級淘汰賽</span>
+              <span className="inline-block w-4 h-4 rounded bg-blue-50 border-l-4 border-blue-500"></span>
+              <span>藍色：已確定晉級淘汰賽</span>
             </div>
             <div className="flex items-center gap-2">
-              <span>⬜</span>
-              <span>待小組賽結果確認</span>
+              <span className="inline-block w-4 h-4 rounded bg-white border border-gray-200"></span>
+              <span>白色：仍依即時積分預測</span>
             </div>
           </div>
         </div>

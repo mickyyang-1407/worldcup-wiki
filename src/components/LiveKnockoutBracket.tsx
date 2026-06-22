@@ -2,29 +2,17 @@
 
 import { useEffect, useState } from "react";
 import TeamBadge from "./TeamBadge";
+import { getQualificationStatus, type QualificationStatus } from "@/lib/qualificationStatus";
+import type { GroupData, StandingEntry } from "@/lib/predictionTypes";
 
-interface Standing {
-  team_id: string;
-  played: number;
-  won: number;
-  drawn: number;
-  lost: number;
-  gf: number;
-  ga: number;
-  gd: number;
-  pts: number;
-}
-
-interface Group {
-  id: string;
-  name: string;
-  standings: Standing[];
-}
+type Standing = StandingEntry;
+type Group = GroupData;
 
 interface MatchupTeam {
   label: string; // e.g., "1A", "2B", "3_1"
   teamId?: string;
   points?: number; // just for display
+  qualificationStatus?: QualificationStatus;
 }
 
 interface Matchup {
@@ -68,10 +56,14 @@ export default function LiveKnockoutBracket() {
       .then((data) => {
         const groups: Group[] = data.groups || [];
         const slots: Record<string, string> = {};
+        const teamGroups: Record<string, string> = {};
 
         const thirds: Standing[] = [];
 
         groups.forEach((g) => {
+          g.standings.forEach((team) => {
+            teamGroups[team.team_id] = g.id;
+          });
           if (g.standings.length >= 1) slots[`1${g.id}`] = g.standings[0].team_id;
           if (g.standings.length >= 2) slots[`2${g.id}`] = g.standings[1].team_id;
           if (g.standings.length >= 3) {
@@ -94,7 +86,10 @@ export default function LiveKnockoutBracket() {
         // Fill skeleton
         const skel = getKnockoutSkeleton();
         const fillTeam = (t: MatchupTeam) => {
-          if (slots[t.label]) t.teamId = slots[t.label];
+          if (slots[t.label]) {
+            t.teamId = slots[t.label];
+            t.qualificationStatus = getQualificationStatus(t.teamId, teamGroups[t.teamId] || "", groups);
+          }
           return t;
         };
 
@@ -122,11 +117,12 @@ export default function LiveKnockoutBracket() {
         </div>
       );
     }
+    const isQualified = team.qualificationStatus === 'qualified';
     return (
-      <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border-b border-gray-100 border-l-4 border-l-blue-500 last:border-0 h-[40px]">
+      <div className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 last:border-0 h-[40px] ${isQualified ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'bg-white'}`}>
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
-        <span className="text-xs font-bold text-gray-800 uppercase tracking-tight">{team.teamId}</span>
-        <span className="ml-auto text-[10px] text-gray-300 font-mono">{team.label}</span>
+        <span className={`text-xs font-bold uppercase tracking-tight ${isQualified ? 'text-blue-900' : 'text-gray-800'}`}>{team.teamId}</span>
+        <span className={`ml-auto text-[10px] font-mono ${isQualified ? 'text-blue-500' : 'text-gray-300'}`}>{team.label}</span>
       </div>
     );
   };

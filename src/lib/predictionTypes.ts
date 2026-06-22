@@ -22,7 +22,7 @@ export interface TeamPrediction {
   group: string;
   groupPoints: number;
   goalDifference: number;
-  eliminated?: boolean;
+  qualificationStatus?: 'qualified' | 'eliminated' | 'contending';
 }
 
 export interface PredictionResult {
