@@ -22,6 +22,7 @@ export interface TeamPrediction {
   group: string;
   groupPoints: number;
   goalDifference: number;
+  eliminated?: boolean;
 }
 
 export interface PredictionResult {

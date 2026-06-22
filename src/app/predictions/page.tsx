@@ -69,7 +69,9 @@ export default async function PredictionsPage() {
         </h2>
         <div className="flex gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-5">
           {top5.map((p, i) => (
-            <PredictionCard key={p.teamId} prediction={p} highlight={i === 0} />
+            <div key={p.teamId} className={p.eliminated ? 'opacity-50' : ''} style={{ flex: '0 0 auto' }}>
+              <PredictionCard prediction={p} highlight={i === 0 && !p.eliminated} />
+            </div>
           ))}
         </div>
       </div>

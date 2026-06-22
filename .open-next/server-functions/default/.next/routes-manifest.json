@@ -39,6 +39,14 @@
       "namedRegex": "^/groups/(?<nxtPgroup>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/matches/[slug]",
+      "regex": "^/matches/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/matches/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/media/[matchId]",
       "regex": "^/media/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -109,10 +117,40 @@
       "namedRegex": "^/api/espn\\-standings(?:/)?$"
     },
     {
+      "page": "/api/live-commentary",
+      "regex": "^/api/live\\-commentary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/live\\-commentary(?:/)?$"
+    },
+    {
       "page": "/api/live-scores",
       "regex": "^/api/live\\-scores(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/live\\-scores(?:/)?$"
+    },
+    {
+      "page": "/api/match-detail",
+      "regex": "^/api/match\\-detail(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/match\\-detail(?:/)?$"
+    },
+    {
+      "page": "/api/news",
+      "regex": "^/api/news(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/news(?:/)?$"
+    },
+    {
+      "page": "/api/predictions",
+      "regex": "^/api/predictions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/predictions(?:/)?$"
+    },
+    {
+      "page": "/api/predictions-sources",
+      "regex": "^/api/predictions\\-sources(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/predictions\\-sources(?:/)?$"
     },
     {
       "page": "/countries",
@@ -149,6 +187,12 @@
       "regex": "^/players(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/players(?:/)?$"
+    },
+    {
+      "page": "/predictions",
+      "regex": "^/predictions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/predictions(?:/)?$"
     },
     {
       "page": "/schedule",

@@ -59,9 +59,25 @@ export function calculatePredictions(
   const teams = teamsRaw.teams as any[];
 
   const standingsMap = new Map<string, StandingEntry>();
+  const groupSecondPts = new Map<string, number>();
+  const thirdPlacePtsList: number[] = [];
+
   for (const group of sourceData.espnStandings) {
     for (const s of group.standings) standingsMap.set(s.team_id, s);
+    
+    const sorted = [...group.standings].sort((a, b) => {
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      if (b.gd !== a.gd) return b.gd - a.gd;
+      return b.gf - a.gf;
+    });
+    groupSecondPts.set(group.id, sorted.length > 1 ? sorted[1].pts : 0);
+    if (sorted.length > 2) {
+      thirdPlacePtsList.push(sorted[2].pts);
+    }
   }
+
+  thirdPlacePtsList.sort((a, b) => b - a);
+  const eighthBestThirdPts = thirdPlacePtsList.length >= 8 ? thirdPlacePtsList[7] : 0;
 
   const fifaRankMap = new Map(sourceData.fifaRankings.map((r) => [r.teamId, r]));
   const oddsMap = new Map(sourceData.bettingOdds.map((o) => [o.teamId, o]));
@@ -137,6 +153,31 @@ export function calculatePredictions(
       dimensions.mediaSentiment * WEIGHTS.mediaSentiment +
       dimensions.attackDefense  * WEIGHTS.attackDefense;
 
+    const groupId = (team.group as string) || 'A';
+    const played = s?.played ?? 0;
+    const pts = s?.pts ?? 0;
+    const maxPossiblePts = pts + (3 - played) * 3;
+    const group2ndPts = groupSecondPts.get(groupId) ?? 0;
+    
+    let eliminated = false;
+    const groupData = sourceData.espnStandings.find(g => g.id === groupId);
+    const allPlayed = groupData?.standings.every(st => st.played === 3) ?? false;
+    
+    if (allPlayed) {
+      const sorted = [...(groupData?.standings ?? [])].sort((a, b) => {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        if (b.gd !== a.gd) return b.gd - a.gd;
+        return b.gf - a.gf;
+      });
+      const rankInGroup = sorted.findIndex(st => st.team_id === teamId) + 1;
+      if (rankInGroup === 4) eliminated = true;
+      else if (rankInGroup === 3 && pts < eighthBestThirdPts) eliminated = true;
+    } else {
+      if (maxPossiblePts < group2ndPts && maxPossiblePts < eighthBestThirdPts) {
+        eliminated = true;
+      }
+    }
+
     return {
       teamId,
       teamName: team.name as string,
@@ -148,9 +189,10 @@ export function calculatePredictions(
       dimensions,
       odds: oddsEntry?.decimalOdds ?? null,
       trend: getTrend(teamId),
-      group: (team.group as string) || 'A',
-      groupPoints: s?.pts ?? 0,
+      group: groupId,
+      groupPoints: pts,
       goalDifference: s?.gd ?? 0,
+      eliminated,
     } satisfies Omit<TeamPrediction, 'rank' | 'probability'> & { rank: number; probability: number };
   });
 
@@ -159,10 +201,10 @@ export function calculatePredictions(
 
   // Softmax-style probability — exponent amplifies spread between leaders and tail
   const exponent = 2.2;
-  const powered = scored.map((t) => Math.pow(t.totalScore, exponent));
+  const powered = scored.map((t) => t.eliminated ? 0 : Math.pow(t.totalScore, exponent));
   const poweredSum = powered.reduce((a, b) => a + b, 0);
   scored.forEach((t, i) => {
-    t.probability = parseFloat((powered[i] / poweredSum).toFixed(4));
+    t.probability = t.eliminated ? 0 : parseFloat((powered[i] / poweredSum).toFixed(4));
   });
 
   return {

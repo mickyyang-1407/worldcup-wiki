@@ -88,8 +88,8 @@ export default function PredictionsTable({ predictions }: Props) {
               return (
                 <tr
                   key={p.teamId}
-                  className="border-t border-gray-50 hover:bg-gray-50 transition-colors"
-                  style={{ opacity: isTop16 ? 1 : 0.72 }}
+                  className={`border-t border-gray-50 hover:bg-gray-50 transition-colors ${p.eliminated ? 'bg-gray-100 opacity-50' : ''}`}
+                  style={{ opacity: p.eliminated ? 0.5 : (isTop16 ? 1 : 0.72) }}
                 >
                   <td className="px-4 py-2.5 font-bold text-gray-400 text-xs">{p.rank}</td>
                   <td className="px-4 py-2.5">
@@ -116,13 +116,15 @@ export default function PredictionsTable({ predictions }: Props) {
                   </td>
                   <td className="px-4 py-2.5 text-right">
                     <div>
-                      <p className="font-bold text-gray-800">{pct}%</p>
+                      <p className={`font-bold ${p.eliminated ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+                        {p.eliminated ? '0.00' : pct}%
+                      </p>
                       <div className="w-16 h-1 bg-gray-100 rounded-full ml-auto mt-0.5">
                         <div
                           className="h-full rounded-full"
                           style={{
-                            width: `${Math.min(parseFloat(pct) * 5, 100)}%`,
-                            background: 'linear-gradient(90deg,#C9A227,#8286cd)',
+                            width: p.eliminated ? '0%' : `${Math.min(parseFloat(pct) * 5, 100)}%`,
+                            background: p.eliminated ? '#e5e7eb' : 'linear-gradient(90deg,#C9A227,#8286cd)',
                           }}
                         />
                       </div>
@@ -135,8 +137,8 @@ export default function PredictionsTable({ predictions }: Props) {
                   <td className="px-4 py-2.5 text-right text-gray-600">
                     {p.odds ? p.odds.toFixed(1) : '—'}
                   </td>
-                  <td className="px-4 py-2.5 text-center font-bold" style={{ color: TREND_COLOR[p.trend] }}>
-                    {TREND_ICON[p.trend]}
+                  <td className="px-4 py-2.5 text-center font-bold" style={{ color: p.eliminated ? '#9ca3af' : TREND_COLOR[p.trend] }}>
+                    {p.eliminated ? '❌' : TREND_ICON[p.trend]}
                   </td>
                 </tr>
               );

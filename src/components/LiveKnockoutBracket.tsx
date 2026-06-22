@@ -123,7 +123,7 @@ export default function LiveKnockoutBracket() {
       );
     }
     return (
-      <div className="flex items-center gap-2 px-3 py-2 bg-white border-b border-gray-100 last:border-0 h-[40px]">
+      <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border-b border-gray-100 border-l-4 border-l-blue-500 last:border-0 h-[40px]">
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
         <span className="text-xs font-bold text-gray-800 uppercase tracking-tight">{team.teamId}</span>
         <span className="ml-auto text-[10px] text-gray-300 font-mono">{team.label}</span>
