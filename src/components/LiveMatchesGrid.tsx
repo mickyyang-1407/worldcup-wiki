@@ -10,7 +10,7 @@ interface LiveMatchesGridProps {
 export default function LiveMatchesGrid({ initialMatches }: LiveMatchesGridProps) {
   const [matches, setMatches] = useState<any[]>(initialMatches);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch("/api/espn?type=all&limit=150")
       .then((r) => r.json())
       .then((data) => {
@@ -28,6 +28,14 @@ export default function LiveMatchesGrid({ initialMatches }: LiveMatchesGridProps
         );
       })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchData();
+    const timer = setInterval(fetchData, 30000);
+    const onVisible = () => { if (document.visibilityState === "visible") fetchData(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };
   }, []);
 
   return (

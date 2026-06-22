@@ -1225,9 +1225,43 @@
       "city": "Philadelphia"
     },
     {
+      "id": "match-73",
+      "number": 73,
+      "stage": "round-of-32",
+      "status": "upcoming",
+      "group": "",
+      "date": "2026-06-28",
+      "time": "10:00",
+      "home": "tbd",
+      "away": "tbd",
+      "score": {
+        "home": null,
+        "away": null
+      },
+      "venue": "SoFi Stadium",
+      "city": "Los Angeles"
+    },
+    {
+      "id": "match-74",
+      "number": 74,
+      "stage": "round-of-32",
+      "status": "upcoming",
+      "group": "",
+      "date": "2026-06-28",
+      "time": "13:00",
+      "home": "tbd",
+      "away": "tbd",
+      "score": {
+        "home": null,
+        "away": null
+      },
+      "venue": "Lumen Field",
+      "city": "Seattle"
+    },
+    {
       "id": "match-75",
       "number": 75,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-27",
       "time": "13:00",
@@ -1244,7 +1278,7 @@
     {
       "id": "match-76",
       "number": 76,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-27",
       "time": "16:00",
@@ -1261,7 +1295,7 @@
     {
       "id": "match-77",
       "number": 77,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-27",
       "time": "14:00",
@@ -1278,7 +1312,7 @@
     {
       "id": "match-78",
       "number": 78,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-27",
       "time": "17:00",
@@ -1295,7 +1329,7 @@
     {
       "id": "match-79",
       "number": 79,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-28",
       "time": "13:00",
@@ -1312,7 +1346,7 @@
     {
       "id": "match-80",
       "number": 80,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-28",
       "time": "16:00",
@@ -1329,7 +1363,7 @@
     {
       "id": "match-81",
       "number": 81,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-28",
       "time": "14:00",
@@ -1346,7 +1380,7 @@
     {
       "id": "match-82",
       "number": 82,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-28",
       "time": "17:00",
@@ -1363,7 +1397,7 @@
     {
       "id": "match-83",
       "number": 83,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-29",
       "time": "13:00",
@@ -1380,7 +1414,7 @@
     {
       "id": "match-84",
       "number": 84,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-29",
       "time": "16:00",
@@ -1397,7 +1431,7 @@
     {
       "id": "match-85",
       "number": 85,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-29",
       "time": "14:00",
@@ -1414,7 +1448,7 @@
     {
       "id": "match-86",
       "number": 86,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-29",
       "time": "17:00",
@@ -1431,7 +1465,7 @@
     {
       "id": "match-87",
       "number": 87,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-30",
       "time": "13:00",
@@ -1448,7 +1482,7 @@
     {
       "id": "match-88",
       "number": 88,
-      "stage": "round_of_16",
+      "stage": "round-of-32",
       "group": null,
       "date": "2026-06-30",
       "time": "16:00",
@@ -1465,7 +1499,7 @@
     {
       "id": "match-89",
       "number": 89,
-      "stage": "round_of_16",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-06-30",
       "time": "14:00",
@@ -1482,7 +1516,7 @@
     {
       "id": "match-90",
       "number": 90,
-      "stage": "round_of_16",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-06-30",
       "time": "17:00",
@@ -1499,7 +1533,7 @@
     {
       "id": "match-91",
       "number": 91,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-02",
       "time": "13:00",
@@ -1516,7 +1550,7 @@
     {
       "id": "match-92",
       "number": 92,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-02",
       "time": "16:00",
@@ -1533,7 +1567,7 @@
     {
       "id": "match-93",
       "number": 93,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-02",
       "time": "14:00",
@@ -1550,7 +1584,7 @@
     {
       "id": "match-94",
       "number": 94,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-02",
       "time": "17:00",
@@ -1567,7 +1601,7 @@
     {
       "id": "match-95",
       "number": 95,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-03",
       "time": "13:00",
@@ -1584,7 +1618,7 @@
     {
       "id": "match-96",
       "number": 96,
-      "stage": "quarter_final",
+      "stage": "round-of-16",
       "group": null,
       "date": "2026-07-03",
       "time": "16:00",
@@ -1601,7 +1635,7 @@
     {
       "id": "match-97",
       "number": 97,
-      "stage": "quarter_final",
+      "stage": "quarter-finals",
       "group": null,
       "date": "2026-07-03",
       "time": "14:00",
@@ -1618,7 +1652,7 @@
     {
       "id": "match-98",
       "number": 98,
-      "stage": "quarter_final",
+      "stage": "quarter-finals",
       "group": null,
       "date": "2026-07-03",
       "time": "17:00",
@@ -1635,7 +1669,7 @@
     {
       "id": "match-99",
       "number": 99,
-      "stage": "semi_final",
+      "stage": "quarter-finals",
       "group": null,
       "date": "2026-07-05",
       "time": "14:00",
@@ -1652,7 +1686,7 @@
     {
       "id": "match-100",
       "number": 100,
-      "stage": "semi_final",
+      "stage": "quarter-finals",
       "group": null,
       "date": "2026-07-05",
       "time": "17:00",
@@ -1669,7 +1703,7 @@
     {
       "id": "match-101",
       "number": 101,
-      "stage": "semi_final",
+      "stage": "semi-finals",
       "group": null,
       "date": "2026-07-06",
       "time": "14:00",
@@ -1686,7 +1720,7 @@
     {
       "id": "match-102",
       "number": 102,
-      "stage": "semi_final",
+      "stage": "semi-finals",
       "group": null,
       "date": "2026-07-06",
       "time": "17:00",
@@ -1703,7 +1737,7 @@
     {
       "id": "match-103",
       "number": 103,
-      "stage": "third_place",
+      "stage": "third-place",
       "group": null,
       "date": "2026-07-11",
       "time": "14:00",

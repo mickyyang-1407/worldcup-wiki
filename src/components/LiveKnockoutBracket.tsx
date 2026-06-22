@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import { getQualificationStatus, type QualificationStatus } from "@/lib/qualificationStatus";
 import type { GroupData, StandingEntry } from "@/lib/predictionTypes";
@@ -50,7 +51,7 @@ export default function LiveKnockoutBracket() {
   const [loading, setLoading] = useState(true);
   const [bracket, setBracket] = useState(getKnockoutSkeleton());
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch("/api/espn-standings")
       .then((r) => r.json())
       .then((data) => {
@@ -106,30 +107,47 @@ export default function LiveKnockoutBracket() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
+    const intervalId = setInterval(fetchData, 30000);
+    
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        fetchData();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, []);
 
   const renderTeam = (team: MatchupTeam) => {
     if (!team.teamId) {
       return (
-        <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border-b border-gray-100 last:border-0 h-[40px]">
-          <span className="w-5 h-5 rounded-full bg-gray-200 flex-shrink-0"></span>
-          <span className="text-xs text-gray-400 font-mono">{team.label}</span>
+        <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700 last:border-0 h-[40px]">
+          <span className="w-5 h-5 rounded-full bg-gray-200 dark:bg-gray-700 flex-shrink-0"></span>
+          <span className="text-xs text-gray-400 dark:text-gray-500 font-mono">{team.label}</span>
         </div>
       );
     }
     const isQualified = team.qualificationStatus === 'qualified';
     return (
-      <div className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 last:border-0 h-[40px] ${isQualified ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'bg-white'}`}>
+      <Link href={`/teams/${team.teamId}`} className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 h-[40px] hover:opacity-80 transition-opacity ${isQualified ? 'bg-amber-100 dark:bg-amber-900/40 border-l-4 border-l-amber-500 dark:border-l-amber-400' : 'bg-white dark:bg-gray-800 border-l-4 border-l-transparent'}`}>
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
-        <span className={`text-xs font-bold uppercase tracking-tight ${isQualified ? 'text-blue-900' : 'text-gray-800'}`}>{team.teamId}</span>
-        <span className={`ml-auto text-[10px] font-mono ${isQualified ? 'text-blue-500' : 'text-gray-300'}`}>{team.label}</span>
-      </div>
+        <span className={`text-xs font-bold uppercase tracking-tight ${isQualified ? 'text-amber-900 dark:text-amber-300' : 'text-gray-800 dark:text-gray-200'}`}>{team.teamId}</span>
+        <span className={`ml-auto text-[10px] font-mono ${isQualified ? 'text-amber-700 dark:text-amber-400' : 'text-gray-400 dark:text-gray-500'}`}>{team.label}</span>
+      </Link>
     );
   };
 
   const renderMatch = (match: Matchup) => (
-    <div key={match.id} className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden w-full max-w-[200px] mb-4 relative z-10">
-      <div className="bg-gray-100 px-2 py-1 text-[10px] font-bold text-gray-500 border-b border-gray-200">
+    <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[200px] mb-4 relative z-10">
+      <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
         32強 {match.id}
       </div>
       {renderTeam(match.home)}

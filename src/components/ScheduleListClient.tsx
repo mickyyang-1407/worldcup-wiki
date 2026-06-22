@@ -10,6 +10,7 @@ import { toTaipeiTime, formatDate } from "@/lib/timezone";
 const stages = [
   { value: "all", label: "全部" },
   { value: "group", label: "小組賽" },
+  { value: "round-of-32", label: "32強" },
   { value: "round-of-16", label: "16強" },
   { value: "quarter-finals", label: "8強" },
   { value: "semi-finals", label: "準決賽" },
@@ -60,8 +61,7 @@ export default function ScheduleListClient() {
   const [matches, setMatches] = useState<any[]>(matchesData.matches as any[]);
   const groups: Group[] = groupsData.groups;
 
-  // Overlay ESPN live scores/status onto static schedule
-  useEffect(() => {
+  const fetchData = () => {
     fetch("/api/espn?type=all&limit=150")
       .then((r) => r.json())
       .then((data) => {
@@ -80,6 +80,19 @@ export default function ScheduleListClient() {
         );
       })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchData();
+    const intervalId = setInterval(fetchData, 30000);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") fetchData();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, []);
   const todayStr = getTodayStr();
 
@@ -108,6 +121,7 @@ export default function ScheduleListClient() {
 
   const stageLabels: Record<string, string> = {
     group: "小組賽",
+    "round-of-32": "32強",
     "round-of-16": "16強",
     "quarter-finals": "8強",
     "semi-finals": "準決賽",
@@ -117,6 +131,7 @@ export default function ScheduleListClient() {
 
   const stageColors: Record<string, string> = {
     group: "#8286cd",
+    "round-of-32": "#c25975",
     "round-of-16": "#af3525",
     "quarter-finals": "#26458b",
     "semi-finals": "#a4c44d",

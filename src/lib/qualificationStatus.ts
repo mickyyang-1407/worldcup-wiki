@@ -6,6 +6,7 @@ export const CONFIRMED_QUALIFIED_TEAMS = new Set([
   'mexico',
   'united-states',
   'germany',
+  'argentina'
 ]);
 
 function compareStandings(a: StandingEntry, b: StandingEntry) {
@@ -61,7 +62,15 @@ export function getQualificationStatus(
   const gamesLeft = Math.max(0, 3 - standing.played);
   const maxPossiblePts = standing.pts + gamesLeft * 3;
   const secondPlacePts = sorted[1]?.pts ?? 0;
+  const thirdPlacePts = sorted[2]?.pts ?? 0;
+  const thirdPlaceGamesLeft = Math.max(0, 3 - (sorted[2]?.played ?? 0));
+  const thirdPlaceMaxPts = thirdPlacePts + thirdPlaceGamesLeft * 3;
   const eighthBestThird = getEighthBestCompletedThird(groups);
+
+  // Mathematically guaranteed top 2
+  if (standing.pts > thirdPlaceMaxPts) {
+    return 'qualified';
+  }
 
   if (maxPossiblePts < secondPlacePts && eighthBestThird && compareStandings(eighthBestThird, {
     ...standing,

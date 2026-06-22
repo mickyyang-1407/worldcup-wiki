@@ -66,7 +66,7 @@ export default function LiveGroupStandings({ groupId, compact = false, isLink = 
 
   useEffect(() => {
     fetchStandings();
-    const timer = setInterval(fetchStandings, 5 * 60 * 1000); // refresh every 5 min
+    const timer = setInterval(fetchStandings, 30000); // refresh every 30s
     const onVisible = () => { if (document.visibilityState === "visible") fetchStandings(); };
     document.addEventListener("visibilitychange", onVisible);
     return () => { clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };

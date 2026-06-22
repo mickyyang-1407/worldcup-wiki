@@ -22,12 +22,20 @@ export default function HomeStandingsClient() {
   const [groups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch("/api/espn-standings")
       .then((r) => r.json())
       .then((d) => setGroups(d.groups || []))
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
+    const timer = setInterval(fetchData, 30000);
+    const onVisible = () => { if (document.visibilityState === "visible") fetchData(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };
   }, []);
 
   if (loading) {

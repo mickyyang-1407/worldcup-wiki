@@ -61,7 +61,7 @@ export default function StatsClient() {
 
   useEffect(() => {
     fetchAll();
-    const timer = setInterval(fetchAll, 5 * 60 * 1000);
+    const timer = setInterval(fetchAll, 30000);
     return () => clearInterval(timer);
   }, [fetchAll]);
 

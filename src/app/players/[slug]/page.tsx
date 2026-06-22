@@ -38,6 +38,7 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
   const router = useRouter();
   const [slug, setSlug] = useState<string | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [worldCupGoals, setWorldCupGoals] = useState<number | null>(null);
 
   useEffect(() => {
     params.then((p) => setSlug(p.slug));
@@ -49,6 +50,22 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
     const decoded = safeDecodeSlug(slug);
     const player = allPlayers.find((p: any) => p.id === slug) || allPlayers.find((p: any) => p.id === decoded);
     if (!player?.name) return;
+    
+    // Fetch World Cup goals from ESPN scorers API
+    fetch("/api/espn-scorers")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.topScorers) {
+          const scorer = data.topScorers.find((s: any) => 
+            s.name.toLowerCase() === player.name.toLowerCase() || 
+            player.name.toLowerCase().includes(s.name.toLowerCase()) ||
+            s.name.toLowerCase().includes(player.name.toLowerCase().split(' ').pop())
+          );
+          setWorldCupGoals(scorer ? scorer.goals : 0);
+        }
+      })
+      .catch(() => {});
+
     const fetchPhoto = async () => {
       try {
         // Try mediawiki pageimages API — more reliable than REST summary
@@ -170,7 +187,7 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-center">
               <div className="text-2xl font-bold text-gray-900">{player.age}</div>
               <div className="text-xs text-gray-500 mt-1">年齡</div>
@@ -186,6 +203,10 @@ export default function PlayerDetailPage({ params }: { params: Promise<{ slug: s
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-center">
               <div className="text-2xl font-bold text-gray-900">{player.national_goals}</div>
               <div className="text-xs text-gray-500 mt-1">國家隊進球</div>
+            </div>
+            <div className="bg-green-50 rounded-xl border border-green-100 shadow-sm p-4 text-center">
+              <div className="text-2xl font-bold text-green-700">{worldCupGoals !== null ? worldCupGoals : "—"}</div>
+              <div className="text-xs text-green-600 mt-1">本次世界盃進球</div>
             </div>
           </div>
 

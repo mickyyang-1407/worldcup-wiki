@@ -23,7 +23,7 @@ export default function LiveTeamData({ teamId, groupId }: LiveTeamDataProps) {
   const [matches, setMatches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     Promise.all([
       fetch("/api/espn-standings").then((r) => r.json()),
       fetch("/api/espn?type=all&limit=150").then((r) => r.json()),
@@ -38,6 +38,14 @@ export default function LiveTeamData({ teamId, groupId }: LiveTeamDataProps) {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
+    const timer = setInterval(fetchData, 30000);
+    const onVisible = () => { if (document.visibilityState === "visible") fetchData(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };
   }, [teamId, groupId]);
 
   return (
