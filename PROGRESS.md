@@ -1,5 +1,5 @@
 # FIFA 2026 網站修改進度
-最後更新：2026-06-15（第二輪 Vercel 手機修復）
+最後更新：2026-06-23（GitHub 雙機同步建立）
 
 | 任務 | 狀態 | 開始時間 | 完成時間 | 備註 |
 |------|------|----------|----------|------|
@@ -32,6 +32,14 @@
 | 球員照片修復 | ✅ 完成 | 2026-06-15 17:15:00 | 2026-06-15 17:20:00 | 改用 Wikipedia mediawiki prop=pageimages API + 搜尋 fallback；大明星照片顯示率大幅提升 |
 | Intro 動畫 + PageHero | ✅ 完成 | 2026-06-15 20:00:00 | 2026-06-15 20:30:00 | Intro.tsx（全螢幕動畫，sessionStorage 防重播，↺ Intro footer 按鈕）；PageHero.tsx（各頁面彩色 mini hero）；IntroTrigger.tsx；整合至 layout.tsx 及全部頁面（隊伍/球員/統計/賽程/場館/國家/小組/淘汰賽）|
 | Vercel 手機端 6 項修復 | ✅ 完成 | 2026-06-15 21:00:00 | 2026-06-15 22:00:00 | Intro 換 FIFA 2026 活潑品牌色；runtime=edge 補齊 2 個 API route；新聞改橫向 snap scroll；賽程 ESPN overlay；隊伍頁 LiveTeamData 即時積分+記錄；球員照片手機版顯示 |
+| Vercel Analytics | ✅ 完成 | 2026-06-20 18:25:00 | 2026-06-20 18:32:00 | 加入 @vercel/analytics 並修正 Next.js import path |
+| 全站即時賽事資料 | ✅ 完成 | 2026-06-20 18:30:00 | 2026-06-20 18:39:00 | 多個 Match view 改接 live data，補 LiveMatchesGrid、LiveCommentaryClient 等元件 |
+| 32 強動態淘汰賽 | ✅ 完成 | 2026-06-20 18:40:00 | 2026-06-20 18:55:00 | 建立 LiveKnockoutBracket，以 ESPN 即時小組積分模擬 Round of 32 晉級樹 |
+| 移除賠率/投注元件 | ✅ 完成 | 2026-06-20 18:55:00 | 2026-06-20 19:00:00 | 移除 odds/betting widgets，避免違反 Facebook/平台政策 |
+| 冠軍預測頁 | ✅ 完成 | 2026-06-21 13:00:00 | 2026-06-22 21:06:00 | 新增 /predictions、PredictionCard、TrophyWidget、DataSourceBadge、預測資料源與排序表格 |
+| 賽程資料修正 | ✅ 完成 | 2026-06-23 06:55:00 | 2026-06-23 07:00:00 | fix_schedule.js 修正 schedule.json；相關 live match/upcoming/schedule component 同步調整 |
+| 晉級/淘汰狀態 | ✅ 完成 | 2026-06-23 07:10:00 | 2026-06-23 07:12:00 | 新增 qualificationStatus.ts，預測頁與淘汰賽樹顯示已晉級/已淘汰狀態 |
+| GitHub 雙機同步 | ✅ 完成 | 2026-06-23 15:20:00 | 2026-06-23 15:45:00 | 建立 private repo git@github.com:mickyyang-1407/worldcup-wiki.git；M3 正本 push；M4 重新 clone 乾淨 repo；build 通過 |
 
 ---
 
@@ -40,6 +48,30 @@
 | 項目 | 說明 |
 |------|------|
 | Vercel push | 把本次修改 push 到 Vercel（或手動觸發部署）|
+
+---
+
+## 雙機同步 SOP（M3 / M4 通用）
+
+| 時機 | 指令 | 說明 |
+|------|------|------|
+| 開始工作 | `cd ~/Projects/worldcup-wiki` | 進入專案資料夾 |
+| 開始工作 | `git pull --rebase` | 從 GitHub 拉下另一台電腦的最新進度 |
+| 開始工作 | `npm ci` | 只有 package-lock.json 或 dependencies 有變時需要；不確定就跑也可以 |
+| 本地開發 | `npm run dev` | 啟動本機開發伺服器，port 3056 |
+| 結束工作 | `npm run build` | 確認正式建置通過 |
+| 結束工作 | `git status` | 檢查改了哪些檔案 |
+| 結束工作 | `git add -A` | 收下全部修改 |
+| 結束工作 | `git commit -m "wip: 簡短描述"` | 建立可同步的工作進度；未完成也可以 commit |
+| 結束工作 | `git push` | 推到 GitHub，另一台電腦才能接手 |
+
+### 注意事項
+
+- M3 / M4 的開始與結束指令完全一樣。
+- 不要再用雲端硬碟或 rsync 同步整包專案；以 GitHub commit/push/pull 為唯一進度來源。
+- `.env.local` 不進 Git；兩台電腦各自保留。
+- 若 `git commit` 顯示 nothing to commit，代表沒有新變更，可直接 `git push` 或結束。
+- 若換電腦前忘記 push，另一台就看不到最新進度；回原電腦 push 後再接手。
 
 ---
 
@@ -55,6 +87,7 @@
 | 球會覆蓋率 | 89%（1106/1246）|
 | 中文名覆蓋率 | 25%（312/1246，知名球員為主）|
 | ESPN API routes | /api/espn、/api/espn-standings、/api/espn-scorers |
+| GitHub repo | git@github.com:mickyyang-1407/worldcup-wiki.git |
 
 ## 腳本
 
