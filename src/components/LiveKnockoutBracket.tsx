@@ -25,24 +25,24 @@ interface Matchup {
 function getKnockoutSkeleton(): { left: Matchup[], right: Matchup[] } {
   return {
     left: [
-      { id: "L1", home: { label: "1A" }, away: { label: "3_1" } },
-      { id: "L2", home: { label: "1I" }, away: { label: "2A" } },
-      { id: "L3", home: { label: "1E" }, away: { label: "3_5" } },
-      { id: "L4", home: { label: "2E" }, away: { label: "2I" } },
-      { id: "L5", home: { label: "1C" }, away: { label: "3_3" } },
-      { id: "L6", home: { label: "1K" }, away: { label: "2C" } },
-      { id: "L7", home: { label: "1G" }, away: { label: "3_7" } },
-      { id: "L8", home: { label: "2G" }, away: { label: "2K" } },
+      { id: "M73", home: { label: "2A" }, away: { label: "2B" } },
+      { id: "M74", home: { label: "1E" }, away: { label: "3_1" } },
+      { id: "M75", home: { label: "1F" }, away: { label: "2C" } },
+      { id: "M76", home: { label: "1C" }, away: { label: "2F" } },
+      { id: "M77", home: { label: "1I" }, away: { label: "3_2" } },
+      { id: "M78", home: { label: "2E" }, away: { label: "2I" } },
+      { id: "M79", home: { label: "1A" }, away: { label: "3_3" } },
+      { id: "M80", home: { label: "1L" }, away: { label: "3_4" } },
     ],
     right: [
-      { id: "R1", home: { label: "1B" }, away: { label: "3_2" } },
-      { id: "R2", home: { label: "1J" }, away: { label: "2B" } },
-      { id: "R3", home: { label: "1F" }, away: { label: "3_6" } },
-      { id: "R4", home: { label: "2F" }, away: { label: "2J" } },
-      { id: "R5", home: { label: "1D" }, away: { label: "3_4" } },
-      { id: "R6", home: { label: "1L" }, away: { label: "2D" } },
-      { id: "R7", home: { label: "1H" }, away: { label: "3_8" } },
-      { id: "R8", home: { label: "2H" }, away: { label: "2L" } },
+      { id: "M81", home: { label: "1D" }, away: { label: "3_5" } },
+      { id: "M82", home: { label: "1G" }, away: { label: "3_6" } },
+      { id: "M83", home: { label: "2K" }, away: { label: "2L" } },
+      { id: "M84", home: { label: "1H" }, away: { label: "2J" } },
+      { id: "M85", home: { label: "1B" }, away: { label: "3_7" } },
+      { id: "M86", home: { label: "1J" }, away: { label: "2H" } },
+      { id: "M87", home: { label: "1K" }, away: { label: "3_8" } },
+      { id: "M88", home: { label: "2D" }, away: { label: "2G" } },
     ]
   };
 }

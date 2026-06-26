@@ -43,12 +43,14 @@ const statusStyles: Record<string, string> = {
   completed: "bg-green-100 text-green-700",
   live: "bg-red-100 text-red-700 animate-pulse",
   upcoming: "bg-gray-100 text-gray-600",
+  scheduled: "bg-gray-100 text-gray-600",
 };
 
 const statusLabels: Record<string, string> = {
   completed: "已結束",
   live: "進行中",
   upcoming: "未開始",
+  scheduled: "未開始",
 };
 
 // Parse match time to Asia/Taipei display string (MM/DD HH:mm)
@@ -104,8 +106,8 @@ function getMatchDateTime(dateStr: string, timeStr: string): string {
 }
 
 export default function MatchCard({ match }: MatchCardProps) {
-  const homeTeam = teams.find((t: any) => t.id === match.home);
-  const awayTeam = teams.find((t: any) => t.id === match.away);
+  const homeTeam = teams.find((t: any) => t.id === match.home) || (match.home?.toLowerCase() === "tbd" ? { id: "tbd", name: "TBD", name_zh: "未定" } : null);
+  const awayTeam = teams.find((t: any) => t.id === match.away) || (match.away?.toLowerCase() === "tbd" ? { id: "tbd", name: "TBD", name_zh: "未定" } : null);
   const homeFlag = homeTeam ? getFlagClass(match.home) : null;
   const awayFlag = awayTeam ? getFlagClass(match.away) : null;
 
@@ -128,7 +130,7 @@ export default function MatchCard({ match }: MatchCardProps) {
       )}
       {match.stage !== "group" && (
         <div className="text-sm font-bold text-purple-600 mb-3 pl-1">
-          {match.stage === "round-of-16" ? "16強" : match.stage === "quarter-finals" ? "8強" : match.stage === "semi-finals" ? "準決賽" : match.stage === "third-place" ? "季軍戰" : match.stage === "final" ? "決賽" : match.stage}
+          {match.stage === "round-of-32" ? "32強" : match.stage === "round-of-16" ? "16強" : match.stage === "quarter-finals" ? "8強" : match.stage === "semi-finals" ? "準決賽" : match.stage === "third-place" ? "季軍戰" : match.stage === "final" ? "決賽" : match.stage}
         </div>
       )}
 

@@ -44,10 +44,10 @@
       "home": "czech-republic",
       "away": "south-africa",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta"
     },
@@ -61,10 +61,10 @@
       "home": "mexico",
       "away": "south-korea",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-akron",
       "city": "Zapopan"
     },
@@ -78,10 +78,10 @@
       "home": "czech-republic",
       "away": "mexico",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-azteca",
       "city": "Mexico City"
     },
@@ -95,10 +95,10 @@
       "home": "south-africa",
       "away": "south-korea",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-bbva",
       "city": "Guadalupe"
     },
@@ -129,10 +129,10 @@
       "home": "qatar",
       "away": "switzerland",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "levis-stadium",
       "city": "Santa Clara"
     },
@@ -146,10 +146,10 @@
       "home": "switzerland",
       "away": "bosnia-and-herzegovina",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "sofi-stadium",
       "city": "Inglewood"
     },
@@ -163,10 +163,10 @@
       "home": "canada",
       "away": "qatar",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bc-place",
       "city": "Vancouver"
     },
@@ -180,10 +180,10 @@
       "home": "switzerland",
       "away": "canada",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bc-place",
       "city": "Vancouver"
     },
@@ -197,10 +197,10 @@
       "home": "bosnia-and-herzegovina",
       "away": "qatar",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lumen-field",
       "city": "Seattle"
     },
@@ -214,10 +214,10 @@
       "home": "brazil",
       "away": "morocco",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "metlife-stadium",
       "city": "East Rutherford"
     },
@@ -231,10 +231,10 @@
       "home": "haiti",
       "away": "scotland",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "gillette-stadium",
       "city": "Foxborough"
     },
@@ -248,10 +248,10 @@
       "home": "scotland",
       "away": "morocco",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "gillette-stadium",
       "city": "Foxborough"
     },
@@ -265,10 +265,10 @@
       "home": "brazil",
       "away": "haiti",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lincoln-financial-field",
       "city": "Philadelphia"
     },
@@ -282,10 +282,10 @@
       "home": "scotland",
       "away": "brazil",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens"
     },
@@ -299,10 +299,10 @@
       "home": "morocco",
       "away": "haiti",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta"
     },
@@ -333,10 +333,10 @@
       "home": "australia",
       "away": "turkey",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bc-place",
       "city": "Vancouver"
     },
@@ -350,10 +350,10 @@
       "home": "united-states",
       "away": "australia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lumen-field",
       "city": "Seattle"
     },
@@ -367,10 +367,10 @@
       "home": "turkey",
       "away": "paraguay",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "levis-stadium",
       "city": "Santa Clara"
     },
@@ -384,10 +384,10 @@
       "home": "turkey",
       "away": "united-states",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "sofi-stadium",
       "city": "Inglewood"
     },
@@ -401,10 +401,10 @@
       "home": "paraguay",
       "away": "australia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "levis-stadium",
       "city": "Santa Clara"
     },
@@ -418,10 +418,10 @@
       "home": "germany",
       "away": "curacao",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "nrg-stadium",
       "city": "Houston"
     },
@@ -435,10 +435,10 @@
       "home": "ivory-coast",
       "away": "ecuador",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lincoln-financial-field",
       "city": "Philadelphia"
     },
@@ -452,10 +452,10 @@
       "home": "germany",
       "away": "ivory-coast",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bmo-field",
       "city": "Toronto"
     },
@@ -469,10 +469,10 @@
       "home": "ecuador",
       "away": "curacao",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "arrowhead-stadium",
       "city": "Kansas City"
     },
@@ -486,10 +486,10 @@
       "home": "curacao",
       "away": "ivory-coast",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lincoln-financial-field",
       "city": "Philadelphia"
     },
@@ -503,10 +503,10 @@
       "home": "ecuador",
       "away": "germany",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "metlife-stadium",
       "city": "East Rutherford"
     },
@@ -520,10 +520,10 @@
       "home": "netherlands",
       "away": "japan",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "at-t-stadium",
       "city": "Arlington"
     },
@@ -537,10 +537,10 @@
       "home": "sweden",
       "away": "tunisia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-bbva",
       "city": "Guadalupe"
     },
@@ -554,10 +554,10 @@
       "home": "netherlands",
       "away": "sweden",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "nrg-stadium",
       "city": "Houston"
     },
@@ -571,10 +571,10 @@
       "home": "tunisia",
       "away": "japan",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-bbva",
       "city": "Guadalupe"
     },
@@ -588,10 +588,10 @@
       "home": "japan",
       "away": "sweden",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "at-t-stadium",
       "city": "Arlington"
     },
@@ -605,10 +605,10 @@
       "home": "tunisia",
       "away": "netherlands",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "arrowhead-stadium",
       "city": "Kansas City"
     },
@@ -622,10 +622,10 @@
       "home": "belgium",
       "away": "egypt",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lumen-field",
       "city": "Seattle"
     },
@@ -639,10 +639,10 @@
       "home": "iran",
       "away": "new-zealand",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "sofi-stadium",
       "city": "Inglewood"
     },
@@ -656,10 +656,10 @@
       "home": "belgium",
       "away": "iran",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "sofi-stadium",
       "city": "Inglewood"
     },
@@ -673,10 +673,10 @@
       "home": "new-zealand",
       "away": "egypt",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bc-place",
       "city": "Vancouver"
     },
@@ -690,10 +690,10 @@
       "home": "egypt",
       "away": "iran",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lumen-field",
       "city": "Seattle"
     },
@@ -707,10 +707,10 @@
       "home": "new-zealand",
       "away": "belgium",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bc-place",
       "city": "Vancouver"
     },
@@ -724,10 +724,10 @@
       "home": "spain",
       "away": "cape-verde",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta"
     },
@@ -741,10 +741,10 @@
       "home": "saudi-arabia",
       "away": "uruguay",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens"
     },
@@ -758,10 +758,10 @@
       "home": "spain",
       "away": "saudi-arabia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta"
     },
@@ -775,10 +775,10 @@
       "home": "uruguay",
       "away": "cape-verde",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens"
     },
@@ -792,10 +792,10 @@
       "home": "cape-verde",
       "away": "saudi-arabia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "nrg-stadium",
       "city": "Houston"
     },
@@ -809,10 +809,10 @@
       "home": "uruguay",
       "away": "spain",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-akron",
       "city": "Zapopan"
     },
@@ -826,10 +826,10 @@
       "home": "france",
       "away": "senegal",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "metlife-stadium",
       "city": "East Rutherford"
     },
@@ -843,10 +843,10 @@
       "home": "iraq",
       "away": "norway",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "gillette-stadium",
       "city": "Foxborough"
     },
@@ -860,10 +860,10 @@
       "home": "france",
       "away": "iraq",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "lincoln-financial-field",
       "city": "Philadelphia"
     },
@@ -877,10 +877,10 @@
       "home": "norway",
       "away": "senegal",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "metlife-stadium",
       "city": "East Rutherford"
     },
@@ -894,10 +894,10 @@
       "home": "norway",
       "away": "france",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "gillette-stadium",
       "city": "Foxborough"
     },
@@ -911,10 +911,10 @@
       "home": "senegal",
       "away": "iraq",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bmo-field",
       "city": "Toronto"
     },
@@ -928,10 +928,10 @@
       "home": "argentina",
       "away": "algeria",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "arrowhead-stadium",
       "city": "Kansas City"
     },
@@ -945,10 +945,10 @@
       "home": "austria",
       "away": "jordan",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "levis-stadium",
       "city": "Santa Clara"
     },
@@ -962,10 +962,10 @@
       "home": "argentina",
       "away": "austria",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "at-t-stadium",
       "city": "Arlington"
     },
@@ -979,10 +979,10 @@
       "home": "jordan",
       "away": "algeria",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "levis-stadium",
       "city": "Santa Clara"
     },
@@ -1030,10 +1030,10 @@
       "home": "portugal",
       "away": "dr-congo",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "nrg-stadium",
       "city": "Houston"
     },
@@ -1047,10 +1047,10 @@
       "home": "uzbekistan",
       "away": "colombia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-azteca",
       "city": "Mexico City"
     },
@@ -1064,10 +1064,10 @@
       "home": "portugal",
       "away": "uzbekistan",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "nrg-stadium",
       "city": "Houston"
     },
@@ -1081,10 +1081,10 @@
       "home": "colombia",
       "away": "dr-congo",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "estadio-akron",
       "city": "Zapopan"
     },
@@ -1132,10 +1132,10 @@
       "home": "england",
       "away": "croatia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "at-t-stadium",
       "city": "Arlington"
     },
@@ -1149,10 +1149,10 @@
       "home": "ghana",
       "away": "panama",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bmo-field",
       "city": "Toronto"
     },
@@ -1166,10 +1166,10 @@
       "home": "england",
       "away": "ghana",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "gillette-stadium",
       "city": "Foxborough"
     },
@@ -1183,10 +1183,10 @@
       "home": "panama",
       "away": "croatia",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
-      "status": "scheduled",
+      "status": "completed",
       "venue": "bmo-field",
       "city": "Toronto"
     },
