@@ -17,7 +17,7 @@ export default async function PredictionsPage() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #26458b 0%, #8286cd 50%, #af3525 100%)"
+        gradient="#af3525"
         title="冠軍預測"
         subtitle="多維數據分析 · 加權評分模型 · ESPN 即時賽況整合"
         tag="Predictions"

@@ -41,7 +41,7 @@ body {
 
 /* ─── Light mode: brighter background ─── */
 .light .wc-body-bg {
-  background: linear-gradient(135deg, #dce8ff 0%, #e8f0ff 25%, #f0e8ff 50%, #e8f4ff 75%, #ddeeff 100%) !important;
+  background: #ddeeff !important;
 }
 .light .wc-body-bg::before {
   background:

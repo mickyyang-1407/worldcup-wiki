@@ -83,7 +83,7 @@ export default function StatsClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #af3525 0%, #8286cd 100%)"
+        gradient="#8286cd"
         title="賽事統計"
         subtitle="截至目前的各項數據統計"
         tag="Stats"

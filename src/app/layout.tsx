@@ -58,7 +58,7 @@ export default function RootLayout({
           .wc-body-bg {
             position: relative;
             min-height: 100vh;
-            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 25%, #2d1b4e 50%, #1a1a3e 75%, #0f1b3d 100%);
+            background: #0f1b3d;
           }
 
           /* WC 2026 brand gradient mesh overlay — FIFA 2026 brand colors */
@@ -96,14 +96,7 @@ export default function RootLayout({
             right: 0;
             height: 5px;
             z-index: 40;
-            background: linear-gradient(90deg,
-              #8286cd 0%, #8286cd 16%,
-              #af3525 16%, #af3525 32%,
-              #26458b 32%, #26458b 48%,
-              #a4c44d 48%, #a4c44d 64%,
-              #5b2227 64%, #5b2227 80%,
-              #907ad6 80%, #907ad6 100%
-            );
+            background: #907ad6;
             opacity: 0.7;
           }
 

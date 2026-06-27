@@ -29,7 +29,7 @@ export default function VenuesListClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #2d1b4e 0%, #5b2227 100%)"
+        gradient="#5b2227"
         title="比賽場館"
         subtitle="16 座橫跨三國的頂級足球場館"
         tag="Venues"
@@ -61,7 +61,7 @@ export default function VenuesListClient() {
       <div className="grid md:grid-cols-2 gap-6">
         {filtered.map((venue) => (
           <div key={venue.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-5">
+            <div className="bg-gray-900   px-6 py-5">
               <h3 className="text-xl font-bold text-white">{venue.name}</h3>
               <p className="text-sm text-gray-300 mt-1">
                 {venue.city}，{venue.country}

@@ -17,7 +17,7 @@ export default function KnockoutPage() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #907ad6 0%, #af3525 100%)"
+        gradient="#af3525"
         title="淘汰賽"
         subtitle="2026 世界盃擴編為 48 隊，淘汰賽由 32 強起步！"
         tag="Knockout"

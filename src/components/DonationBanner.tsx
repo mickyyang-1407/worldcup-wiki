@@ -10,7 +10,7 @@ export default function DonationBanner({
   donateUrl = "https://portaly.cc/mickyyang/support"
 }: DonationBannerProps) {
   return (
-    <div className="w-full bg-gradient-to-r from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 rounded-xl shadow-sm border border-amber-100 dark:border-gray-700 p-4 md:p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden">
+    <div className="w-full bg-gray-900   dark: dark: rounded-xl shadow-sm border border-amber-100 dark:border-gray-700 p-4 md:p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden">
       {/* 裝飾背景 */}
       <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-amber-500/10 blur-2xl"></div>
       
@@ -28,7 +28,7 @@ export default function DonationBanner({
           href={donateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white transition-all duration-200 bg-gradient-to-r from-amber-500 to-orange-500 border border-transparent rounded-xl hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          className="group relative flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white transition-all duration-200 bg-gray-900   border border-transparent rounded-xl hover: hover: focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 shadow-md hover:shadow-lg hover:-translate-y-0.5"
         >
           <span className="text-xl group-hover:rotate-12 transition-transform">☕️</span>
           請站長喝杯咖啡

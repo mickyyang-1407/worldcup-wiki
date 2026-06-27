@@ -206,7 +206,7 @@ export default function LiveCommentaryClient() {
       {/* Header */}
       <div
         className="rounded-xl px-4 py-3 mb-3 flex items-center justify-between"
-        style={{ background: "linear-gradient(135deg, #e63900 0%, #b32200 100%)" }}
+        style={{ background: "#b32200" }}
       >
         <div className="flex items-center gap-3">
           <span className="relative flex h-3 w-3">

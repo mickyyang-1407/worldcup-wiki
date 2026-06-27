@@ -78,7 +78,7 @@ export default function LiveScoresClient() {
   if (loading) {
     return (
       <section>
-        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #d40404 0%, #a00303 100%)' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#a00303' }}>
           <h2 className="text-xl font-bold text-white">即時賽況 / 最新賽果</h2>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
@@ -104,7 +104,7 @@ export default function LiveScoresClient() {
 
   return (
     <section>
-      <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #d40404 0%, #a00303 100%)' }}>
+      <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#a00303' }}>
         <h2 className="text-xl font-bold text-white">即時賽況 / 最新賽果</h2>
         <div className="flex items-center gap-3">
           <span className="relative flex h-2 w-2">

@@ -56,7 +56,7 @@ export default function TrophyWidget({ topTeam }: Props) {
         <div className="mt-2 flex items-center justify-center gap-3">
           <span
             className="text-3xl font-black"
-            style={{ background: 'linear-gradient(135deg,#B7791F,#F6D860)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+            style={{ background: '#F6D860', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           >
             {pct}%
           </span>

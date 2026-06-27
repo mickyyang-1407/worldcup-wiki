@@ -61,7 +61,7 @@ export default function CountriesListClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #0a0a23 0%, #26458b 100%)"
+        gradient="#26458b"
         title="參賽國家"
         subtitle="48 支隊伍來自 48 個國家/地區"
         tag="Countries"

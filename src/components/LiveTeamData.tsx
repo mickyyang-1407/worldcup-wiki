@@ -5,12 +5,12 @@ import TeamBadge from "./TeamBadge";
 import MatchCard from "./MatchCard";
 
 const GROUP_COLORS: Record<string, string> = {
-  A: "linear-gradient(135deg,#a4c44d,#8fb33e)", B: "linear-gradient(135deg,#b1301f,#8f2618)",
-  C: "linear-gradient(135deg,#2d47cb,#2339a8)", D: "linear-gradient(135deg,#907ad6,#7560be)",
-  E: "linear-gradient(135deg,#5b2227,#3d1619)", F: "linear-gradient(135deg,#1c433a,#122d27)",
-  G: "linear-gradient(135deg,#4b1cc3,#3a15a0)", H: "linear-gradient(135deg,#7cd4c2,#5cbfaa)",
-  I: "linear-gradient(135deg,#9d6d7b,#805763)", J: "linear-gradient(135deg,#98783d,#7a6030)",
-  K: "linear-gradient(135deg,#c64524,#a5381d)", L: "linear-gradient(135deg,#7c2926,#5e1e1c)",
+  A: "#8fb33e", B: "#8f2618",
+  C: "#2339a8", D: "#7560be",
+  E: "#3d1619", F: "#122d27",
+  G: "#3a15a0", H: "#5cbfaa",
+  I: "#805763", J: "#7a6030",
+  K: "#a5381d", L: "#5e1e1c",
 };
 
 interface LiveTeamDataProps {

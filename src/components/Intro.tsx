@@ -134,7 +134,7 @@ export default function Intro() {
           <div style={{
             fontSize: 70, fontWeight: 900, lineHeight: 1,
             letterSpacing: "-.03em", fontFamily: "system-ui,sans-serif",
-            background: "linear-gradient(135deg,#ee5511 0%,#dd2266 25%,#fff 50%,#1ec8c0 75%,#c8e03a 100%)",
+            background: "#c8e03a",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             backgroundClip: "text",
           }}>

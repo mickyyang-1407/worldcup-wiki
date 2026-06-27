@@ -29,7 +29,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14 gap-2">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-bold text-lg text-gray-900 dark:text-white shrink-0" onClick={() => setOpen(false)}>
-              <span className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm" style={{ background: 'linear-gradient(135deg, #8286cd, #26458b)' }}>⚽</span>
+              <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style={{ background: '#007aff' }}>⚽</span>
               <span className="hidden sm:inline">2026 世界盃</span>
             </Link>
 
@@ -41,12 +41,12 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                       isActive
                         ? "text-white"
                         : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                     }`}
-                    style={isActive ? { background: 'linear-gradient(135deg, #8286cd, #26458b)' } : {}}
+                    style={isActive ? { background: '#007aff' } : {}}
                   >
                     {link.label}
                   </Link>
@@ -92,7 +92,7 @@ export default function Navbar() {
                         ? "text-white"
                         : "text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10"
                     }`}
-                    style={isActive ? { background: 'linear-gradient(135deg, #8286cd, #26458b)' } : {}}
+                    style={isActive ? { background: '#007aff' } : {}}
                   >
                     {link.label}
                   </Link>

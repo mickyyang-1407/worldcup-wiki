@@ -47,7 +47,7 @@ export default function PredictionsTable({ predictions }: Props) {
         onClick={() => handleSort(k)}
         className="text-xs px-3 py-1 rounded-full font-medium transition-colors"
         style={{
-          background: active ? 'linear-gradient(135deg,#8286cd,#26458b)' : 'rgba(0,0,0,0.06)',
+          background: active ? '#26458b' : 'rgba(0,0,0,0.06)',
           color: active ? '#fff' : '#6b7280',
         }}
       >
@@ -134,7 +134,7 @@ export default function PredictionsTable({ predictions }: Props) {
                           className="h-full rounded-full"
                           style={{
                             width: isEliminated ? '0%' : `${Math.min(parseFloat(pct) * 5, 100)}%`,
-                            background: isEliminated ? '#e5e7eb' : 'linear-gradient(90deg,#C9A227,#8286cd)',
+                            background: isEliminated ? '#e5e7eb' : '#8286cd',
                           }}
                         />
                       </div>

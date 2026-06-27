@@ -5,6 +5,7 @@ import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import { getQualificationStatus, type QualificationStatus } from "@/lib/qualificationStatus";
 import type { GroupData, StandingEntry } from "@/lib/predictionTypes";
+import scheduleDataRaw from "@/data/schedule.json";
 
 type Standing = StandingEntry;
 type Group = GroupData;
@@ -20,29 +21,58 @@ interface Matchup {
   id: string;
   home: MatchupTeam;
   away: MatchupTeam;
+  timeStr?: string;
+}
+
+function formatToTaipeiTime(utcDateStr: string, utcTimeStr: string) {
+  try {
+    const dateTimeString = `${utcDateStr}T${utcTimeStr}Z`;
+    const dateObj = new Date(dateTimeString);
+    if (isNaN(dateObj.getTime())) return "";
+
+    return new Intl.DateTimeFormat("zh-TW", {
+      timeZone: "Asia/Taipei",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(dateObj);
+  } catch (e) {
+    return "";
+  }
 }
 
 function getKnockoutSkeleton(): { left: Matchup[], right: Matchup[] } {
+  const scheduleData = scheduleDataRaw as any;
+  const matchInfo = (id: string) => {
+    const m = scheduleData.matches.find((x: any) => `M${x.number}` === id);
+    if (m && m.date && m.time) {
+      return formatToTaipeiTime(m.date, m.time);
+    }
+    return "";
+  };
+
   return {
     left: [
-      { id: "M73", home: { label: "2A" }, away: { label: "2B" } },
-      { id: "M74", home: { label: "1E" }, away: { label: "3_1" } },
-      { id: "M75", home: { label: "1F" }, away: { label: "2C" } },
-      { id: "M76", home: { label: "1C" }, away: { label: "2F" } },
-      { id: "M77", home: { label: "1I" }, away: { label: "3_2" } },
-      { id: "M78", home: { label: "2E" }, away: { label: "2I" } },
-      { id: "M79", home: { label: "1A" }, away: { label: "3_3" } },
-      { id: "M80", home: { label: "1L" }, away: { label: "3_4" } },
+      { id: "M73", home: { label: "2A" }, away: { label: "2B" }, timeStr: matchInfo("M73") },
+      { id: "M74", home: { label: "1E" }, away: { label: "3_1" }, timeStr: matchInfo("M74") },
+      { id: "M75", home: { label: "1F" }, away: { label: "2C" }, timeStr: matchInfo("M75") },
+      { id: "M76", home: { label: "1C" }, away: { label: "2F" }, timeStr: matchInfo("M76") },
+      { id: "M77", home: { label: "1I" }, away: { label: "3_2" }, timeStr: matchInfo("M77") },
+      { id: "M78", home: { label: "2E" }, away: { label: "2I" }, timeStr: matchInfo("M78") },
+      { id: "M79", home: { label: "1A" }, away: { label: "3_3" }, timeStr: matchInfo("M79") },
+      { id: "M80", home: { label: "1L" }, away: { label: "3_4" }, timeStr: matchInfo("M80") },
     ],
     right: [
-      { id: "M81", home: { label: "1D" }, away: { label: "3_5" } },
-      { id: "M82", home: { label: "1G" }, away: { label: "3_6" } },
-      { id: "M83", home: { label: "2K" }, away: { label: "2L" } },
-      { id: "M84", home: { label: "1H" }, away: { label: "2J" } },
-      { id: "M85", home: { label: "1B" }, away: { label: "3_7" } },
-      { id: "M86", home: { label: "1J" }, away: { label: "2H" } },
-      { id: "M87", home: { label: "1K" }, away: { label: "3_8" } },
-      { id: "M88", home: { label: "2D" }, away: { label: "2G" } },
+      { id: "M81", home: { label: "1D" }, away: { label: "3_5" }, timeStr: matchInfo("M81") },
+      { id: "M82", home: { label: "1G" }, away: { label: "3_6" }, timeStr: matchInfo("M82") },
+      { id: "M83", home: { label: "2K" }, away: { label: "2L" }, timeStr: matchInfo("M83") },
+      { id: "M84", home: { label: "1H" }, away: { label: "2J" }, timeStr: matchInfo("M84") },
+      { id: "M85", home: { label: "1B" }, away: { label: "3_7" }, timeStr: matchInfo("M85") },
+      { id: "M86", home: { label: "1J" }, away: { label: "2H" }, timeStr: matchInfo("M86") },
+      { id: "M87", home: { label: "1K" }, away: { label: "3_8" }, timeStr: matchInfo("M87") },
+      { id: "M88", home: { label: "2D" }, away: { label: "2G" }, timeStr: matchInfo("M88") },
     ]
   };
 }
@@ -147,8 +177,9 @@ export default function LiveKnockoutBracket() {
 
   const renderMatch = (match: Matchup) => (
     <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[200px] mb-4 relative z-10">
-      <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
-        32強 {match.id}
+      <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 flex justify-between">
+        <span>32強 {match.id}</span>
+        {match.timeStr && <span className="font-mono text-[9px] text-gray-400">{match.timeStr}</span>}
       </div>
       {renderTeam(match.home)}
       {renderTeam(match.away)}

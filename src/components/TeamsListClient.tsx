@@ -41,7 +41,7 @@ export default function TeamsListClient() {
     return (
       <div>
         <PageHero
-          gradient="linear-gradient(135deg, #26458b 0%, #1c433a 100%)"
+          gradient="#1c433a"
           title="參賽隊伍"
           subtitle="48 支來自六大洲的頂尖國家隊"
           tag="Teams"
@@ -86,7 +86,7 @@ export default function TeamsListClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #26458b 0%, #1c433a 100%)"
+        gradient="#1c433a"
         title="參賽隊伍"
         subtitle="48 支來自六大洲的頂尖國家隊"
         tag="Teams"

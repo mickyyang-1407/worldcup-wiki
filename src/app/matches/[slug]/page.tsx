@@ -113,7 +113,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ slug: st
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
         <div
           className="px-6 py-8"
-          style={{ background: isCompleted ? "linear-gradient(135deg,#1a1a3e,#2d1b4e)" : "linear-gradient(135deg,#0f2027,#203a43,#2c5364)" }}
+          style={{ background: isCompleted ? "#2d1b4e" : "#2c5364" }}
         >
           <div className="grid grid-cols-3 items-center gap-4">
             {/* Home */}

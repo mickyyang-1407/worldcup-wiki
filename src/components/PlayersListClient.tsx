@@ -85,7 +85,7 @@ export default function PlayersListClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #5b2227 0%, #907ad6 100%)"
+        gradient="#907ad6"
         title="球員名單"
         subtitle={`共 ${players.length} 名參賽球員`}
         tag="Players"

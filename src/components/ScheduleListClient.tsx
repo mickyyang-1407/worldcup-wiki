@@ -142,7 +142,7 @@ export default function ScheduleListClient() {
   return (
     <div>
       <PageHero
-        gradient="linear-gradient(135deg, #1c433a 0%, #26458b 100%)"
+        gradient="#26458b"
         title="賽程"
         subtitle="2026 世界盃全部 104 場比賽 · 時間已轉換為台北時間 (UTC+8)"
         tag="Schedule"

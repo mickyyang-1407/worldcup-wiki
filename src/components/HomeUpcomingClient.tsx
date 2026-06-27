@@ -35,7 +35,7 @@ export default function HomeUpcomingClient() {
     <section className="mb-8">
       <div
         className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between"
-        style={{ background: "linear-gradient(135deg, #8ab800 0%, #6e9400 100%)" }}
+        style={{ background: "#6e9400" }}
       >
         <h2 className="text-xl font-bold text-white">即將開賽</h2>
         <Link href="/schedule" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">

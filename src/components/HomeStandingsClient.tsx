@@ -58,7 +58,7 @@ export default function HomeStandingsClient() {
             href={`/groups/${group.id}`}
             className="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all overflow-hidden group"
           >
-            <div className="px-4 py-2" style={{ background: `linear-gradient(135deg, ${color} 0%, ${adjustColor(color, -20)} 100%)` }}>
+            <div className="px-4 py-2" style={{ background: color }}>
               <h3 className="text-white font-bold text-sm">{group.name}</h3>
             </div>
             <div className="p-3 space-y-1.5">

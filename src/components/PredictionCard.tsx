@@ -138,7 +138,7 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
           ? 'bg-white/80 dark:bg-gray-800/80 border-[#8286cd40]'
           : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
       }`}
-      style={highlight ? { background: 'linear-gradient(135deg,rgba(130,134,205,0.08),rgba(38,69,139,0.06))' } : undefined}
+      style={highlight ? { background: 'rgba(130,134,205,0.08)' } : undefined}
     >
       {/* Header row */}
       <div className="flex items-center justify-between">
@@ -179,7 +179,7 @@ export default function PredictionCard({ prediction: p, highlight }: Props) {
             className="h-full rounded-full transition-all duration-700"
             style={{
               width: `${Math.min(pctNum, 100)}%`,
-              background: `linear-gradient(90deg, ${rankColor}, #8286cd)`,
+              background: `#8286cd`,
             }}
           />
         </div>

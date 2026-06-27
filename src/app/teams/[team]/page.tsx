@@ -37,7 +37,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
       <Link href="/teams" className="text-sm text-blue-600 hover:text-blue-700 mb-4 inline-block">← 所有隊伍</Link>
 
       {/* Team Hero — Flag Banner */}
-      <div className="relative rounded-xl overflow-hidden mb-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="relative rounded-xl overflow-hidden mb-8 bg-gray-900   ">
         {/* Large flag as hero background */}
         {flagClass && (
           <div className="absolute inset-0 opacity-[0.07] flex items-center justify-center pointer-events-none">

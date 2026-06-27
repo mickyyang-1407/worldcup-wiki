@@ -4,18 +4,18 @@ import TeamBadge from "./TeamBadge";
 
 /* FIFA 2026 brand colors extracted from official brand image */
 const GROUP_COLORS: Record<string, { bg: string; text: string; hex: string }> = {
-  A: { bg: "linear-gradient(135deg, #a4c44d 0%, #8fb33e 100%)", text: "#a4c44d", hex: "#a4c44d" },
-  B: { bg: "linear-gradient(135deg, #b1301f 0%, #8f2618 100%)", text: "#b1301f", hex: "#b1301f" },
-  C: { bg: "linear-gradient(135deg, #2d47cb 0%, #2339a8 100%)", text: "#2d47cb", hex: "#2d47cb" },
-  D: { bg: "linear-gradient(135deg, #907ad6 0%, #7560be 100%)", text: "#907ad6", hex: "#907ad6" },
-  E: { bg: "linear-gradient(135deg, #5b2227 0%, #3d1619 100%)", text: "#5b2227", hex: "#5b2227" },
-  F: { bg: "linear-gradient(135deg, #1c433a 0%, #122d27 100%)", text: "#1c433a", hex: "#1c433a" },
-  G: { bg: "linear-gradient(135deg, #4b1cc3 0%, #3a15a0 100%)", text: "#4b1cc3", hex: "#4b1cc3" },
-  H: { bg: "linear-gradient(135deg, #7cd4c2 0%, #5cbfaa 100%)", text: "#7cd4c2", hex: "#7cd4c2" },
-  I: { bg: "linear-gradient(135deg, #9d6d7b 0%, #805763 100%)", text: "#9d6d7b", hex: "#9d6d7b" },
-  J: { bg: "linear-gradient(135deg, #98783d 0%, #7a6030 100%)", text: "#98783d", hex: "#98783d" },
-  K: { bg: "linear-gradient(135deg, #c64524 0%, #a5381d 100%)", text: "#c64524", hex: "#c64524" },
-  L: { bg: "linear-gradient(135deg, #7c2926 0%, #5e1e1c 100%)", text: "#7c2926", hex: "#7c2926" },
+  A: { bg: "#8fb33e", text: "#a4c44d", hex: "#a4c44d" },
+  B: { bg: "#8f2618", text: "#b1301f", hex: "#b1301f" },
+  C: { bg: "#2339a8", text: "#2d47cb", hex: "#2d47cb" },
+  D: { bg: "#7560be", text: "#907ad6", hex: "#907ad6" },
+  E: { bg: "#3d1619", text: "#5b2227", hex: "#5b2227" },
+  F: { bg: "#122d27", text: "#1c433a", hex: "#1c433a" },
+  G: { bg: "#3a15a0", text: "#4b1cc3", hex: "#4b1cc3" },
+  H: { bg: "#5cbfaa", text: "#7cd4c2", hex: "#7cd4c2" },
+  I: { bg: "#805763", text: "#9d6d7b", hex: "#9d6d7b" },
+  J: { bg: "#7a6030", text: "#98783d", hex: "#98783d" },
+  K: { bg: "#a5381d", text: "#c64524", hex: "#c64524" },
+  L: { bg: "#5e1e1c", text: "#7c2926", hex: "#7c2926" },
 };
 
 function getGroupLetter(name: string): string {
@@ -57,7 +57,7 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
     <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-2"}`}>
       {groupList.map((group: Group) => (
         <div key={group.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-4 py-3" style={{ background: GROUP_COLORS[getGroupLetter(group.name)]?.bg || "linear-gradient(135deg, #2d47cb 0%, #2339a8 100%)" }}>
+          <div className="px-4 py-3" style={{ background: GROUP_COLORS[getGroupLetter(group.name)]?.bg || "#2339a8" }}>
             <h3 className="text-white font-bold text-lg">{group.name}</h3>
           </div>
           <div className="overflow-x-auto">

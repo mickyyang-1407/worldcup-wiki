@@ -14,7 +14,7 @@ export default function HomePage() {
       <div className="relative -m-6 md:-m-8 mb-6 md:mb-8 overflow-hidden">
         {/* Banner gradient based on extracted palette: #6404eb, #d40404, #b7e710, #a8da13, #523c1b */}
         <div className="absolute inset-0 z-10" style={{
-          background: 'linear-gradient(135deg, rgba(100,4,235,0.92) 0%, rgba(212,4,4,0.75) 35%, rgba(82,60,27,0.5) 60%, rgba(183,231,16,0.2) 100%)',
+          background: 'rgba(100,4,235,0.92)',
         }} />
         <div className="absolute inset-0 opacity-20 z-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
@@ -61,7 +61,7 @@ export default function HomePage() {
           </div>
         </div>
         {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#0a0a23]/80 to-transparent z-20" />
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gray-900 from-[#0a0a23]/80 to-transparent z-20" />
       </div>
 
       <DonationBanner />
@@ -77,7 +77,7 @@ export default function HomePage() {
           <div
             key={stat.label}
             className="rounded-xl p-4 text-white shadow-lg"
-            style={{ background: `linear-gradient(135deg, ${stat.color} 0%, ${stat.color}dd 100%)` }}
+            style={{ background: stat.color }}
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
             <div className="text-2xl font-bold">{stat.value}</div>
@@ -89,11 +89,7 @@ export default function HomePage() {
       {/* 不負責任冠軍預測 */}
       <section className="mb-8">
         <Link href="/predictions" className="block group">
-          <div className="rounded-xl p-5 relative overflow-hidden transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-xl" style={{ background: 'linear-gradient(135deg, #8286cd 0%, #26458b 50%, #af3525 100%)' }}>
-            {/* Glow effect */}
-            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
-              background: 'radial-gradient(ellipse 600px 200px at 50% 0%, rgba(255,255,255,0.3) 0%, transparent 70%)'
-            }} />
+          <div className="rounded-xl p-5 relative overflow-hidden transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-xl bg-[#af3525]">
             <div className="relative z-10 flex items-center gap-4">
               <div className="text-4xl md:text-5xl flex-shrink-0">🏆</div>
               <div className="flex-1 min-w-0">
@@ -116,7 +112,7 @@ export default function HomePage() {
 
       {/* Group Standings Preview */}
       <section className="mb-8">
-        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #6404eb 0%, #4a02b0 100%)' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#4a02b0' }}>
           <h2 className="text-xl font-bold text-white">小組積分</h2>
           <Link href="/groups" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">
             查看全部 →
@@ -127,7 +123,7 @@ export default function HomePage() {
 
       {/* News Section */}
       <section className="mb-8">
-        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #523c1b 0%, #3a2a12 100%)' }}>
+        <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#3a2a12' }}>
           <h2 className="text-xl font-bold text-white">世界盃新聞</h2>
           {/* 更多新聞連結暫時隱藏（頁面尚未完成） */}
         </div>

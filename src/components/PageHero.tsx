@@ -22,7 +22,7 @@ export default function PageHero({ title, subtitle, gradient, tag, icon }: Props
       }} />
       {/* Vignette edges */}
       <div className="absolute inset-0" style={{
-        background: "linear-gradient(90deg, rgba(0,0,0,.25) 0%, transparent 30%, transparent 70%, rgba(0,0,0,.25) 100%)",
+        background: "rgba(0,0,0,.25)",
       }} />
       {/* Right decorative icon */}
       {icon && (
@@ -33,7 +33,7 @@ export default function PageHero({ title, subtitle, gradient, tag, icon }: Props
       )}
       {/* Bottom glow line */}
       <div className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)" }} />
+        style={{ background: "rgba(255,255,255,.35)" }} />
       {/* Content */}
       <div className="relative z-10 px-6 md:px-8 flex flex-col justify-center" style={{ minHeight: 128 }}>
         {tag && (
