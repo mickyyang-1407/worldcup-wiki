@@ -37,23 +37,30 @@ const R32_MATCH_NUMS = [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 
 const R16_NUMS = [89, 90, 91, 92, 93, 94, 95, 96];
 const LATER_NUMS = [97, 98, 99, 100, 101, 102, 104];
 
-const R32_PAIRINGS: Record<number, { home: string; away: string }> = {
-  73: { home: "south-africa", away: "canada" },
-  74: { home: "germany", away: "paraguay" },
-  75: { home: "netherlands", away: "morocco" },
-  76: { home: "brazil", away: "japan" },
-  77: { home: "france", away: "sweden" },
-  78: { home: "ivory-coast", away: "norway" },
-  79: { home: "mexico", away: "ecuador" },
-  80: { home: "england", away: "dr-congo" },
-  81: { home: "united-states", away: "bosnia-and-herzegovina" },
-  82: { home: "belgium", away: "senegal" },
-  83: { home: "portugal", away: "croatia" },
-  84: { home: "spain", away: "austria" },
-  85: { home: "switzerland", away: "algeria" },
-  86: { home: "argentina", away: "cape-verde" },
-  87: { home: "colombia", away: "ghana" },
-  88: { home: "australia", away: "egypt" },
+interface Pairing {
+  home: string;
+  away: string;
+  homeName: string;
+  awayName: string;
+}
+
+const R32_PAIRINGS: Record<number, Pairing> = {
+  73: { home: "south-africa", away: "canada", homeName: "South Africa", awayName: "Canada" },
+  74: { home: "germany", away: "paraguay", homeName: "Germany", awayName: "Paraguay" },
+  75: { home: "netherlands", away: "morocco", homeName: "Netherlands", awayName: "Morocco" },
+  76: { home: "brazil", away: "japan", homeName: "Brazil", awayName: "Japan" },
+  77: { home: "france", away: "sweden", homeName: "France", awayName: "Sweden" },
+  78: { home: "ivory-coast", away: "norway", homeName: "Ivory Coast", awayName: "Norway" },
+  79: { home: "mexico", away: "ecuador", homeName: "Mexico", awayName: "Ecuador" },
+  80: { home: "england", away: "dr-congo", homeName: "England", awayName: "DR Congo" },
+  81: { home: "united-states", away: "bosnia-and-herzegovina", homeName: "United States", awayName: "Bosnia" },
+  82: { home: "belgium", away: "senegal", homeName: "Belgium", awayName: "Senegal" },
+  83: { home: "portugal", away: "croatia", homeName: "Portugal", awayName: "Croatia" },
+  84: { home: "spain", away: "austria", homeName: "Spain", awayName: "Austria" },
+  85: { home: "switzerland", away: "algeria", homeName: "Switzerland", awayName: "Algeria" },
+  86: { home: "argentina", away: "cape-verde", homeName: "Argentina", awayName: "Cape Verde" },
+  87: { home: "colombia", away: "ghana", homeName: "Colombia", awayName: "Ghana" },
+  88: { home: "australia", away: "egypt", homeName: "Australia", awayName: "Egypt" },
 };
 
 const R32_TO_R16: Record<number, { home: number; away: number }> = {
@@ -208,8 +215,27 @@ export default function LiveKnockoutBracket() {
               },
             };
           } else {
-            // Not completed → empty, never guess
-            r32Matchups[matchNum] = createEmptyMatchup(matchNum);
+            // Not completed → show team names but no winner/loser styling
+            r32Matchups[matchNum] = {
+              id: `M${matchNum}`,
+              matchNumber: matchNum,
+              timeStr: m ? formatToTaipeiTime(m.date) : "",
+              status: "scheduled",
+              home: {
+                label: m ? m.homeDisplayName : pairing.homeName,
+                teamId: pairing.home,
+                isConfirmed: true,
+                isWinner: false,
+                isLoser: false,
+              },
+              away: {
+                label: m ? m.awayDisplayName : pairing.awayName,
+                teamId: pairing.away,
+                isConfirmed: true,
+                isWinner: false,
+                isLoser: false,
+              },
+            };
           }
         }
 
@@ -256,8 +282,27 @@ export default function LiveKnockoutBracket() {
               },
             };
           } else {
-            // R16 match not yet played → empty
-            r16Matchups[r16Num] = createEmptyMatchup(r16Num);
+            // R16 match not yet played → show participants, no winner
+            r16Matchups[r16Num] = {
+              id: `M${r16Num}`,
+              matchNumber: r16Num,
+              timeStr: m ? formatToTaipeiTime(m.date) : "",
+              status: "scheduled",
+              home: {
+                label: homeWinner.name,
+                teamId: homeWinner.slug,
+                isConfirmed: true,
+                isWinner: false,
+                isLoser: false,
+              },
+              away: {
+                label: awayWinner.name,
+                teamId: awayWinner.slug,
+                isConfirmed: true,
+                isWinner: false,
+                isLoser: false,
+              },
+            };
           }
         }
 
@@ -296,10 +341,11 @@ export default function LiveKnockoutBracket() {
 
     return (
       <Link
-        href={`/team/${team.teamId}`}
+        href={`/teams/${team.teamId}`}
         className={`flex items-center gap-1.5 h-6 px-2 rounded transition-all
-          ${team.isWinner ? "bg-blue-500 text-white font-bold shadow-md" : "bg-gray-50 text-gray-700 hover:bg-gray-100"}
-          ${team.isLoser ? "opacity-50" : ""}
+          ${team.isWinner ? "bg-amber-100 text-amber-900 font-bold shadow-sm border-l-2 border-amber-500" : ""}
+          ${team.isLoser ? "opacity-40" : ""}
+          ${!team.isWinner && !team.isLoser ? "bg-gray-50 text-gray-700 hover:bg-gray-100" : ""}
         `}
       >
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
