@@ -70,6 +70,7 @@ export async function GET(request: Request) {
       const status = espnStatusToLocal(espnStatus);
       const homeSlug = espnNameToSlug(home?.team?.displayName || "");
       const awaySlug = espnNameToSlug(away?.team?.displayName || "");
+      const winner = home?.winner === true ? homeSlug : away?.winner === true ? awaySlug : null;
 
       return {
         id: `espn-${event.id}`,
@@ -85,6 +86,7 @@ export async function GET(request: Request) {
         },
         status,
         stage: findStage(homeSlug, awaySlug, event.date),
+        winner,
         venue: comp.venue?.fullName || "",
         city: comp.venue?.address?.city || "",
         liveMinute: comp.status?.displayClock || null,

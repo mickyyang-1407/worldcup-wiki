@@ -1,5 +1,18 @@
 import { groups } from "@/data/groups";
 import TeamBadge from "./TeamBadge";
+import scheduleData from "@/data/schedule.json";
+
+const QUALIFIED_TEAMS = new Set<string>();
+scheduleData.matches
+  .filter((m: any) => m.number >= 73 && m.number <= 88)
+  .forEach((m: any) => {
+    if (m.home && m.home.toLowerCase() !== "tbd") {
+      QUALIFIED_TEAMS.add(m.home.toLowerCase());
+    }
+    if (m.away && m.away.toLowerCase() !== "tbd") {
+      QUALIFIED_TEAMS.add(m.away.toLowerCase());
+    }
+  });
 
 
 /* FIFA 2026 brand colors extracted from official brand image */
@@ -78,17 +91,17 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
               </thead>
               <tbody>
                 {group.standings.map((row: StandingsRow) => {
-                  const isQualified = row.pos <= 2;
+                  const isQualified = QUALIFIED_TEAMS.has(row.team_id);
                   return (
                     <tr
                       key={row.team_id}
                       className={`border-b border-gray-50 hover:bg-blue-50/50 transition-colors ${
-                        isQualified ? "bg-amber-50" : ""
+                        isQualified ? "bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300 font-bold" : ""
                       }`}
                     >
-                      <td className="px-3 py-2.5 text-center">
+                      <td className={`py-2.5 text-center pr-3 ${isQualified ? "border-l-4 border-l-amber-500 dark:border-l-amber-400 pl-2" : "pl-3"}`}>
                         {isQualified ? (
-                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">
+                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500 dark:bg-amber-600 text-white text-xs font-bold shadow-sm">
                             {row.pos}
                           </span>
                         ) : (
@@ -96,16 +109,20 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
                         )}
                       </td>
                       <td className="px-3 py-2.5">
-                        <TeamBadge teamId={row.team_id} size="sm" />
+                        <TeamBadge
+                          teamId={row.team_id}
+                          size="sm"
+                          className={isQualified ? "text-amber-900 dark:text-amber-300 font-bold" : undefined}
+                        />
                       </td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.pld}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.w}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.d}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.l}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.gf}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{row.ga}</td>
-                      <td className="px-3 py-2.5 text-center font-mono text-gray-700">{row.gd}</td>
-                      <td className="px-3 py-2.5 text-center font-bold text-lg text-gray-900">{row.pts}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.pld}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.w}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.d}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.l}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.gf}</td>
+                      <td className={`px-3 py-2.5 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.ga}</td>
+                      <td className={`px-3 py-2.5 text-center font-mono ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-700"}`}>{row.gd}</td>
+                      <td className={`px-3 py-2.5 text-center font-bold text-lg ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-900"}`}>{row.pts}</td>
                     </tr>
                   );
                 })}

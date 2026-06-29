@@ -63,17 +63,20 @@ export default function ScheduleListClient() {
 
   const fetchData = () => {
     fetch("/api/espn?type=all&limit=150")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
       .then((data) => {
         if (!data.matches?.length) return;
         const espnMap: Record<string, any> = {};
         for (const m of data.matches) {
-          const key = `${m.home}|${m.away}`;
+          const key = `${m.home?.toLowerCase()}|${m.away?.toLowerCase()}`;
           espnMap[key] = m;
         }
         setMatches((prev) =>
           prev.map((m) => {
-            const live = espnMap[`${m.home}|${m.away}`];
+            const live = espnMap[`${m.home?.toLowerCase()}|${m.away?.toLowerCase()}`];
             if (!live) return m;
             return { ...m, status: live.status, score: live.score };
           })

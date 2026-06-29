@@ -3,6 +3,19 @@
 import { useEffect, useState, useCallback } from "react";
 import TeamBadge from "./TeamBadge";
 import Link from "next/link";
+import scheduleData from "@/data/schedule.json";
+
+const QUALIFIED_TEAMS = new Set<string>();
+scheduleData.matches
+  .filter((m: any) => m.number >= 73 && m.number <= 88)
+  .forEach((m: any) => {
+    if (m.home && m.home.toLowerCase() !== "tbd") {
+      QUALIFIED_TEAMS.add(m.home.toLowerCase());
+    }
+    if (m.away && m.away.toLowerCase() !== "tbd") {
+      QUALIFIED_TEAMS.add(m.away.toLowerCase());
+    }
+  });
 
 const GROUP_COLORS: Record<string, string> = {
   A: "#a4c44d", B: "#b1301f", C: "#2d47cb", D: "#907ad6",
@@ -94,7 +107,6 @@ export default function LiveGroupStandings({ groupId, compact = false, isLink = 
       <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-2"}`}>
         {displayGroups.map((group) => {
           const color = GROUP_COLORS[group.id] || "#2d47cb";
-          const darkColor = darken(color);
           
           const CardContent = (
             <>
@@ -118,24 +130,35 @@ export default function LiveGroupStandings({ groupId, compact = false, isLink = 
                     </tr>
                   </thead>
                   <tbody>
-                    {group.standings.map((row, idx) => (
-                      <tr
-                        key={row.team_id}
-                        className={`border-b border-gray-50 last:border-0 ${idx < 2 ? "bg-amber-50" : ""}`}
-                      >
-                        <td className="px-3 py-2">
-                          <TeamBadge teamId={row.team_id} size="sm" showName={true} linkable={!isLink} />
-                        </td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.played}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.won}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.drawn}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.lost}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.gf}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.ga}</td>
-                        <td className="px-2 py-2 text-center text-gray-600">{row.gd > 0 ? `+${row.gd}` : row.gd}</td>
-                        <td className="px-2 py-2 text-center font-bold" style={{ color }}>{row.pts}</td>
-                      </tr>
-                    ))}
+                    {group.standings.map((row, idx) => {
+                      const isQualified = QUALIFIED_TEAMS.has(row.team_id);
+                      return (
+                        <tr
+                          key={row.team_id}
+                          className={`border-b border-gray-50 last:border-0 transition-colors ${
+                            isQualified ? "bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300 font-bold" : ""
+                          }`}
+                        >
+                          <td className={`py-2 pr-3 ${isQualified ? "border-l-4 border-l-amber-500 dark:border-l-amber-400 pl-2" : "pl-3"}`}>
+                            <TeamBadge
+                              teamId={row.team_id}
+                              size="sm"
+                              showName={true}
+                              linkable={!isLink}
+                              className={isQualified ? "text-amber-900 dark:text-amber-300 font-bold" : undefined}
+                            />
+                          </td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.played}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.won}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.drawn}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.lost}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.gf}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.ga}</td>
+                          <td className={`px-2 py-2 text-center ${isQualified ? "text-amber-900 dark:text-amber-300" : "text-gray-600"}`}>{row.gd > 0 ? `+${row.gd}` : row.gd}</td>
+                          <td className="px-2 py-2 text-center font-bold" style={isQualified ? undefined : { color }}>{row.pts}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

@@ -53,28 +53,99 @@ const statusLabels: Record<string, string> = {
   scheduled: "未開始",
 };
 
-// Parse match time to Asia/Taipei display string (MM/DD HH:mm)
+// Parse match time to Asia/Taipei display string (M/D HH:mm 台北時間)
+function formatTaipeiDateTime(d: Date): string {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Taipei",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(d);
+    const map = new Map(parts.map((p) => [p.type, p.value]));
+    return `${map.get("month")}/${map.get("day")} ${map.get("hour")}:${map.get("minute")} 台北時間`;
+  } catch {
+    return "";
+  }
+}
+
 function getMatchDateTime(datetimeUtc: string, dateStr: string): string {
+  let parsedDate: Date | null = null;
+
   if (datetimeUtc) {
-    try {
+    // 1. Check if ISO string (contains 'T' and is valid date)
+    if (datetimeUtc.includes("T")) {
       const d = new Date(datetimeUtc);
       if (!isNaN(d.getTime())) {
-        return d.toLocaleString("zh-TW", {
-          timeZone: "Asia/Taipei",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
+        parsedDate = d;
       }
-    } catch {}
+    }
+
+    // 2. Check if offset string like "5:00p.m. UTC-4" or "1:00p.m. UTC−6"
+    if (!parsedDate) {
+      const offsetMatch = datetimeUtc.match(/^(\d{1,2}):(\d{2})\s*(a\.m\.|p\.m\.)\s*UTC\s*([+−-]\d{1,2})/i);
+      if (offsetMatch) {
+        let hr = parseInt(offsetMatch[1], 10);
+        const min = parseInt(offsetMatch[2], 10);
+        const ampm = offsetMatch[3].toLowerCase();
+        const offsetStr = offsetMatch[4].replace("−", "-");
+        const offsetHours = parseInt(offsetStr, 10);
+
+        if (ampm === "p.m." && hr < 12) {
+          hr += 12;
+        } else if (ampm === "a.m." && hr === 12) {
+          hr = 0;
+        }
+
+        if (dateStr) {
+          const dateParts = dateStr.split("-").map((num) => parseInt(num, 10));
+          if (dateParts.length === 3) {
+            const [year, monthVal, dayVal] = dateParts;
+            const utcTimeMs = Date.UTC(year, monthVal - 1, dayVal, hr - offsetHours, min);
+            const d = new Date(utcTimeMs);
+            if (!isNaN(d.getTime())) {
+              parsedDate = d;
+            }
+          }
+        }
+      }
+    }
+
+    // 3. Check if simple time string like "20:30"
+    if (!parsedDate) {
+      const timeMatch = datetimeUtc.match(/^(\d{1,2}):(\d{2})/);
+      if (timeMatch && dateStr) {
+        let hrStr = timeMatch[1];
+        if (hrStr.length === 1) hrStr = "0" + hrStr;
+        const minStr = timeMatch[2];
+        const isoStr = `${dateStr}T${hrStr}:${minStr}:00.000Z`;
+        const d = new Date(isoStr);
+        if (!isNaN(d.getTime())) {
+          parsedDate = d;
+        }
+      }
+    }
   }
-  const d = new Date(dateStr + "T00:00:00Z");
-  if (!isNaN(d.getTime())) {
-    return d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit" });
+
+  // If we successfully parsed a date, format it to M/D HH:mm 台北時間
+  if (parsedDate) {
+    const formatted = formatTaipeiDateTime(parsedDate);
+    if (formatted) return formatted;
   }
-  return dateStr;
+
+  // 4. Fallback: displaying only the date (M/D 台北時間)
+  if (dateStr) {
+    const match = dateStr.match(/^\d{4}-(\d{2})-(\d{2})$/);
+    if (match) {
+      const m = parseInt(match[1], 10);
+      const d = parseInt(match[2], 10);
+      return `${m}/${d} 台北時間`;
+    }
+  }
+  return dateStr ? `${dateStr} 台北時間` : "";
 }
 
 const TEAM_COLORS: Record<string, { border: string; bg: string }> = {
@@ -113,15 +184,33 @@ const TEAM_COLORS: Record<string, { border: string; bg: string }> = {
 };
 
 export default function MatchCard({ match }: MatchCardProps) {
-  const homeTeam = teams.find((t: any) => t.id === match.home) || (match.home?.toLowerCase() === "tbd" ? { id: "tbd", name: "TBD", name_zh: "未定" } : null);
-  const awayTeam = teams.find((t: any) => t.id === match.away) || (match.away?.toLowerCase() === "tbd" ? { id: "tbd", name: "TBD", name_zh: "未定" } : null);
-  const homeFlag = homeTeam ? getFlagClass(match.home) : null;
-  const awayFlag = awayTeam ? getFlagClass(match.away) : null;
+  const homeTeam = teams.find((t: any) => t.id === match.home) || 
+    (match.home?.toLowerCase() === "tbd" 
+      ? { id: "tbd", name: "TBD", name_zh: "未定" } 
+      : (match.home 
+          ? { id: match.home, name: match.home.toUpperCase(), name_zh: match.home.toUpperCase() } 
+          : null
+        )
+    );
+  const awayTeam = teams.find((t: any) => t.id === match.away) || 
+    (match.away?.toLowerCase() === "tbd" 
+      ? { id: "tbd", name: "TBD", name_zh: "未定" } 
+      : (match.away 
+          ? { id: match.away, name: match.away.toUpperCase(), name_zh: match.away.toUpperCase() } 
+          : null
+        )
+    );
+  const homeFlag = homeTeam && homeTeam.id !== "tbd" ? getFlagClass(match.home) : null;
+  const awayFlag = awayTeam && awayTeam.id !== "tbd" ? getFlagClass(match.away) : null;
 
   const detailSlug = `${match.home}--${match.away}--${match.date}`;
   
-  const winnerColor = (match.stage === "round-of-32" && match.status === "completed") 
+  const winnerColor = (match.stage !== "group" && match.status === "completed") 
     ? (() => {
+        const espnWinner = (match as any).winner;
+        if (espnWinner && espnWinner !== "tbd") {
+          return TEAM_COLORS[espnWinner] || null;
+        }
         const homeScore = match.score?.home ?? 0;
         const awayScore = match.score?.away ?? 0;
         const winnerSlug = homeScore > awayScore ? match.home : homeScore < awayScore ? match.away : "";
@@ -184,7 +273,6 @@ export default function MatchCard({ match }: MatchCardProps) {
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
           <span className="text-xs text-gray-500">{getMatchDateTime((match as any).datetime_utc || match.time, match.date)}</span>
-          <span className="text-[10px] text-gray-300">台北時間</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>

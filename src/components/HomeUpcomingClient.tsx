@@ -9,10 +9,14 @@ export default function HomeUpcomingClient() {
   const [loading, setLoading] = useState(true);
 
   const fetchData = () => {
-    fetch("/api/espn?type=upcoming&limit=6")
-      .then((r) => r.json())
+    fetch("/api/espn?type=upcoming&limit=15")
+      .then((r) => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
       .then((d) => {
-        setMatches(d.matches || []);
+        const knockoutMatches = (d.matches || []).filter((m: any) => m.stage !== "group");
+        setMatches(knockoutMatches);
       })
       .catch(() => {})
       .finally(() => setLoading(false));

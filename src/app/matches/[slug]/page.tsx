@@ -96,11 +96,29 @@ export default function MatchDetailPage({ params }: { params: Promise<{ slug: st
   function formatTime(iso: string) {
     if (!iso) return "";
     try {
-      return new Date(iso).toLocaleString("zh-TW", {
-        timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit", hour12: false,
-      });
-    } catch { return iso.slice(0, 10); }
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) throw new Error();
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Taipei",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+      }).formatToParts(d);
+      const map = new Map(parts.map((p) => [p.type, p.value]));
+      return `${map.get("month")}/${map.get("day")} ${map.get("hour")}:${map.get("minute")} 台北時間`;
+    } catch { 
+      const datePart = iso.slice(0, 10);
+      const match = datePart.match(/^\d{4}-(\d{2})-(\d{2})$/);
+      if (match) {
+        const m = parseInt(match[1], 10);
+        const d = parseInt(match[2], 10);
+        return `${m}/${d} 台北時間`;
+      }
+      return iso ? `${iso} 台北時間` : "";
+    }
   }
 
   return (
@@ -135,7 +153,6 @@ export default function MatchDetailPage({ params }: { params: Promise<{ slug: st
                 <div className="text-3xl font-bold text-white/60">vs</div>
               )}
               <div className="text-white/50 text-xs text-center">{formatTime(detail.time)}</div>
-              <div className="text-white/30 text-xs">台北時間</div>
               <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                 isCompleted ? "bg-green-500/20 text-green-300" :
                 detail.status === "live" ? "bg-red-500/20 text-red-300 animate-pulse" :

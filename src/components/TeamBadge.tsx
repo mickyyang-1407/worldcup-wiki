@@ -9,6 +9,7 @@ interface TeamBadgeProps {
   showName?: boolean;
   size?: "sm" | "md" | "lg" | "xl";
   linkable?: boolean;
+  className?: string;
 }
 
 const sizeStyles: Record<string, string> = {
@@ -18,7 +19,7 @@ const sizeStyles: Record<string, string> = {
   xl: "text-3xl",
 };
 
-export default function TeamBadge({ teamId, showName = true, size = "sm", linkable = true }: TeamBadgeProps) {
+export default function TeamBadge({ teamId, showName = true, size = "sm", linkable = true, className }: TeamBadgeProps) {
   const team = teams.find((t: any) => t.id === teamId);
   if (!team) return <span className="text-gray-400">{teamId}</span>;
 
@@ -37,7 +38,7 @@ export default function TeamBadge({ teamId, showName = true, size = "sm", linkab
           🏳️
         </span>
       )}
-      {showName && <span className="text-sm font-medium text-gray-800">{team.name_zh}</span>}
+      {showName && <span className={`text-sm font-medium ${className || "text-gray-800 dark:text-gray-200"}`}>{team.name_zh}</span>}
     </div>
   );
 

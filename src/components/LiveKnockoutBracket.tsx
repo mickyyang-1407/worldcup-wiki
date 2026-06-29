@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TeamBadge from "./TeamBadge";
 import scheduleDataRaw from "@/data/schedule.json";
+import teamsData from "@/data/teams.json";
+
+const VALID_TEAM_IDS = new Set(teamsData.teams.map((t: any) => t.id.toLowerCase()));
 
 interface MatchupTeam {
   label: string;
@@ -21,6 +24,29 @@ interface Matchup {
   home: MatchupTeam;
   away: MatchupTeam;
 }
+
+interface TeamResolution {
+  teamId: string;
+  isConfirmed: boolean;
+}
+
+const MATCH_SOURCES: Record<number, { homeSource: number; awaySource: number }> = {
+  89: { homeSource: 73, awaySource: 75 },
+  90: { homeSource: 74, awaySource: 77 },
+  91: { homeSource: 76, awaySource: 78 },
+  92: { homeSource: 79, awaySource: 80 },
+  93: { homeSource: 83, awaySource: 84 },
+  94: { homeSource: 81, awaySource: 82 },
+  95: { homeSource: 86, awaySource: 88 },
+  96: { homeSource: 85, awaySource: 87 },
+  97: { homeSource: 89, awaySource: 90 },
+  98: { homeSource: 91, awaySource: 92 },
+  99: { homeSource: 93, awaySource: 94 },
+  100: { homeSource: 95, awaySource: 96 },
+  101: { homeSource: 97, awaySource: 98 },
+  102: { homeSource: 99, awaySource: 100 },
+  104: { homeSource: 101, awaySource: 102 }
+};
 
 function formatToTaipeiTime(datetimeUtc: string) {
   try {
@@ -42,62 +68,105 @@ function formatToTaipeiTime(datetimeUtc: string) {
 
 export default function LiveKnockoutBracket() {
   const [loading, setLoading] = useState(true);
-  const [bracket, setBracket] = useState<{ left: Matchup[]; right: Matchup[] }>({ left: [], right: [] });
+  const [matchups, setMatchups] = useState<Record<string, Matchup>>({});
+  const [champion, setChampion] = useState<TeamResolution | null>(null);
 
   const fetchData = () => {
     fetch("/api/espn?type=all&limit=150")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
       .then((data) => {
         // 1. Map ESPN matches by team pairing to overlay live results
         const espnMap: Record<string, any> = {};
         if (data.matches) {
           data.matches.forEach((m: any) => {
-            espnMap[`${m.home}|${m.away}`] = m;
-            espnMap[`${m.away}|${m.home}`] = m;
+            if (m.home && m.away) {
+              espnMap[`${m.home.toLowerCase()}|${m.away.toLowerCase()}`] = m;
+              espnMap[`${m.away.toLowerCase()}|${m.home.toLowerCase()}`] = m;
+            }
           });
         }
 
         const latestMatches = scheduleDataRaw.matches.map((m: any) => {
-          const live = espnMap[`${m.home}|${m.away}`];
+          const homeId = m.home?.toLowerCase();
+          const awayId = m.away?.toLowerCase();
+          const live = (homeId && awayId) ? espnMap[`${homeId}|${awayId}`] : null;
           if (!live) return m;
-          return { ...m, status: live.status, score: live.score };
+          return { ...m, status: live.status, score: live.score, winner: live.winner };
         });
 
-        // 2. Helper to get winner info of a 32-round match
-        const getWinnerInfo = (matchNumber: number) => {
-          const m = latestMatches.find((x: any) => x.number === matchNumber);
+        // 2. Recursive winner resolver with memoization/caching
+        const resolvedWinnerMap: Record<number, TeamResolution> = {};
+        const resolveMatchWinner = (matchNum: number): TeamResolution => {
+          if (resolvedWinnerMap[matchNum]) return resolvedWinnerMap[matchNum];
+          const m = latestMatches.find((x: any) => x.number === matchNum);
           if (!m) return { teamId: "tbd", isConfirmed: false };
 
           if (m.status === "completed") {
-            const homeScore = m.score?.home ?? 0;
-            const awayScore = m.score?.away ?? 0;
-            if (homeScore > awayScore) return { teamId: m.home, isConfirmed: true };
-            if (awayScore > homeScore) return { teamId: m.away, isConfirmed: true };
+            if (m.winner && m.winner !== "tbd") {
+              const res = { teamId: m.winner, isConfirmed: VALID_TEAM_IDS.has(m.winner.toLowerCase()) };
+              resolvedWinnerMap[matchNum] = res;
+              return res;
+            }
+            const hs = m.score?.home ?? 0;
+            const as = m.score?.away ?? 0;
+            const winnerId = hs > as ? m.home : m.away;
+            const res = { teamId: winnerId, isConfirmed: VALID_TEAM_IDS.has(winnerId?.toLowerCase()) };
+            resolvedWinnerMap[matchNum] = res;
+            return res;
           }
-          // Default to home team as fallback predictor
-          return { teamId: m.home || "tbd", isConfirmed: false };
+
+          let homeTeam = m.home;
+          let awayTeam = m.away;
+          let isHomeConfirmed = homeTeam && homeTeam.toLowerCase() !== "tbd" && VALID_TEAM_IDS.has(homeTeam.toLowerCase());
+          let isAwayConfirmed = awayTeam && awayTeam.toLowerCase() !== "tbd" && VALID_TEAM_IDS.has(awayTeam.toLowerCase());
+
+          const sources = MATCH_SOURCES[matchNum];
+          if (sources) {
+            if (!isHomeConfirmed) {
+              const resolvedHome = resolveMatchWinner(sources.homeSource);
+              homeTeam = resolvedHome.teamId;
+              isHomeConfirmed = resolvedHome.isConfirmed;
+            }
+            if (!isAwayConfirmed) {
+              const resolvedAway = resolveMatchWinner(sources.awaySource);
+              awayTeam = resolvedAway.teamId;
+              isAwayConfirmed = resolvedAway.isConfirmed;
+            }
+          }
+
+          const res = {
+            teamId: homeTeam || "tbd",
+            isConfirmed: false
+          };
+          resolvedWinnerMap[matchNum] = res;
+          return res;
         };
 
-        // 3. Define the 16-round matchups and map them from 32-round source match winners
-        const nextBracket = {
-          left: [
-            { id: "M89", matchNumber: 89, homeSource: 73, awaySource: 75 },
-            { id: "M90", matchNumber: 90, homeSource: 74, awaySource: 77 },
-            { id: "M91", matchNumber: 91, homeSource: 76, awaySource: 78 },
-            { id: "M92", matchNumber: 92, homeSource: 79, awaySource: 80 },
-          ],
-          right: [
-            { id: "M93", matchNumber: 93, homeSource: 83, awaySource: 84 },
-            { id: "M94", matchNumber: 94, homeSource: 81, awaySource: 82 },
-            { id: "M95", matchNumber: 95, homeSource: 86, awaySource: 88 },
-            { id: "M96", matchNumber: 96, homeSource: 85, awaySource: 87 },
-          ]
-        };
+        // 3. Helper to populate matchup data recursively
+        const getMatchupInfo = (matchNum: number): Matchup => {
+          const matchDetail = latestMatches.find((x: any) => x.number === matchNum) || {};
+          const sources = MATCH_SOURCES[matchNum];
 
-        const fillMatchInfo = (m: any): Matchup => {
-          const matchDetail = latestMatches.find((x: any) => x.number === m.matchNumber) || {};
-          const homeInfo = getWinnerInfo(m.homeSource);
-          const awayInfo = getWinnerInfo(m.awaySource);
+          let homeTeamId = matchDetail.home || "tbd";
+          let awayTeamId = matchDetail.away || "tbd";
+          let homeConfirmed = homeTeamId !== "tbd" && VALID_TEAM_IDS.has(homeTeamId.toLowerCase());
+          let awayConfirmed = awayTeamId !== "tbd" && VALID_TEAM_IDS.has(awayTeamId.toLowerCase());
+
+          if (sources) {
+            if (!homeConfirmed) {
+              const resolvedHome = resolveMatchWinner(sources.homeSource);
+              homeTeamId = resolvedHome.teamId;
+              homeConfirmed = resolvedHome.isConfirmed;
+            }
+            if (!awayConfirmed) {
+              const resolvedAway = resolveMatchWinner(sources.awaySource);
+              awayTeamId = resolvedAway.teamId;
+              awayConfirmed = resolvedAway.isConfirmed;
+            }
+          }
 
           let homeWinner = false;
           let homeLoser = false;
@@ -107,41 +176,56 @@ export default function LiveKnockoutBracket() {
           if (matchDetail.status === "completed") {
             const hs = matchDetail.score?.home ?? 0;
             const as = matchDetail.score?.away ?? 0;
-            if (hs > as) {
-              homeWinner = true;
-              awayLoser = true;
-            } else if (as > hs) {
-              awayWinner = true;
-              homeLoser = true;
+            const matchWinner = matchDetail.winner;
+            if (matchWinner && matchWinner !== "tbd") {
+              if (matchWinner.toLowerCase() === homeTeamId.toLowerCase()) {
+                homeWinner = true;
+                awayLoser = true;
+              } else if (matchWinner.toLowerCase() === awayTeamId.toLowerCase()) {
+                awayWinner = true;
+                homeLoser = true;
+              }
+            } else {
+              if (hs > as) {
+                homeWinner = true;
+                awayLoser = true;
+              } else if (as > hs) {
+                awayWinner = true;
+                homeLoser = true;
+              }
             }
           }
 
           return {
-            id: m.id,
-            matchNumber: m.matchNumber,
+            id: `M${matchNum}`,
+            matchNumber: matchNum,
             timeStr: matchDetail.datetime_utc ? formatToTaipeiTime(matchDetail.datetime_utc) : "",
             status: matchDetail.status || "scheduled",
             home: {
-              teamId: homeInfo.teamId,
-              isConfirmed: homeInfo.isConfirmed,
+              teamId: homeTeamId,
+              isConfirmed: homeConfirmed,
               isWinner: homeWinner,
               isLoser: homeLoser,
-              label: `M${m.homeSource}勝者`
+              label: sources ? `M${sources.homeSource}勝者` : ""
             },
             away: {
-              teamId: awayInfo.teamId,
-              isConfirmed: awayInfo.isConfirmed,
+              teamId: awayTeamId,
+              isConfirmed: awayConfirmed,
               isWinner: awayWinner,
               isLoser: awayLoser,
-              label: `M${m.awaySource}勝者`
+              label: sources ? `M${sources.awaySource}勝者` : ""
             }
           };
         };
 
-        setBracket({
-          left: nextBracket.left.map(fillMatchInfo),
-          right: nextBracket.right.map(fillMatchInfo)
+        const allMatchNumbers = [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104];
+        const nextMatchups: Record<string, Matchup> = {};
+        allMatchNumbers.forEach((num) => {
+          nextMatchups[`M${num}`] = getMatchupInfo(num);
         });
+
+        setMatchups(nextMatchups);
+        setChampion(resolveMatchWinner(104));
       })
       .catch((err) => console.error("Error fetching live matches in bracket:", err))
       .finally(() => setLoading(false));
@@ -164,6 +248,14 @@ export default function LiveKnockoutBracket() {
     };
   }, []);
 
+  const getStageLabel = (matchNum: number) => {
+    if (matchNum >= 89 && matchNum <= 96) return "16強";
+    if (matchNum >= 97 && matchNum <= 100) return "8強";
+    if (matchNum >= 101 && matchNum <= 102) return "準決賽";
+    if (matchNum === 104) return "決賽";
+    return "";
+  };
+
   const renderTeam = (team: MatchupTeam, matchStatus: string) => {
     if (!team.teamId || team.teamId === "tbd") {
       return (
@@ -174,78 +266,146 @@ export default function LiveKnockoutBracket() {
       );
     }
 
-    const isCompleted = matchStatus === "completed";
     const isWinner = team.isWinner;
     const isLoser = team.isLoser;
     const isConfirmed = team.isConfirmed;
 
     // Apply colors based on game outcomes
     let cardClass = "bg-white dark:bg-gray-800 border-l-4 border-l-transparent text-gray-800 dark:text-gray-200";
-    if (isWinner || (!isCompleted && isConfirmed)) {
-      // Golden background for winners or confirmed qualifiers
-      cardClass = "bg-amber-100 dark:bg-amber-900/40 border-l-4 border-l-amber-500 dark:border-l-amber-400 text-amber-900 dark:text-amber-300";
+    if (isWinner) {
+      // Golden background ONLY for winners of this specific match
+      cardClass = "bg-amber-100 dark:bg-amber-900/40 border-l-4 border-l-amber-500 dark:border-l-amber-400 text-amber-900 dark:text-amber-300 font-bold";
     } else if (isLoser) {
       // Low prominence (faded) style for losers
       cardClass = "bg-gray-50/50 dark:bg-gray-800/30 opacity-40 border-l-4 border-l-transparent text-gray-400 dark:text-gray-500";
     }
 
-    return (
-      <Link
-        href={`/teams/${team.teamId}`}
-        className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 h-[40px] hover:opacity-80 transition-all ${cardClass}`}
-      >
+    const content = (
+      <>
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
         <span className="text-xs font-bold uppercase tracking-tight">{team.teamId}</span>
         <span className="ml-auto text-[10px] font-mono opacity-60">{team.label}</span>
-      </Link>
+      </>
+    );
+
+    if (isConfirmed) {
+      return (
+        <Link
+          href={`/teams/${team.teamId}`}
+          className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 h-[40px] hover:opacity-80 transition-all ${cardClass}`}
+        >
+          {content}
+        </Link>
+      );
+    }
+
+    return (
+      <div
+        className={`flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 h-[40px] ${cardClass}`}
+      >
+        {content}
+      </div>
     );
   };
 
-  const renderMatch = (match: Matchup) => (
-    <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[200px] mb-4 relative z-10">
-      <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 flex justify-between">
-        <span>16強 {match.id}</span>
-        {match.timeStr && <span className="font-mono text-[9px] text-gray-400">{match.timeStr}</span>}
+  const renderMatch = (match: Matchup) => {
+    if (!match) return null;
+    return (
+      <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[180px] mb-4 relative z-10">
+        <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 flex justify-between">
+          <span>{getStageLabel(match.matchNumber)} {match.id}</span>
+          {match.timeStr && <span className="font-mono text-[9px] text-gray-400">{match.timeStr}</span>}
+        </div>
+        {renderTeam(match.home, match.status)}
+        {renderTeam(match.away, match.status)}
       </div>
-      {renderTeam(match.home, match.status)}
-      {renderTeam(match.away, match.status)}
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="w-full overflow-x-auto pb-8">
       {loading ? (
         <div className="text-center py-16 text-gray-400">載入動態預測中...</div>
       ) : (
-        <div className="min-w-[800px] flex justify-between items-start gap-8 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 relative">
-          {/* Central Title */}
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 text-center pointer-events-none">
-            <div className="text-2xl font-black text-gray-300 tracking-widest mb-1">FINAL</div>
-            <div className="w-px h-32 bg-gray-300 mx-auto"></div>
-          </div>
-
-          {/* Left Bracket */}
-          <div className="flex-1">
-            <h3 className="text-lg font-black text-blue-800 mb-6 border-b-2 border-blue-200 pb-2 inline-block">
-              左半區 (LEFT BRACKET)
-            </h3>
-            <div className="flex flex-col gap-2">
-              {bracket.left.map(renderMatch)}
+        <div className="min-w-[1300px] h-[640px] flex justify-between items-stretch gap-4 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 relative">
+          
+          {/* Column 1: Left R16 */}
+          <div className="flex-1 flex flex-col justify-between py-4">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">16強 (左)</span>
             </div>
+            {renderMatch(matchups["M89"])}
+            {renderMatch(matchups["M90"])}
+            {renderMatch(matchups["M91"])}
+            {renderMatch(matchups["M92"])}
           </div>
 
-          {/* Spacer for the Final/Center */}
-          <div className="w-32 flex-shrink-0"></div>
-
-          {/* Right Bracket */}
-          <div className="flex-1 flex flex-col items-end">
-            <h3 className="text-lg font-black text-red-800 mb-6 border-b-2 border-red-200 pb-2 inline-block">
-              右半區 (RIGHT BRACKET)
-            </h3>
-            <div className="flex flex-col gap-2 items-end">
-              {bracket.right.map(renderMatch)}
+          {/* Column 2: Left QF */}
+          <div className="flex-1 flex flex-col justify-around py-12">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">8強 (左)</span>
             </div>
+            {renderMatch(matchups["M97"])}
+            {renderMatch(matchups["M98"])}
           </div>
+
+          {/* Column 3: Left SF */}
+          <div className="flex-1 flex flex-col justify-center py-20">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">準決賽 (左)</span>
+            </div>
+            {renderMatch(matchups["M101"])}
+          </div>
+
+          {/* Column 4: Center Final & Champion Banner */}
+          <div className="w-[220px] flex-shrink-0 flex flex-col justify-center items-center py-10 border-x border-gray-200/50 px-4">
+            <div className="text-center mb-4">
+              <span className="text-sm font-black text-purple-800 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-wider">決賽</span>
+            </div>
+            {renderMatch(matchups["M104"])}
+
+            {/* Champion Banner */}
+            {champion && champion.teamId && champion.teamId !== "tbd" && (
+              <div className="mt-6 flex flex-col items-center p-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-lg border border-yellow-300 text-center animate-pulse">
+                <span className="text-3xl">🏆</span>
+                <span className="text-xs uppercase font-extrabold text-amber-950 tracking-widest mt-1">
+                  {champion.isConfirmed ? "世界冠軍" : "預測冠軍"}
+                </span>
+                <div className="flex items-center gap-2 mt-2 bg-white/20 px-3 py-1 rounded-lg">
+                  <TeamBadge teamId={champion.teamId} size="sm" linkable={true} showName={true} />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Column 5: Right SF */}
+          <div className="flex-1 flex flex-col justify-center py-20">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">準決賽 (右)</span>
+            </div>
+            {renderMatch(matchups["M102"])}
+          </div>
+
+          {/* Column 6: Right QF */}
+          <div className="flex-1 flex flex-col justify-around py-12">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">8強 (右)</span>
+            </div>
+            {renderMatch(matchups["M99"])}
+            {renderMatch(matchups["M100"])}
+          </div>
+
+          {/* Column 7: Right R16 */}
+          <div className="flex-1 flex flex-col justify-between py-4">
+            <div className="text-center mb-2">
+              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">16強 (右)</span>
+            </div>
+            {renderMatch(matchups["M93"])}
+            {renderMatch(matchups["M94"])}
+            {renderMatch(matchups["M95"])}
+            {renderMatch(matchups["M96"])}
+          </div>
+
         </div>
       )}
       <p className="text-xs text-gray-400 text-center mt-6">
