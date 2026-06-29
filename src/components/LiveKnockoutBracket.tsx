@@ -218,7 +218,10 @@ export default function LiveKnockoutBracket() {
           };
         };
 
-        const allMatchNumbers = [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104];
+        const allMatchNumbers = [
+          73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88,
+          89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104
+        ];
         const nextMatchups: Record<string, Matchup> = {};
         allMatchNumbers.forEach((num) => {
           nextMatchups[`M${num}`] = getMatchupInfo(num);
@@ -249,6 +252,7 @@ export default function LiveKnockoutBracket() {
   }, []);
 
   const getStageLabel = (matchNum: number) => {
+    if (matchNum >= 73 && matchNum <= 88) return "32強";
     if (matchNum >= 89 && matchNum <= 96) return "16強";
     if (matchNum >= 97 && matchNum <= 100) return "8強";
     if (matchNum >= 101 && matchNum <= 102) return "準決賽";
@@ -311,7 +315,7 @@ export default function LiveKnockoutBracket() {
   const renderMatch = (match: Matchup) => {
     if (!match) return null;
     return (
-      <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[180px] mb-4 relative z-10">
+      <div key={match.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden w-full max-w-[170px] mb-2 relative z-10">
         <div className="bg-gray-100 dark:bg-gray-900 px-2 py-1 text-[10px] font-bold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 flex justify-between">
           <span>{getStageLabel(match.matchNumber)} {match.id}</span>
           {match.timeStr && <span className="font-mono text-[9px] text-gray-400">{match.timeStr}</span>}
@@ -327,12 +331,27 @@ export default function LiveKnockoutBracket() {
       {loading ? (
         <div className="text-center py-16 text-gray-400">載入動態預測中...</div>
       ) : (
-        <div className="min-w-[1300px] h-[640px] flex justify-between items-stretch gap-4 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 relative">
+        <div className="min-w-[1600px] h-[920px] flex justify-between items-stretch gap-2 bg-gray-50/50 p-4 rounded-2xl border border-gray-100 relative">
           
-          {/* Column 1: Left R16 */}
-          <div className="flex-1 flex flex-col justify-between py-4">
+          {/* Column 1: Left R32 */}
+          <div className="flex-1 flex flex-col justify-between py-2">
+            <div className="text-center mb-1">
+              <span className="text-[10px] font-black text-pink-800 bg-pink-100 px-2 py-0.5 rounded-full uppercase">32強 (左)</span>
+            </div>
+            {renderMatch(matchups["M73"])}
+            {renderMatch(matchups["M75"])}
+            {renderMatch(matchups["M74"])}
+            {renderMatch(matchups["M77"])}
+            {renderMatch(matchups["M76"])}
+            {renderMatch(matchups["M78"])}
+            {renderMatch(matchups["M79"])}
+            {renderMatch(matchups["M80"])}
+          </div>
+
+          {/* Column 2: Left R16 */}
+          <div className="flex-1 flex flex-col justify-around py-8">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">16強 (左)</span>
+              <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">16強 (左)</span>
             </div>
             {renderMatch(matchups["M89"])}
             {renderMatch(matchups["M90"])}
@@ -340,70 +359,85 @@ export default function LiveKnockoutBracket() {
             {renderMatch(matchups["M92"])}
           </div>
 
-          {/* Column 2: Left QF */}
-          <div className="flex-1 flex flex-col justify-around py-12">
+          {/* Column 3: Left QF */}
+          <div className="flex-1 flex flex-col justify-around py-24">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">8強 (左)</span>
+              <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">8強 (左)</span>
             </div>
             {renderMatch(matchups["M97"])}
             {renderMatch(matchups["M98"])}
           </div>
 
-          {/* Column 3: Left SF */}
-          <div className="flex-1 flex flex-col justify-center py-20">
+          {/* Column 4: Left SF */}
+          <div className="flex-1 flex flex-col justify-center py-32">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">準決賽 (左)</span>
+              <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">準決賽 (左)</span>
             </div>
             {renderMatch(matchups["M101"])}
           </div>
 
-          {/* Column 4: Center Final & Champion Banner */}
-          <div className="w-[220px] flex-shrink-0 flex flex-col justify-center items-center py-10 border-x border-gray-200/50 px-4">
+          {/* Column 5: Center Final & Champion Banner */}
+          <div className="w-[200px] flex-shrink-0 flex flex-col justify-center items-center py-10 border-x border-gray-200/50 px-2">
             <div className="text-center mb-4">
-              <span className="text-sm font-black text-purple-800 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-wider">決賽</span>
+              <span className="text-xs font-black text-purple-800 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-wider">決賽</span>
             </div>
             {renderMatch(matchups["M104"])}
 
             {/* Champion Banner */}
             {champion && champion.teamId && champion.teamId !== "tbd" && (
-              <div className="mt-6 flex flex-col items-center p-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-lg border border-yellow-300 text-center animate-pulse">
-                <span className="text-3xl">🏆</span>
-                <span className="text-xs uppercase font-extrabold text-amber-950 tracking-widest mt-1">
+              <div className="mt-6 flex flex-col items-center p-3 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-lg border border-yellow-300 text-center animate-pulse w-full">
+                <span className="text-2xl">🏆</span>
+                <span className="text-[10px] uppercase font-extrabold text-amber-950 tracking-widest mt-1">
                   {champion.isConfirmed ? "世界冠軍" : "預測冠軍"}
                 </span>
-                <div className="flex items-center gap-2 mt-2 bg-white/20 px-3 py-1 rounded-lg">
-                  <TeamBadge teamId={champion.teamId} size="sm" linkable={true} showName={true} />
+                <div className="flex items-center justify-center gap-2 mt-2 bg-white/20 px-2 py-1 rounded-lg w-full">
+                  <TeamBadge teamId={champion.teamId} size="sm" linkable={true} showName={true} className="text-amber-950 font-bold" />
                 </div>
               </div>
             )}
           </div>
 
-          {/* Column 5: Right SF */}
-          <div className="flex-1 flex flex-col justify-center py-20">
+          {/* Column 6: Right SF */}
+          <div className="flex-1 flex flex-col justify-center py-32">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">準決賽 (右)</span>
+              <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">準決賽 (右)</span>
             </div>
             {renderMatch(matchups["M102"])}
           </div>
 
-          {/* Column 6: Right QF */}
-          <div className="flex-1 flex flex-col justify-around py-12">
+          {/* Column 7: Right QF */}
+          <div className="flex-1 flex flex-col justify-around py-24">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">8強 (右)</span>
+              <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">8強 (右)</span>
             </div>
             {renderMatch(matchups["M99"])}
             {renderMatch(matchups["M100"])}
           </div>
 
-          {/* Column 7: Right R16 */}
-          <div className="flex-1 flex flex-col justify-between py-4">
+          {/* Column 8: Right R16 */}
+          <div className="flex-1 flex flex-col justify-around py-8">
             <div className="text-center mb-2">
-              <span className="text-xs font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">16強 (右)</span>
+              <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">16強 (右)</span>
             </div>
             {renderMatch(matchups["M93"])}
             {renderMatch(matchups["M94"])}
             {renderMatch(matchups["M95"])}
             {renderMatch(matchups["M96"])}
+          </div>
+
+          {/* Column 9: Right R32 */}
+          <div className="flex-1 flex flex-col justify-between py-2">
+            <div className="text-center mb-1">
+              <span className="text-[10px] font-black text-pink-800 bg-pink-100 px-2 py-0.5 rounded-full uppercase">32強 (右)</span>
+            </div>
+            {renderMatch(matchups["M83"])}
+            {renderMatch(matchups["M84"])}
+            {renderMatch(matchups["M81"])}
+            {renderMatch(matchups["M82"])}
+            {renderMatch(matchups["M86"])}
+            {renderMatch(matchups["M88"])}
+            {renderMatch(matchups["M85"])}
+            {renderMatch(matchups["M87"])}
           </div>
 
         </div>

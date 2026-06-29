@@ -1303,7 +1303,7 @@
       "status": "completed",
       "group": "",
       "date": "2026-06-28",
-      "time": "19:00",
+      "time": "12:00",
       "home": "south-africa",
       "away": "canada",
       "score": {
@@ -1312,7 +1312,8 @@
       },
       "venue": "SoFi Stadium",
       "city": "Los Angeles",
-      "datetime_utc": "2026-06-28T19:00:00.000Z"
+      "datetime_utc": "2026-06-28T19:00:00.000Z",
+      "timezone": "PDT (UTC-7)"
     },
     {
       "id": "match-74",
@@ -1321,25 +1322,26 @@
       "status": "scheduled",
       "group": "",
       "date": "2026-06-29",
-      "time": "20:30",
+      "time": "16:30",
       "home": "germany",
       "away": "paraguay",
       "score": {
         "home": null,
         "away": null
       },
-      "venue": "Lumen Field",
-      "city": "Seattle",
-      "datetime_utc": "2026-06-29T20:30:00.000Z"
+      "venue": "Gillette Stadium",
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-29T20:30:00.000Z",
+      "timezone": "EDT (UTC-4)"
     },
     {
       "id": "match-75",
       "number": 75,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-30",
-      "time": "01:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "date": "2026-06-29",
+      "time": "20:00",
+      "timezone": "CST (UTC-6)",
       "home": "netherlands",
       "away": "morocco",
       "score": {
@@ -1347,11 +1349,11 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "estadio-azteca",
-      "city": "Mexico City",
+      "venue": "Estadio BBVA",
+      "city": "Monterrey",
       "referee": "Abdulrahman Al-Jassim",
       "goals": [],
-      "datetime_utc": "2026-06-30T01:00:00.000Z"
+      "datetime_utc": "2026-06-30T02:00:00.000Z"
     },
     {
       "id": "match-76",
@@ -1359,8 +1361,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-06-29",
-      "time": "17:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "12:00",
+      "timezone": "CDT (UTC-5)",
       "home": "brazil",
       "away": "japan",
       "score": {
@@ -1368,8 +1370,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "metlife-stadium",
-      "city": "East Rutherford",
+      "venue": "NRG Stadium",
+      "city": "Houston",
       "referee": "Ma Ning",
       "goals": [],
       "datetime_utc": "2026-06-29T17:00:00.000Z"
@@ -1380,8 +1382,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-06-30",
-      "time": "21:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "17:00",
+      "timezone": "EDT (UTC-4)",
       "home": "france",
       "away": "sweden",
       "score": {
@@ -1389,8 +1391,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "sofi-stadium",
-      "city": "Inglewood",
+      "venue": "MetLife Stadium",
+      "city": "East Rutherford",
       "referee": "Alireza Faghani",
       "goals": [],
       "datetime_utc": "2026-06-30T21:00:00.000Z"
@@ -1401,8 +1403,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-06-30",
-      "time": "17:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "12:00",
+      "timezone": "CDT (UTC-5)",
       "home": "ivory-coast",
       "away": "norway",
       "score": {
@@ -1410,8 +1412,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "bc-place",
-      "city": "Vancouver",
+      "venue": "AT&T Stadium",
+      "city": "Arlington",
       "referee": "Mustapha Ghorbal",
       "goals": [],
       "datetime_utc": "2026-06-30T17:00:00.000Z"
@@ -1421,9 +1423,9 @@
       "number": 79,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-07-01",
-      "time": "01:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "date": "2026-06-30",
+      "time": "19:00",
+      "timezone": "CST (UTC-6)",
       "home": "mexico",
       "away": "ecuador",
       "score": {
@@ -1431,8 +1433,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "att-stadium",
-      "city": "Arlington",
+      "venue": "Estadio Azteca",
+      "city": "Mexico City",
       "referee": "Bamlak Tessema Weyesa",
       "goals": [],
       "datetime_utc": "2026-07-01T01:00:00.000Z"
@@ -1443,8 +1445,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-01",
-      "time": "16:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "12:00",
+      "timezone": "EDT (UTC-4)",
       "home": "england",
       "away": "dr-congo",
       "score": {
@@ -1452,7 +1454,7 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "mercedes-benz-stadium",
+      "venue": "Mercedes-Benz Stadium",
       "city": "Atlanta",
       "referee": "Raphael Claus",
       "goals": [],
@@ -1463,9 +1465,9 @@
       "number": 81,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-07-02",
-      "time": "00:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "date": "2026-07-01",
+      "time": "17:00",
+      "timezone": "PDT (UTC-7)",
       "home": "united-states",
       "away": "bosnia-and-herzegovina",
       "score": {
@@ -1473,8 +1475,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "lumen-field",
-      "city": "Seattle",
+      "venue": "Levi's Stadium",
+      "city": "Santa Clara",
       "referee": "Facundo Tello",
       "goals": [],
       "datetime_utc": "2026-07-02T00:00:00.000Z"
@@ -1485,8 +1487,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-01",
-      "time": "20:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "13:00",
+      "timezone": "PDT (UTC-7)",
       "home": "belgium",
       "away": "senegal",
       "score": {
@@ -1494,8 +1496,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "hard-rock-stadium",
-      "city": "Miami Gardens",
+      "venue": "Lumen Field",
+      "city": "Seattle",
       "referee": "Guillermo Guerrero",
       "goals": [],
       "datetime_utc": "2026-07-01T20:00:00.000Z"
@@ -1506,8 +1508,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-02",
-      "time": "23:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "19:00",
+      "timezone": "EDT (UTC-4)",
       "home": "portugal",
       "away": "croatia",
       "score": {
@@ -1515,8 +1517,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "levis-stadium",
-      "city": "Santa Clara",
+      "venue": "BMO Field",
+      "city": "Toronto",
       "referee": "Kevin Ortega",
       "goals": [],
       "datetime_utc": "2026-07-02T23:00:00.000Z"
@@ -1527,8 +1529,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-02",
-      "time": "19:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "09:00",
+      "timezone": "PDT (UTC-7)",
       "home": "spain",
       "away": "austria",
       "score": {
@@ -1536,20 +1538,20 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "nrg-stadium",
-      "city": "Houston",
+      "venue": "SoFi Stadium",
+      "city": "Inglewood",
       "referee": "Alexis Herrera",
       "goals": [],
-      "datetime_utc": "2026-07-02T19:00:00.000Z"
+      "datetime_utc": "2026-07-02T16:00:00.000Z"
     },
     {
       "id": "match-85",
       "number": 85,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-07-03",
-      "time": "03:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "date": "2026-07-02",
+      "time": "20:00",
+      "timezone": "PDT (UTC-7)",
       "home": "switzerland",
       "away": "algeria",
       "score": {
@@ -1557,8 +1559,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "arrowhead-stadium",
-      "city": "Kansas City",
+      "venue": "BC Place",
+      "city": "Vancouver",
       "referee": "Juan Soto",
       "goals": [],
       "datetime_utc": "2026-07-03T03:00:00.000Z"
@@ -1569,8 +1571,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-03",
-      "time": "22:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "18:00",
+      "timezone": "EDT (UTC-4)",
       "home": "argentina",
       "away": "cape-verde",
       "score": {
@@ -1578,8 +1580,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "allegiant-stadium",
-      "city": "Las Vegas",
+      "venue": "Hard Rock Stadium",
+      "city": "Miami Gardens",
       "referee": "Jhon Ospina",
       "goals": [],
       "datetime_utc": "2026-07-03T22:00:00.000Z"
@@ -1589,9 +1591,9 @@
       "number": 87,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-07-04",
-      "time": "01:30",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "date": "2026-07-03",
+      "time": "20:30",
+      "timezone": "CDT (UTC-5)",
       "home": "colombia",
       "away": "ghana",
       "score": {
@@ -1599,8 +1601,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "estadio-bbva",
-      "city": "Monterrey",
+      "venue": "GEHA Field at Arrowhead Stadium",
+      "city": "Kansas City",
       "referee": "Yael Falcón",
       "goals": [],
       "datetime_utc": "2026-07-04T01:30:00.000Z"
@@ -1611,8 +1613,8 @@
       "stage": "round-of-32",
       "group": null,
       "date": "2026-07-03",
-      "time": "18:00",
-      "timezone": "UTC−6 / UTC−4 / UTC−7",
+      "time": "13:00",
+      "timezone": "CDT (UTC-5)",
       "home": "australia",
       "away": "egypt",
       "score": {
@@ -1620,8 +1622,8 @@
         "away": null
       },
       "status": "scheduled",
-      "venue": "bmo-field",
-      "city": "Toronto",
+      "venue": "AT&T Stadium",
+      "city": "Arlington",
       "referee": "César Arturo Ramos",
       "goals": [],
       "datetime_utc": "2026-07-03T18:00:00.000Z"

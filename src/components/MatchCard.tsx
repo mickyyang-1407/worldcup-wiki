@@ -181,6 +181,22 @@ const TEAM_COLORS: Record<string, { border: string; bg: string }> = {
   ghana: { border: "#d52b1e", bg: "#fff5f5" },
   australia: { border: "#00008b", bg: "#f5f5ff" },
   egypt: { border: "#c1272d", bg: "#fff5f5" },
+  "south-korea": { border: "#d2232a", bg: "#fff5f5" },
+  "czech-republic": { border: "#11457e", bg: "#f0f4fa" },
+  qatar: { border: "#8a1538", bg: "#faf0f2" },
+  haiti: { border: "#00209f", bg: "#f0f2fa" },
+  scotland: { border: "#0065bf", bg: "#f0f6fc" },
+  turkey: { border: "#e30a17", bg: "#fff5f5" },
+  curacao: { border: "#002b7f", bg: "#f0f4fa" },
+  tunisia: { border: "#e70013", bg: "#fff5f5" },
+  iran: { border: "#239e46", bg: "#f4faf6" },
+  "new-zealand": { border: "#111111", bg: "#f7f7f7" },
+  "saudi-arabia": { border: "#006c35", bg: "#f4faf6" },
+  uruguay: { border: "#74acdf", bg: "#f5faff" },
+  iraq: { border: "#007a3d", bg: "#f4faf6" },
+  jordan: { border: "#e01a22", bg: "#fff5f5" },
+  uzbekistan: { border: "#00aeef", bg: "#f0faff" },
+  panama: { border: "#da121a", bg: "#fff5f5" },
 };
 
 export default function MatchCard({ match }: MatchCardProps) {
@@ -205,18 +221,27 @@ export default function MatchCard({ match }: MatchCardProps) {
 
   const detailSlug = `${match.home}--${match.away}--${match.date}`;
   
-  const winnerColor = (match.stage !== "group" && match.status === "completed") 
+  const isCompleted = match.status === "completed";
+  const winnerSlug = isCompleted
     ? (() => {
         const espnWinner = (match as any).winner;
         if (espnWinner && espnWinner !== "tbd") {
-          return TEAM_COLORS[espnWinner] || null;
+          return espnWinner;
         }
         const homeScore = match.score?.home ?? 0;
         const awayScore = match.score?.away ?? 0;
-        const winnerSlug = homeScore > awayScore ? match.home : homeScore < awayScore ? match.away : "";
-        return TEAM_COLORS[winnerSlug] || null;
+        return homeScore > awayScore ? match.home : homeScore < awayScore ? match.away : "";
       })()
     : null;
+
+  const winnerColor = (match.stage !== "group" && isCompleted && winnerSlug)
+    ? (TEAM_COLORS[winnerSlug] || null)
+    : null;
+
+  const isHomeWinner = isCompleted && winnerSlug === match.home;
+  const isAwayWinner = isCompleted && winnerSlug === match.away;
+  const isHomeLoser = isCompleted && winnerSlug && winnerSlug !== match.home;
+  const isAwayLoser = isCompleted && winnerSlug && winnerSlug !== match.away;
 
   return (
     <Link href={`/matches/${detailSlug}`} className="block">
@@ -251,9 +276,14 @@ export default function MatchCard({ match }: MatchCardProps) {
 
       <div className="grid grid-cols-3 items-center">
         {/* Left column: 中文隊名 + 英文隊名 + 國旗（國旗靠中間） */}
-        <div className="flex items-center justify-end gap-3">
+        <div className={`flex items-center justify-end gap-3 transition-opacity ${isHomeLoser ? "opacity-45" : ""}`}>
           <div className="flex flex-col items-end">
-            {homeTeam && <span className="text-sm font-semibold text-gray-800 leading-tight">{homeTeam.name_zh}</span>}
+            {homeTeam && (
+              <span className={`text-sm leading-tight text-gray-800 ${isHomeWinner ? "font-bold text-gray-900" : "font-semibold"}`}>
+                {homeTeam.name_zh}
+                {isHomeWinner && <span className="ml-1 text-xs" title="獲勝">👑</span>}
+              </span>
+            )}
             {homeTeam && <span className="text-xs text-gray-400 leading-tight">{homeTeam.name}</span>}
           </div>
           {homeFlag ? (
@@ -267,7 +297,9 @@ export default function MatchCard({ match }: MatchCardProps) {
         <div className="flex flex-col items-center gap-1">
           {match.status === "completed" ? (
             <span className="text-2xl font-bold text-gray-900 font-mono">
-              {match.score.home} - {match.score.away}
+              <span className={isHomeWinner ? "text-amber-600 font-black" : ""}>{match.score.home}</span>
+              {" - "}
+              <span className={isAwayWinner ? "text-amber-600 font-black" : ""}>{match.score.away}</span>
             </span>
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
@@ -279,14 +311,19 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
 
         {/* Right column: 國旗（靠中間）+ 中文隊名 + 英文隊名 */}
-        <div className="flex items-center gap-3">
+        <div className={`flex items-center gap-3 transition-opacity ${isAwayLoser ? "opacity-45" : ""}`}>
           {awayFlag ? (
             <span className={`${awayFlag} text-3xl rounded-sm shrink-0`} title={awayTeam?.name} />
           ) : (
             <span className="inline-flex items-center justify-center rounded-full text-3xl shrink-0">🏳️</span>
           )}
           <div className="flex flex-col">
-            {awayTeam && <span className="text-sm font-semibold text-gray-800 leading-tight">{awayTeam.name_zh}</span>}
+            {awayTeam && (
+              <span className={`text-sm leading-tight text-gray-800 ${isAwayWinner ? "font-bold text-gray-900" : "font-semibold"}`}>
+                {isAwayWinner && <span className="mr-1 text-xs" title="獲勝">👑</span>}
+                {awayTeam.name_zh}
+              </span>
+            )}
             {awayTeam && <span className="text-xs text-gray-400 leading-tight">{awayTeam.name}</span>}
           </div>
         </div>
