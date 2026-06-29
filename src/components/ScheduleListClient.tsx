@@ -53,7 +53,7 @@ function getTodayStr(): string {
 }
 
 export default function ScheduleListClient() {
-  const [stageFilter, setStageFilter] = useState("all");
+  const [stageFilter, setStageFilter] = useState("round-of-32");
   const [statusFilter, setStatusFilter] = useState("all");
   const [groupFilter, setGroupFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");

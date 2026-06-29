@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { espnNameToSlug, espnStatusToLocal } from "@/lib/espnTeamMap";
+import { matches as scheduleMatches } from "@/data/schedule";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -13,6 +14,35 @@ function getDateRange() {
   const fmt = (d: Date) =>
     `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, "0")}${String(d.getUTCDate()).padStart(2, "0")}`;
   return `${fmt(past)}-${fmt(future)}`;
+}
+
+function findStage(homeSlug: string, awaySlug: string, dateStr: string): string {
+  const matched = scheduleMatches.find((m: any) => 
+    (m.home === homeSlug && m.away === awaySlug) || 
+    (m.home === awaySlug && m.away === homeSlug)
+  );
+  if (matched) {
+    return matched.stage;
+  }
+
+  if (dateStr) {
+    const date = new Date(dateStr);
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
+    
+    if (month === 6) {
+      if (day >= 11 && day <= 27) return "group";
+      if (day >= 28 && day <= 30) return "round-of-32";
+    } else if (month === 7) {
+      if (day >= 1 && day <= 2) return "round-of-32";
+      if (day >= 3 && day <= 7) return "round-of-16";
+      if (day >= 8 && day <= 12) return "quarter-finals";
+      if (day >= 13 && day <= 16) return "semi-finals";
+      if (day === 17 || day === 18) return "third-place";
+      if (day === 19) return "final";
+    }
+  }
+  return "group";
 }
 
 export async function GET(request: Request) {
@@ -38,13 +68,15 @@ export async function GET(request: Request) {
       const away = competitors.find((c: any) => c.homeAway === "away");
       const espnStatus = comp.status?.type?.name || "";
       const status = espnStatusToLocal(espnStatus);
+      const homeSlug = espnNameToSlug(home?.team?.displayName || "");
+      const awaySlug = espnNameToSlug(away?.team?.displayName || "");
 
       return {
         id: `espn-${event.id}`,
         date: event.date?.slice(0, 10) || "",
         time: event.date || "",
-        home: espnNameToSlug(home?.team?.displayName || ""),
-        away: espnNameToSlug(away?.team?.displayName || ""),
+        home: homeSlug,
+        away: awaySlug,
         homeTeamName: home?.team?.displayName || "",
         awayTeamName: away?.team?.displayName || "",
         score: {
@@ -52,7 +84,7 @@ export async function GET(request: Request) {
           away: status !== "scheduled" && away?.score !== undefined ? parseInt(away.score) : null,
         },
         status,
-        stage: "group",
+        stage: findStage(homeSlug, awaySlug, event.date),
         venue: comp.venue?.fullName || "",
         city: comp.venue?.address?.city || "",
         liveMinute: comp.status?.displayClock || null,

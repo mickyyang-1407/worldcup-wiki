@@ -121,7 +121,7 @@ export default function LiveGroupStandings({ groupId, compact = false, isLink = 
                     {group.standings.map((row, idx) => (
                       <tr
                         key={row.team_id}
-                        className={`border-b border-gray-50 last:border-0 ${idx < 2 ? "bg-green-50/40" : ""}`}
+                        className={`border-b border-gray-50 last:border-0 ${idx < 2 ? "bg-amber-50" : ""}`}
                       >
                         <td className="px-3 py-2">
                           <TeamBadge teamId={row.team_id} size="sm" showName={true} linkable={!isLink} />

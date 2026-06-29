@@ -54,11 +54,10 @@ const statusLabels: Record<string, string> = {
 };
 
 // Parse match time to Asia/Taipei display string (MM/DD HH:mm)
-function getMatchDateTime(dateStr: string, timeStr: string): string {
-  // Case 1: ISO UTC from ESPN e.g. "2026-06-14T04:00Z"
-  if (timeStr && timeStr.includes("T")) {
+function getMatchDateTime(datetimeUtc: string, dateStr: string): string {
+  if (datetimeUtc) {
     try {
-      const d = new Date(timeStr);
+      const d = new Date(datetimeUtc);
       if (!isNaN(d.getTime())) {
         return d.toLocaleString("zh-TW", {
           timeZone: "Asia/Taipei",
@@ -71,39 +70,47 @@ function getMatchDateTime(dateStr: string, timeStr: string): string {
       }
     } catch {}
   }
-  // Case 2: "1:00p.m. UTC−6" from local data (− is U+2212 MINUS SIGN)
-  if (timeStr && timeStr.includes("UTC")) {
-    const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(p\.m\.|a\.m\.)\s*UTC([+\-−])(\d{1,2})/i);
-    if (m) {
-      let hour = parseInt(m[1], 10);
-      const minute = parseInt(m[2], 10);
-      const isPM = m[3].toLowerCase().includes("p");
-      const isNeg = m[4] === "-" || m[4] === "−";
-      const offsetH = parseInt(m[5], 10);
-      if (isPM && hour !== 12) hour += 12;
-      if (!isPM && hour === 12) hour = 0;
-      const offsetMs = (isNeg ? -1 : 1) * offsetH * 3600000;
-      const localAsUtc = new Date(`${dateStr}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00Z`);
-      const utc = new Date(localAsUtc.getTime() - offsetMs);
-      if (!isNaN(utc.getTime())) {
-        return utc.toLocaleString("zh-TW", {
-          timeZone: "Asia/Taipei",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-      }
-    }
-  }
-  // Fallback: date only
   const d = new Date(dateStr + "T00:00:00Z");
   if (!isNaN(d.getTime())) {
     return d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit" });
   }
   return dateStr;
 }
+
+const TEAM_COLORS: Record<string, { border: string; bg: string }> = {
+  canada: { border: "#ff0000", bg: "#fff5f5" },
+  "south-africa": { border: "#007a4d", bg: "#f4faf6" },
+  germany: { border: "#111111", bg: "#f7f7f7" },
+  paraguay: { border: "#d52b1e", bg: "#fff5f5" },
+  netherlands: { border: "#ff4f00", bg: "#fffaf5" },
+  morocco: { border: "#c1272d", bg: "#fff5f5" },
+  brazil: { border: "#fedf00", bg: "#fffff0" },
+  japan: { border: "#002e73", bg: "#f0f5fa" },
+  france: { border: "#002395", bg: "#f0f2fa" },
+  sweden: { border: "#006aa7", bg: "#f0f6fa" },
+  "ivory-coast": { border: "#ff8c00", bg: "#fffbf5" },
+  norway: { border: "#ef2b2d", bg: "#fff5f5" },
+  mexico: { border: "#006847", bg: "#f4faf6" },
+  ecuador: { border: "#ffdd00", bg: "#fffff0" },
+  england: { border: "#000080", bg: "#f5f5ff" },
+  "dr-congo": { border: "#007fff", bg: "#f5faff" },
+  "united-states": { border: "#002868", bg: "#f0f4fa" },
+  "bosnia-and-herzegovina": { border: "#00209f", bg: "#f0f2fa" },
+  belgium: { border: "#e30613", bg: "#fff5f5" },
+  senegal: { border: "#00853f", bg: "#f4faf6" },
+  portugal: { border: "#ff0000", bg: "#fff5f5" },
+  croatia: { border: "#ff0000", bg: "#fff5f5" },
+  spain: { border: "#c60b1e", bg: "#fff5f5" },
+  austria: { border: "#ed2939", bg: "#fff5f5" },
+  switzerland: { border: "#d52b1e", bg: "#fff5f5" },
+  algeria: { border: "#006233", bg: "#f4faf6" },
+  argentina: { border: "#74acdf", bg: "#f5faff" },
+  "cape-verde": { border: "#002a66", bg: "#f0f4fa" },
+  colombia: { border: "#fcd116", bg: "#fffff5" },
+  ghana: { border: "#d52b1e", bg: "#fff5f5" },
+  australia: { border: "#00008b", bg: "#f5f5ff" },
+  egypt: { border: "#c1272d", bg: "#fff5f5" },
+};
 
 export default function MatchCard({ match }: MatchCardProps) {
   const homeTeam = teams.find((t: any) => t.id === match.home) || (match.home?.toLowerCase() === "tbd" ? { id: "tbd", name: "TBD", name_zh: "未定" } : null);
@@ -112,10 +119,29 @@ export default function MatchCard({ match }: MatchCardProps) {
   const awayFlag = awayTeam ? getFlagClass(match.away) : null;
 
   const detailSlug = `${match.home}--${match.away}--${match.date}`;
+  
+  const winnerColor = (match.stage === "round-of-32" && match.status === "completed") 
+    ? (() => {
+        const homeScore = match.score?.home ?? 0;
+        const awayScore = match.score?.away ?? 0;
+        const winnerSlug = homeScore > awayScore ? match.home : homeScore < awayScore ? match.away : "";
+        return TEAM_COLORS[winnerSlug] || null;
+      })()
+    : null;
 
   return (
     <Link href={`/matches/${detailSlug}`} className="block">
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-4 relative overflow-hidden cursor-pointer">
+    <div 
+      className="rounded-xl border shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-4 relative overflow-hidden cursor-pointer"
+      style={winnerColor ? {
+        borderColor: winnerColor.border,
+        backgroundColor: winnerColor.bg,
+        borderWidth: '2px'
+      } : {
+        borderColor: '#f3f4f6',
+        backgroundColor: '#ffffff'
+      }}
+    >
       {/* Left color bar for group matches */}
       {match.stage === "group" && match.group && (
         <div
@@ -157,7 +183,7 @@ export default function MatchCard({ match }: MatchCardProps) {
           ) : (
             <span className="text-lg font-semibold text-gray-600">vs</span>
           )}
-          <span className="text-xs text-gray-500">{getMatchDateTime(match.date, match.time)}</span>
+          <span className="text-xs text-gray-500">{getMatchDateTime((match as any).datetime_utc || match.time, match.date)}</span>
           <span className="text-[10px] text-gray-300">台北時間</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}

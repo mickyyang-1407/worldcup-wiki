@@ -38,9 +38,9 @@ export default function LiveScoresClient() {
       if (!res.ok) throw new Error("Failed to fetch");
       const json: LiveScoresResponse = await res.json();
       
-      const liveMatches = json.matches.filter(m => m.status === "live");
+      const liveMatches = json.matches.filter(m => m.status === "live" && m.stage !== "group");
       const completedMatches = json.matches
-        .filter(m => m.status === "completed")
+        .filter(m => m.status === "completed" && m.stage !== "group")
         .sort((a, b) => b.time.localeCompare(a.time));
         
       const displayMatches = [...liveMatches, ...completedMatches].slice(0, 4);
@@ -79,7 +79,7 @@ export default function LiveScoresClient() {
     return (
       <section>
         <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#a00303' }}>
-          <h2 className="text-xl font-bold text-white">即時賽況 / 最新賽果</h2>
+          <h2 className="text-xl font-bold text-white">即時淘汰賽況 (32強)</h2>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <div className="animate-pulse space-y-3">
@@ -105,7 +105,7 @@ export default function LiveScoresClient() {
   return (
     <section>
       <div className="rounded-xl px-4 py-3 mb-4 flex items-center justify-between" style={{ background: '#a00303' }}>
-        <h2 className="text-xl font-bold text-white">即時賽況 / 最新賽果</h2>
+        <h2 className="text-xl font-bold text-white">即時淘汰賽況 (32強)</h2>
         <div className="flex items-center gap-3">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />

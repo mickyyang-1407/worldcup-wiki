@@ -83,12 +83,12 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
                     <tr
                       key={row.team_id}
                       className={`border-b border-gray-50 hover:bg-blue-50/50 transition-colors ${
-                        isQualified ? "bg-green-50/30" : ""
+                        isQualified ? "bg-amber-50" : ""
                       }`}
                     >
                       <td className="px-3 py-2.5 text-center">
                         {isQualified ? (
-                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">
                             {row.pos}
                           </span>
                         ) : (
@@ -113,7 +113,7 @@ export default function GroupStandingsTable({ groupId, compact = false }: GroupS
             </table>
           </div>
           <div className="px-4 py-2 text-xs text-gray-400 bg-gray-50 flex items-center gap-2">
-            <span className="inline-block w-3 h-3 rounded bg-green-100"></span>
+            <span className="inline-block w-3 h-3 rounded bg-amber-100"></span>
             <span>晉級淘汰賽</span>
           </div>
         </div>

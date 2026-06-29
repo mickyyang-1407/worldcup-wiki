@@ -15,7 +15,8 @@
       },
       "status": "completed",
       "venue": "estadio-azteca",
-      "city": "Mexico City"
+      "city": "Mexico City",
+      "datetime_utc": "2026-06-11T19:00:00.000Z"
     },
     {
       "id": "match-2",
@@ -32,7 +33,8 @@
       },
       "status": "completed",
       "venue": "estadio-akron",
-      "city": "Zapopan"
+      "city": "Zapopan",
+      "datetime_utc": "2026-06-12T02:00:00.000Z"
     },
     {
       "id": "match-3",
@@ -49,7 +51,8 @@
       },
       "status": "completed",
       "venue": "mercedes-benz-stadium",
-      "city": "Atlanta"
+      "city": "Atlanta",
+      "datetime_utc": "2026-06-18T16:00:00.000Z"
     },
     {
       "id": "match-4",
@@ -66,7 +69,8 @@
       },
       "status": "completed",
       "venue": "estadio-akron",
-      "city": "Zapopan"
+      "city": "Zapopan",
+      "datetime_utc": "2026-06-19T01:00:00.000Z"
     },
     {
       "id": "match-5",
@@ -83,7 +87,8 @@
       },
       "status": "completed",
       "venue": "estadio-azteca",
-      "city": "Mexico City"
+      "city": "Mexico City",
+      "datetime_utc": "2026-06-25T01:00:00.000Z"
     },
     {
       "id": "match-6",
@@ -100,7 +105,8 @@
       },
       "status": "completed",
       "venue": "estadio-bbva",
-      "city": "Guadalupe"
+      "city": "Guadalupe",
+      "datetime_utc": "2026-06-25T01:00:00.000Z"
     },
     {
       "id": "match-7",
@@ -117,7 +123,8 @@
       },
       "status": "completed",
       "venue": "bmo-field",
-      "city": "Toronto"
+      "city": "Toronto",
+      "datetime_utc": "2026-06-12T19:00:00.000Z"
     },
     {
       "id": "match-8",
@@ -134,7 +141,8 @@
       },
       "status": "completed",
       "venue": "levis-stadium",
-      "city": "Santa Clara"
+      "city": "Santa Clara",
+      "datetime_utc": "2026-06-13T19:00:00.000Z"
     },
     {
       "id": "match-9",
@@ -151,7 +159,8 @@
       },
       "status": "completed",
       "venue": "sofi-stadium",
-      "city": "Inglewood"
+      "city": "Inglewood",
+      "datetime_utc": "2026-06-18T19:00:00.000Z"
     },
     {
       "id": "match-10",
@@ -168,7 +177,8 @@
       },
       "status": "completed",
       "venue": "bc-place",
-      "city": "Vancouver"
+      "city": "Vancouver",
+      "datetime_utc": "2026-06-18T22:00:00.000Z"
     },
     {
       "id": "match-11",
@@ -185,7 +195,8 @@
       },
       "status": "completed",
       "venue": "bc-place",
-      "city": "Vancouver"
+      "city": "Vancouver",
+      "datetime_utc": "2026-06-24T19:00:00.000Z"
     },
     {
       "id": "match-12",
@@ -202,7 +213,8 @@
       },
       "status": "completed",
       "venue": "lumen-field",
-      "city": "Seattle"
+      "city": "Seattle",
+      "datetime_utc": "2026-06-24T19:00:00.000Z"
     },
     {
       "id": "match-13",
@@ -219,7 +231,8 @@
       },
       "status": "completed",
       "venue": "metlife-stadium",
-      "city": "East Rutherford"
+      "city": "East Rutherford",
+      "datetime_utc": "2026-06-13T22:00:00.000Z"
     },
     {
       "id": "match-14",
@@ -236,7 +249,8 @@
       },
       "status": "completed",
       "venue": "gillette-stadium",
-      "city": "Foxborough"
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-14T01:00:00.000Z"
     },
     {
       "id": "match-15",
@@ -253,7 +267,8 @@
       },
       "status": "completed",
       "venue": "gillette-stadium",
-      "city": "Foxborough"
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-19T22:00:00.000Z"
     },
     {
       "id": "match-16",
@@ -270,7 +285,8 @@
       },
       "status": "completed",
       "venue": "lincoln-financial-field",
-      "city": "Philadelphia"
+      "city": "Philadelphia",
+      "datetime_utc": "2026-06-20T00:30:00.000Z"
     },
     {
       "id": "match-17",
@@ -287,7 +303,8 @@
       },
       "status": "completed",
       "venue": "hard-rock-stadium",
-      "city": "Miami Gardens"
+      "city": "Miami Gardens",
+      "datetime_utc": "2026-06-24T22:00:00.000Z"
     },
     {
       "id": "match-18",
@@ -304,7 +321,8 @@
       },
       "status": "completed",
       "venue": "mercedes-benz-stadium",
-      "city": "Atlanta"
+      "city": "Atlanta",
+      "datetime_utc": "2026-06-24T22:00:00.000Z"
     },
     {
       "id": "match-19",
@@ -321,7 +339,8 @@
       },
       "status": "completed",
       "venue": "sofi-stadium",
-      "city": "Inglewood"
+      "city": "Inglewood",
+      "datetime_utc": "2026-06-13T01:00:00.000Z"
     },
     {
       "id": "match-20",
@@ -338,7 +357,8 @@
       },
       "status": "completed",
       "venue": "bc-place",
-      "city": "Vancouver"
+      "city": "Vancouver",
+      "datetime_utc": "2026-06-14T04:00:00.000Z"
     },
     {
       "id": "match-21",
@@ -355,7 +375,8 @@
       },
       "status": "completed",
       "venue": "lumen-field",
-      "city": "Seattle"
+      "city": "Seattle",
+      "datetime_utc": "2026-06-19T19:00:00.000Z"
     },
     {
       "id": "match-22",
@@ -372,7 +393,8 @@
       },
       "status": "completed",
       "venue": "levis-stadium",
-      "city": "Santa Clara"
+      "city": "Santa Clara",
+      "datetime_utc": "2026-06-20T03:00:00.000Z"
     },
     {
       "id": "match-23",
@@ -389,7 +411,8 @@
       },
       "status": "completed",
       "venue": "sofi-stadium",
-      "city": "Inglewood"
+      "city": "Inglewood",
+      "datetime_utc": "2026-06-26T02:00:00.000Z"
     },
     {
       "id": "match-24",
@@ -406,7 +429,8 @@
       },
       "status": "completed",
       "venue": "levis-stadium",
-      "city": "Santa Clara"
+      "city": "Santa Clara",
+      "datetime_utc": "2026-06-26T02:00:00.000Z"
     },
     {
       "id": "match-25",
@@ -423,7 +447,8 @@
       },
       "status": "completed",
       "venue": "nrg-stadium",
-      "city": "Houston"
+      "city": "Houston",
+      "datetime_utc": "2026-06-14T17:00:00.000Z"
     },
     {
       "id": "match-26",
@@ -440,7 +465,8 @@
       },
       "status": "completed",
       "venue": "lincoln-financial-field",
-      "city": "Philadelphia"
+      "city": "Philadelphia",
+      "datetime_utc": "2026-06-14T23:00:00.000Z"
     },
     {
       "id": "match-27",
@@ -457,7 +483,8 @@
       },
       "status": "completed",
       "venue": "bmo-field",
-      "city": "Toronto"
+      "city": "Toronto",
+      "datetime_utc": "2026-06-20T20:00:00.000Z"
     },
     {
       "id": "match-28",
@@ -474,7 +501,8 @@
       },
       "status": "completed",
       "venue": "arrowhead-stadium",
-      "city": "Kansas City"
+      "city": "Kansas City",
+      "datetime_utc": "2026-06-21T00:00:00.000Z"
     },
     {
       "id": "match-29",
@@ -491,7 +519,8 @@
       },
       "status": "completed",
       "venue": "lincoln-financial-field",
-      "city": "Philadelphia"
+      "city": "Philadelphia",
+      "datetime_utc": "2026-06-25T20:00:00.000Z"
     },
     {
       "id": "match-30",
@@ -508,7 +537,8 @@
       },
       "status": "completed",
       "venue": "metlife-stadium",
-      "city": "East Rutherford"
+      "city": "East Rutherford",
+      "datetime_utc": "2026-06-25T20:00:00.000Z"
     },
     {
       "id": "match-31",
@@ -525,7 +555,8 @@
       },
       "status": "completed",
       "venue": "at-t-stadium",
-      "city": "Arlington"
+      "city": "Arlington",
+      "datetime_utc": "2026-06-14T20:00:00.000Z"
     },
     {
       "id": "match-32",
@@ -542,7 +573,8 @@
       },
       "status": "completed",
       "venue": "estadio-bbva",
-      "city": "Guadalupe"
+      "city": "Guadalupe",
+      "datetime_utc": "2026-06-15T02:00:00.000Z"
     },
     {
       "id": "match-33",
@@ -559,7 +591,8 @@
       },
       "status": "completed",
       "venue": "nrg-stadium",
-      "city": "Houston"
+      "city": "Houston",
+      "datetime_utc": "2026-06-20T17:00:00.000Z"
     },
     {
       "id": "match-34",
@@ -576,7 +609,8 @@
       },
       "status": "completed",
       "venue": "estadio-bbva",
-      "city": "Guadalupe"
+      "city": "Guadalupe",
+      "datetime_utc": "2026-06-21T04:00:00.000Z"
     },
     {
       "id": "match-35",
@@ -593,7 +627,8 @@
       },
       "status": "completed",
       "venue": "at-t-stadium",
-      "city": "Arlington"
+      "city": "Arlington",
+      "datetime_utc": "2026-06-25T23:00:00.000Z"
     },
     {
       "id": "match-36",
@@ -610,7 +645,8 @@
       },
       "status": "completed",
       "venue": "arrowhead-stadium",
-      "city": "Kansas City"
+      "city": "Kansas City",
+      "datetime_utc": "2026-06-25T23:00:00.000Z"
     },
     {
       "id": "match-37",
@@ -627,7 +663,8 @@
       },
       "status": "completed",
       "venue": "lumen-field",
-      "city": "Seattle"
+      "city": "Seattle",
+      "datetime_utc": "2026-06-15T19:00:00.000Z"
     },
     {
       "id": "match-38",
@@ -644,7 +681,8 @@
       },
       "status": "completed",
       "venue": "sofi-stadium",
-      "city": "Inglewood"
+      "city": "Inglewood",
+      "datetime_utc": "2026-06-16T01:00:00.000Z"
     },
     {
       "id": "match-39",
@@ -661,7 +699,8 @@
       },
       "status": "completed",
       "venue": "sofi-stadium",
-      "city": "Inglewood"
+      "city": "Inglewood",
+      "datetime_utc": "2026-06-21T19:00:00.000Z"
     },
     {
       "id": "match-40",
@@ -678,7 +717,8 @@
       },
       "status": "completed",
       "venue": "bc-place",
-      "city": "Vancouver"
+      "city": "Vancouver",
+      "datetime_utc": "2026-06-22T01:00:00.000Z"
     },
     {
       "id": "match-41",
@@ -695,7 +735,8 @@
       },
       "status": "completed",
       "venue": "lumen-field",
-      "city": "Seattle"
+      "city": "Seattle",
+      "datetime_utc": "2026-06-27T03:00:00.000Z"
     },
     {
       "id": "match-42",
@@ -712,7 +753,8 @@
       },
       "status": "completed",
       "venue": "bc-place",
-      "city": "Vancouver"
+      "city": "Vancouver",
+      "datetime_utc": "2026-06-27T03:00:00.000Z"
     },
     {
       "id": "match-43",
@@ -729,7 +771,8 @@
       },
       "status": "completed",
       "venue": "mercedes-benz-stadium",
-      "city": "Atlanta"
+      "city": "Atlanta",
+      "datetime_utc": "2026-06-15T16:00:00.000Z"
     },
     {
       "id": "match-44",
@@ -746,7 +789,8 @@
       },
       "status": "completed",
       "venue": "hard-rock-stadium",
-      "city": "Miami Gardens"
+      "city": "Miami Gardens",
+      "datetime_utc": "2026-06-15T22:00:00.000Z"
     },
     {
       "id": "match-45",
@@ -763,7 +807,8 @@
       },
       "status": "completed",
       "venue": "mercedes-benz-stadium",
-      "city": "Atlanta"
+      "city": "Atlanta",
+      "datetime_utc": "2026-06-21T16:00:00.000Z"
     },
     {
       "id": "match-46",
@@ -780,7 +825,8 @@
       },
       "status": "completed",
       "venue": "hard-rock-stadium",
-      "city": "Miami Gardens"
+      "city": "Miami Gardens",
+      "datetime_utc": "2026-06-21T22:00:00.000Z"
     },
     {
       "id": "match-47",
@@ -797,7 +843,8 @@
       },
       "status": "completed",
       "venue": "nrg-stadium",
-      "city": "Houston"
+      "city": "Houston",
+      "datetime_utc": "2026-06-27T00:00:00.000Z"
     },
     {
       "id": "match-48",
@@ -814,7 +861,8 @@
       },
       "status": "completed",
       "venue": "estadio-akron",
-      "city": "Zapopan"
+      "city": "Zapopan",
+      "datetime_utc": "2026-06-27T00:00:00.000Z"
     },
     {
       "id": "match-49",
@@ -831,7 +879,8 @@
       },
       "status": "completed",
       "venue": "metlife-stadium",
-      "city": "East Rutherford"
+      "city": "East Rutherford",
+      "datetime_utc": "2026-06-16T19:00:00.000Z"
     },
     {
       "id": "match-50",
@@ -848,7 +897,8 @@
       },
       "status": "completed",
       "venue": "gillette-stadium",
-      "city": "Foxborough"
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-16T22:00:00.000Z"
     },
     {
       "id": "match-51",
@@ -865,7 +915,8 @@
       },
       "status": "completed",
       "venue": "lincoln-financial-field",
-      "city": "Philadelphia"
+      "city": "Philadelphia",
+      "datetime_utc": "2026-06-22T21:00:00.000Z"
     },
     {
       "id": "match-52",
@@ -882,7 +933,8 @@
       },
       "status": "completed",
       "venue": "metlife-stadium",
-      "city": "East Rutherford"
+      "city": "East Rutherford",
+      "datetime_utc": "2026-06-23T00:00:00.000Z"
     },
     {
       "id": "match-53",
@@ -899,7 +951,8 @@
       },
       "status": "completed",
       "venue": "gillette-stadium",
-      "city": "Foxborough"
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-26T19:00:00.000Z"
     },
     {
       "id": "match-54",
@@ -916,7 +969,8 @@
       },
       "status": "completed",
       "venue": "bmo-field",
-      "city": "Toronto"
+      "city": "Toronto",
+      "datetime_utc": "2026-06-26T19:00:00.000Z"
     },
     {
       "id": "match-55",
@@ -933,7 +987,8 @@
       },
       "status": "completed",
       "venue": "arrowhead-stadium",
-      "city": "Kansas City"
+      "city": "Kansas City",
+      "datetime_utc": "2026-06-17T01:00:00.000Z"
     },
     {
       "id": "match-56",
@@ -950,7 +1005,8 @@
       },
       "status": "completed",
       "venue": "levis-stadium",
-      "city": "Santa Clara"
+      "city": "Santa Clara",
+      "datetime_utc": "2026-06-17T04:00:00.000Z"
     },
     {
       "id": "match-57",
@@ -967,7 +1023,8 @@
       },
       "status": "completed",
       "venue": "at-t-stadium",
-      "city": "Arlington"
+      "city": "Arlington",
+      "datetime_utc": "2026-06-22T17:00:00.000Z"
     },
     {
       "id": "match-58",
@@ -984,7 +1041,8 @@
       },
       "status": "completed",
       "venue": "levis-stadium",
-      "city": "Santa Clara"
+      "city": "Santa Clara",
+      "datetime_utc": "2026-06-23T03:00:00.000Z"
     },
     {
       "id": "match-59",
@@ -1001,7 +1059,8 @@
       },
       "status": "scheduled",
       "venue": "arrowhead-stadium",
-      "city": "Kansas City"
+      "city": "Kansas City",
+      "datetime_utc": "2026-06-28T02:00:00.000Z"
     },
     {
       "id": "match-60",
@@ -1018,7 +1077,8 @@
       },
       "status": "scheduled",
       "venue": "at-t-stadium",
-      "city": "Arlington"
+      "city": "Arlington",
+      "datetime_utc": "2026-06-28T02:00:00.000Z"
     },
     {
       "id": "match-61",
@@ -1035,7 +1095,8 @@
       },
       "status": "completed",
       "venue": "nrg-stadium",
-      "city": "Houston"
+      "city": "Houston",
+      "datetime_utc": "2026-06-17T17:00:00.000Z"
     },
     {
       "id": "match-62",
@@ -1052,7 +1113,8 @@
       },
       "status": "completed",
       "venue": "estadio-azteca",
-      "city": "Mexico City"
+      "city": "Mexico City",
+      "datetime_utc": "2026-06-18T02:00:00.000Z"
     },
     {
       "id": "match-63",
@@ -1069,7 +1131,8 @@
       },
       "status": "completed",
       "venue": "nrg-stadium",
-      "city": "Houston"
+      "city": "Houston",
+      "datetime_utc": "2026-06-23T17:00:00.000Z"
     },
     {
       "id": "match-64",
@@ -1086,7 +1149,8 @@
       },
       "status": "completed",
       "venue": "estadio-akron",
-      "city": "Zapopan"
+      "city": "Zapopan",
+      "datetime_utc": "2026-06-24T02:00:00.000Z"
     },
     {
       "id": "match-65",
@@ -1103,7 +1167,8 @@
       },
       "status": "scheduled",
       "venue": "hard-rock-stadium",
-      "city": "Miami Gardens"
+      "city": "Miami Gardens",
+      "datetime_utc": "2026-06-27T23:30:00.000Z"
     },
     {
       "id": "match-66",
@@ -1120,7 +1185,8 @@
       },
       "status": "scheduled",
       "venue": "mercedes-benz-stadium",
-      "city": "Atlanta"
+      "city": "Atlanta",
+      "datetime_utc": "2026-06-27T23:30:00.000Z"
     },
     {
       "id": "match-67",
@@ -1137,7 +1203,8 @@
       },
       "status": "completed",
       "venue": "at-t-stadium",
-      "city": "Arlington"
+      "city": "Arlington",
+      "datetime_utc": "2026-06-17T20:00:00.000Z"
     },
     {
       "id": "match-68",
@@ -1154,7 +1221,8 @@
       },
       "status": "completed",
       "venue": "bmo-field",
-      "city": "Toronto"
+      "city": "Toronto",
+      "datetime_utc": "2026-06-17T23:00:00.000Z"
     },
     {
       "id": "match-69",
@@ -1171,7 +1239,8 @@
       },
       "status": "completed",
       "venue": "gillette-stadium",
-      "city": "Foxborough"
+      "city": "Foxborough",
+      "datetime_utc": "2026-06-23T20:00:00.000Z"
     },
     {
       "id": "match-70",
@@ -1188,7 +1257,8 @@
       },
       "status": "completed",
       "venue": "bmo-field",
-      "city": "Toronto"
+      "city": "Toronto",
+      "datetime_utc": "2026-06-23T23:00:00.000Z"
     },
     {
       "id": "match-71",
@@ -1205,7 +1275,8 @@
       },
       "status": "scheduled",
       "venue": "metlife-stadium",
-      "city": "East Rutherford"
+      "city": "East Rutherford",
+      "datetime_utc": "2026-06-27T21:00:00.000Z"
     },
     {
       "id": "match-72",
@@ -1222,279 +1293,338 @@
       },
       "status": "scheduled",
       "venue": "lincoln-financial-field",
-      "city": "Philadelphia"
+      "city": "Philadelphia",
+      "datetime_utc": "2026-06-27T21:00:00.000Z"
     },
     {
       "id": "match-73",
       "number": 73,
       "stage": "round-of-32",
-      "status": "upcoming",
+      "status": "completed",
       "group": "",
       "date": "2026-06-28",
-      "time": "10:00",
-      "home": "tbd",
-      "away": "tbd",
+      "time": "19:00",
+      "home": "south-africa",
+      "away": "canada",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
       "venue": "SoFi Stadium",
-      "city": "Los Angeles"
+      "city": "Los Angeles",
+      "datetime_utc": "2026-06-28T19:00:00.000Z"
     },
     {
       "id": "match-74",
       "number": 74,
       "stage": "round-of-32",
-      "status": "upcoming",
+      "status": "scheduled",
       "group": "",
-      "date": "2026-06-28",
-      "time": "13:00",
-      "home": "tbd",
-      "away": "tbd",
+      "date": "2026-06-29",
+      "time": "20:30",
+      "home": "germany",
+      "away": "paraguay",
       "score": {
         "home": null,
         "away": null
       },
       "venue": "Lumen Field",
-      "city": "Seattle"
+      "city": "Seattle",
+      "datetime_utc": "2026-06-29T20:30:00.000Z"
     },
     {
       "id": "match-75",
       "number": 75,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-27",
-      "time": "13:00",
+      "date": "2026-06-30",
+      "time": "01:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "netherlands",
+      "away": "morocco",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "estadio-azteca",
       "city": "Mexico City",
       "referee": "Abdulrahman Al-Jassim",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-30T01:00:00.000Z"
     },
     {
       "id": "match-76",
       "number": 76,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-27",
-      "time": "16:00",
+      "date": "2026-06-29",
+      "time": "17:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "brazil",
+      "away": "japan",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "metlife-stadium",
       "city": "East Rutherford",
       "referee": "Ma Ning",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-29T17:00:00.000Z"
     },
     {
       "id": "match-77",
       "number": 77,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-27",
-      "time": "14:00",
+      "date": "2026-06-30",
+      "time": "21:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "france",
+      "away": "sweden",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "sofi-stadium",
       "city": "Inglewood",
       "referee": "Alireza Faghani",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-30T21:00:00.000Z"
     },
     {
       "id": "match-78",
       "number": 78,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-27",
+      "date": "2026-06-30",
       "time": "17:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "ivory-coast",
+      "away": "norway",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "bc-place",
       "city": "Vancouver",
       "referee": "Mustapha Ghorbal",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-30T17:00:00.000Z"
     },
     {
       "id": "match-79",
       "number": 79,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-28",
-      "time": "13:00",
+      "date": "2026-07-01",
+      "time": "01:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "mexico",
+      "away": "ecuador",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "att-stadium",
       "city": "Arlington",
       "referee": "Bamlak Tessema Weyesa",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-01T01:00:00.000Z"
     },
     {
       "id": "match-80",
       "number": 80,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-28",
+      "date": "2026-07-01",
       "time": "16:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "england",
+      "away": "dr-congo",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta",
       "referee": "Raphael Claus",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-01T16:00:00.000Z"
     },
     {
       "id": "match-81",
       "number": 81,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-28",
-      "time": "14:00",
+      "date": "2026-07-02",
+      "time": "00:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "united-states",
+      "away": "bosnia-and-herzegovina",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "lumen-field",
       "city": "Seattle",
       "referee": "Facundo Tello",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T00:00:00.000Z"
     },
     {
       "id": "match-82",
       "number": 82,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-28",
-      "time": "17:00",
+      "date": "2026-07-01",
+      "time": "20:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "belgium",
+      "away": "senegal",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens",
       "referee": "Guillermo Guerrero",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-01T20:00:00.000Z"
     },
     {
       "id": "match-83",
       "number": 83,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-29",
-      "time": "13:00",
+      "date": "2026-07-02",
+      "time": "23:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "portugal",
+      "away": "croatia",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "levis-stadium",
       "city": "Santa Clara",
       "referee": "Kevin Ortega",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T23:00:00.000Z"
     },
     {
       "id": "match-84",
       "number": 84,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-29",
-      "time": "16:00",
+      "date": "2026-07-02",
+      "time": "19:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "spain",
+      "away": "austria",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "nrg-stadium",
       "city": "Houston",
       "referee": "Alexis Herrera",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T19:00:00.000Z"
     },
     {
       "id": "match-85",
       "number": 85,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-29",
-      "time": "14:00",
+      "date": "2026-07-03",
+      "time": "03:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "switzerland",
+      "away": "algeria",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "arrowhead-stadium",
       "city": "Kansas City",
       "referee": "Juan Soto",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T03:00:00.000Z"
     },
     {
       "id": "match-86",
       "number": 86,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-29",
-      "time": "17:00",
+      "date": "2026-07-03",
+      "time": "22:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "argentina",
+      "away": "cape-verde",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "allegiant-stadium",
       "city": "Las Vegas",
       "referee": "Jhon Ospina",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T22:00:00.000Z"
     },
     {
       "id": "match-87",
       "number": 87,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-30",
-      "time": "13:00",
+      "date": "2026-07-04",
+      "time": "01:30",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "colombia",
+      "away": "ghana",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "estadio-bbva",
       "city": "Monterrey",
       "referee": "Yael Falcón",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-04T01:30:00.000Z"
     },
     {
       "id": "match-88",
       "number": 88,
       "stage": "round-of-32",
       "group": null,
-      "date": "2026-06-30",
-      "time": "16:00",
+      "date": "2026-07-03",
+      "time": "18:00",
       "timezone": "UTC−6 / UTC−4 / UTC−7",
-      "home": "tbd",
-      "away": "tbd",
-      "score": null,
+      "home": "australia",
+      "away": "egypt",
+      "score": {
+        "home": null,
+        "away": null
+      },
       "status": "scheduled",
       "venue": "bmo-field",
       "city": "Toronto",
       "referee": "César Arturo Ramos",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T18:00:00.000Z"
     },
     {
       "id": "match-89",
@@ -1511,7 +1641,8 @@
       "venue": "sofi-stadium",
       "city": "Inglewood",
       "referee": "Fernando Guerrero",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-30T21:00:00.000Z"
     },
     {
       "id": "match-90",
@@ -1528,7 +1659,8 @@
       "venue": "gillette-stadium",
       "city": "Foxborough",
       "referee": "Marco Ortiz",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-06-30T21:00:00.000Z"
     },
     {
       "id": "match-91",
@@ -1545,7 +1677,8 @@
       "venue": "estadio-azteca",
       "city": "Mexico City",
       "referee": "Wilton Sampaio",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T19:00:00.000Z"
     },
     {
       "id": "match-92",
@@ -1562,7 +1695,8 @@
       "venue": "metlife-stadium",
       "city": "East Rutherford",
       "referee": "Daniele Orsato",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T20:00:00.000Z"
     },
     {
       "id": "match-93",
@@ -1579,7 +1713,8 @@
       "venue": "sofi-stadium",
       "city": "Inglewood",
       "referee": "Clément Turpin",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T21:00:00.000Z"
     },
     {
       "id": "match-94",
@@ -1596,7 +1731,8 @@
       "venue": "att-stadium",
       "city": "Arlington",
       "referee": "Szymon Marciniak",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-02T22:00:00.000Z"
     },
     {
       "id": "match-95",
@@ -1613,7 +1749,8 @@
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta",
       "referee": "Anthony Taylor",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T17:00:00.000Z"
     },
     {
       "id": "match-96",
@@ -1630,7 +1767,8 @@
       "venue": "lumen-field",
       "city": "Seattle",
       "referee": "Felix Zwayer",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T23:00:00.000Z"
     },
     {
       "id": "match-97",
@@ -1647,7 +1785,8 @@
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens",
       "referee": "Slavko Vinčić",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-03T18:00:00.000Z"
     },
     {
       "id": "match-98",
@@ -1681,7 +1820,8 @@
       "venue": "metlife-stadium",
       "city": "East Rutherford",
       "referee": "Michael Oliver",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-05T18:00:00.000Z"
     },
     {
       "id": "match-100",
@@ -1698,7 +1838,8 @@
       "venue": "sofi-stadium",
       "city": "Inglewood",
       "referee": "Danny Makkelie",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-06T00:00:00.000Z"
     },
     {
       "id": "match-101",
@@ -1715,7 +1856,8 @@
       "venue": "att-stadium",
       "city": "Arlington",
       "referee": "Jesús Valenzuela",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-06T19:00:00.000Z"
     },
     {
       "id": "match-102",
@@ -1732,7 +1874,8 @@
       "venue": "mercedes-benz-stadium",
       "city": "Atlanta",
       "referee": "Andrés Matonte",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-06T21:00:00.000Z"
     },
     {
       "id": "match-103",
@@ -1749,7 +1892,8 @@
       "venue": "hard-rock-stadium",
       "city": "Miami Gardens",
       "referee": "Iván Barton",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-11T18:00:00.000Z"
     },
     {
       "id": "match-104",
@@ -1766,7 +1910,8 @@
       "venue": "metlife-stadium",
       "city": "East Rutherford",
       "referee": "Mario Escobar",
-      "goals": []
+      "goals": [],
+      "datetime_utc": "2026-07-12T19:00:00.000Z"
     }
   ]
 }

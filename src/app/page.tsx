@@ -42,18 +42,24 @@ export default function HomePage() {
                   alt="FIFA 2026"
                   className="h-24 md:h-32 w-auto opacity-90"
                 />
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                  <Link
+                    href="/knockout"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-600/25"
+                  >
+                    🏆 淘汰賽對陣
+                  </Link>
                   <Link
                     href="/schedule"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25"
                   >
                     📅 完整賽程
                   </Link>
                   <Link
                     href="/groups"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-semibold transition-all shadow-lg shadow-yellow-400/25"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-semibold transition-all shadow-lg shadow-yellow-400/25"
                   >
-                    🏆 積分表
+                    📊 積分表
                   </Link>
                 </div>
               </div>
@@ -66,25 +72,22 @@ export default function HomePage() {
 
       <DonationBanner />
 
-      {/* Quick Stats Row — FIFA brand colors */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        {[
-          { label: "參賽隊伍", value: "48", icon: "🏳️", color: "#6404eb" },
-          { label: "比賽場次", value: "104", icon: "⚽", color: "#d40404" },
-          { label: "主辦城市", value: "16", icon: "🏟️", color: "#1a3a5c" },
-          { label: "主辦國家", value: "3", icon: "🌎", color: "#523c1b" },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-xl p-4 text-white shadow-lg"
-            style={{ background: stat.color }}
-          >
-            <div className="text-2xl mb-1">{stat.icon}</div>
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <div className="text-xs text-white/80 mt-0.5">{stat.label}</div>
+      {/* 淘汰賽對陣圖宣傳卡片 */}
+      <section className="mb-8">
+        <Link href="/knockout" className="block group">
+          <div className="rounded-xl p-5 relative overflow-hidden transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-xl bg-gradient-to-r from-purple-700 to-indigo-800 text-white">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full -mr-8 -mt-8 translate-x-12 translate-y-12 scale-150 pointer-events-none" />
+            <div className="relative z-10 flex items-center gap-4">
+              <div className="text-4xl md:text-5xl flex-shrink-0">⚡</div>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-xl md:text-2xl font-bold text-white">淘汰賽對陣圖 (Round of 32)</h2>
+                <p className="text-sm md:text-base text-white/80 mt-0.5">即時模擬晉級預測樹，32強強強對碰！誰能突圍而出？</p>
+              </div>
+              <div className="flex-shrink-0 text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all text-xl">→</div>
+            </div>
           </div>
-        ))}
-      </div>
+        </Link>
+      </section>
 
       {/* 不負責任冠軍預測 */}
       <section className="mb-8">
@@ -120,6 +123,26 @@ export default function HomePage() {
         </div>
         <HomeStandingsClient />
       </section>
+
+      {/* Quick Stats Row — FIFA brand colors */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        {[
+          { label: "參賽隊伍", value: "48", icon: "🏳️", color: "#6404eb" },
+          { label: "比賽場次", value: "104", icon: "⚽", color: "#d40404" },
+          { label: "主辦城市", value: "16", icon: "🏟️", color: "#1a3a5c" },
+          { label: "主辦國家", value: "3", icon: "🌎", color: "#523c1b" },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl p-4 text-white shadow-lg"
+            style={{ background: stat.color }}
+          >
+            <div className="text-2xl mb-1">{stat.icon}</div>
+            <div className="text-2xl font-bold">{stat.value}</div>
+            <div className="text-xs text-white/80 mt-0.5">{stat.label}</div>
+          </div>
+        ))}
+      </div>
 
       {/* News Section */}
       <section className="mb-8">
