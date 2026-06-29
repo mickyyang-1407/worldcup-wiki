@@ -118,29 +118,7 @@ export default function LiveKnockoutBracket() {
             return res;
           }
 
-          let homeTeam = m.home;
-          let awayTeam = m.away;
-          let isHomeConfirmed = homeTeam && homeTeam.toLowerCase() !== "tbd" && VALID_TEAM_IDS.has(homeTeam.toLowerCase());
-          let isAwayConfirmed = awayTeam && awayTeam.toLowerCase() !== "tbd" && VALID_TEAM_IDS.has(awayTeam.toLowerCase());
-
-          const sources = MATCH_SOURCES[matchNum];
-          if (sources) {
-            if (!isHomeConfirmed) {
-              const resolvedHome = resolveMatchWinner(sources.homeSource);
-              homeTeam = resolvedHome.teamId;
-              isHomeConfirmed = resolvedHome.isConfirmed;
-            }
-            if (!isAwayConfirmed) {
-              const resolvedAway = resolveMatchWinner(sources.awaySource);
-              awayTeam = resolvedAway.teamId;
-              isAwayConfirmed = resolvedAway.isConfirmed;
-            }
-          }
-
-          const res = {
-            teamId: homeTeam || "tbd",
-            isConfirmed: false
-          };
+          const res = { teamId: "tbd", isConfirmed: false };
           resolvedWinnerMap[matchNum] = res;
           return res;
         };
@@ -150,21 +128,26 @@ export default function LiveKnockoutBracket() {
           const matchDetail = latestMatches.find((x: any) => x.number === matchNum) || {};
           const sources = MATCH_SOURCES[matchNum];
 
-          let homeTeamId = matchDetail.home || "tbd";
-          let awayTeamId = matchDetail.away || "tbd";
-          let homeConfirmed = homeTeamId !== "tbd" && VALID_TEAM_IDS.has(homeTeamId.toLowerCase());
-          let awayConfirmed = awayTeamId !== "tbd" && VALID_TEAM_IDS.has(awayTeamId.toLowerCase());
+          let homeTeamId = "tbd";
+          let awayTeamId = "tbd";
+          let homeConfirmed = false;
+          let awayConfirmed = false;
 
           if (sources) {
-            if (!homeConfirmed) {
-              const resolvedHome = resolveMatchWinner(sources.homeSource);
-              homeTeamId = resolvedHome.teamId;
-              homeConfirmed = resolvedHome.isConfirmed;
-            }
-            if (!awayConfirmed) {
-              const resolvedAway = resolveMatchWinner(sources.awaySource);
-              awayTeamId = resolvedAway.teamId;
-              awayConfirmed = resolvedAway.isConfirmed;
+            const resolvedHome = resolveMatchWinner(sources.homeSource);
+            homeTeamId = resolvedHome.teamId;
+            homeConfirmed = resolvedHome.isConfirmed;
+
+            const resolvedAway = resolveMatchWinner(sources.awaySource);
+            awayTeamId = resolvedAway.teamId;
+            awayConfirmed = resolvedAway.isConfirmed;
+          } else {
+            // For R32 matches (no sources), only display the teams if the match is completed
+            if (matchDetail.status === "completed") {
+              homeTeamId = matchDetail.home || "tbd";
+              awayTeamId = matchDetail.away || "tbd";
+              homeConfirmed = homeTeamId !== "tbd" && VALID_TEAM_IDS.has(homeTeamId.toLowerCase());
+              awayConfirmed = awayTeamId !== "tbd" && VALID_TEAM_IDS.has(awayTeamId.toLowerCase());
             }
           }
 
