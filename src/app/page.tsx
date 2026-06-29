@@ -112,31 +112,6 @@ export default function HomePage() {
 
       <HomeUpcomingClient />
 
-      {/* 直達淘汰賽頁面卡片 */}
-      <section className="mb-8">
-        <Link href="/knockout" className="block group">
-          <div className="rounded-xl p-6 relative overflow-hidden transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-xl bg-gradient-to-r from-purple-800 via-indigo-900 to-blue-900 text-white border border-indigo-500/20">
-            <div className="absolute right-0 top-0 w-48 h-48 bg-white/5 rounded-full -mr-12 -mt-12 translate-x-8 translate-y-8 scale-150 pointer-events-none group-hover:scale-[1.6] transition-all duration-500" />
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="text-4xl md:text-5xl bg-white/10 w-16 h-16 rounded-xl flex items-center justify-center shadow-inner">🏆</div>
-                <div>
-                  <h2 className="text-xl md:text-2xl font-bold text-white tracking-wide">
-                    直達 32 強淘汰賽
-                  </h2>
-                  <p className="text-sm md:text-base text-blue-200 mt-1 max-w-xl">
-                    小組賽已全部結束！32強淘汰賽正式開打，立即查看淘汰賽對陣圖與賽程預測。
-                  </p>
-                </div>
-              </div>
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 rounded-xl font-bold transition-all shadow-md self-start md:self-auto group-hover:translate-x-1 duration-200">
-                查看淘汰賽對陣圖 →
-              </div>
-            </div>
-          </div>
-        </Link>
-      </section>
-
       {/* Quick Stats Row — FIFA brand colors */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[

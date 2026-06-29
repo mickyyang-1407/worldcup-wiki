@@ -253,6 +253,9 @@ export default function LiveKnockoutBracket() {
       );
     }
 
+    const teamObj = teamsData.teams.find((t: any) => t.id.toLowerCase() === team.teamId?.toLowerCase());
+    const teamNameZh = teamObj ? teamObj.name_zh : team.teamId.toUpperCase();
+
     const isWinner = team.isWinner;
     const isLoser = team.isLoser;
     const isConfirmed = team.isConfirmed;
@@ -270,7 +273,7 @@ export default function LiveKnockoutBracket() {
     const content = (
       <>
         <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
-        <span className="text-xs font-bold uppercase tracking-tight">{team.teamId}</span>
+        <span className="text-xs font-bold tracking-tight">{teamNameZh}</span>
         <span className="ml-auto text-[10px] font-mono opacity-60">{team.label}</span>
       </>
     );

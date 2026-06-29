@@ -245,122 +245,109 @@ export default function MatchCard({ match }: MatchCardProps) {
 
   return (
     <Link href={`/matches/${detailSlug}`} className="block">
-    <div 
-      className="rounded-xl border shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-4 relative overflow-hidden cursor-pointer"
-      style={winnerColor ? {
-        borderColor: winnerColor.border,
-        backgroundColor: winnerColor.bg,
-        borderWidth: '2px'
-      } : {
-        borderColor: '#f3f4f6',
-        backgroundColor: '#ffffff'
-      }}
-    >
-      {/* Left color bar for group matches */}
-      {match.stage === "group" && match.group && (
-        <div
-          className="absolute left-0 top-0 bottom-0 w-[14px]"
-          style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}
-        />
-      )}
-      {match.stage === "group" && match.group && (
-        <div className="text-base font-black mb-3 pl-1" style={{ color: GROUP_COLORS[match.group] || "#2d47cb" }}>
-          {match.group}組
-        </div>
-      )}
-      {match.stage !== "group" && (
-        <div className="text-sm font-bold text-purple-600 mb-3 pl-1">
-          {match.stage === "round-of-32" ? "32強" : match.stage === "round-of-16" ? "16強" : match.stage === "quarter-finals" ? "8強" : match.stage === "semi-finals" ? "準決賽" : match.stage === "third-place" ? "季軍戰" : match.stage === "final" ? "決賽" : match.stage}
-        </div>
-      )}
+      <div 
+        className="rounded-xl border shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-4 relative overflow-hidden bg-white"
+        style={winnerColor ? {
+          borderColor: winnerColor.border,
+          borderWidth: '2px'
+        } : {
+          borderColor: '#f3f4f6'
+        }}
+      >
+        {/* Left color bar for group matches */}
+        {match.stage === "group" && match.group && (
+          <div
+            className="absolute left-0 top-0 bottom-0 w-1"
+            style={{ backgroundColor: GROUP_COLORS[match.group] || "#2d47cb" }}
+          />
+        )}
 
-      <div className="grid grid-cols-3 items-center">
-        {/* Left column: 中文隊名 + 英文隊名 + 國旗（國旗靠中間） */}
-        <div className={`flex items-center justify-end gap-3 transition-opacity ${isHomeLoser ? "opacity-45" : ""}`}>
-          <div className="flex flex-col items-end">
-            {homeTeam && (
-              <span className={`text-sm leading-tight text-gray-800 ${isHomeWinner ? "font-bold text-gray-900" : "font-semibold"}`}>
-                {homeTeam.name_zh}
-                {isHomeWinner && <span className="ml-1 text-xs" title="獲勝">👑</span>}
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-2">
+            {match.stage === "group" && match.group ? (
+              <span className="text-xs font-bold text-gray-600" style={{ color: GROUP_COLORS[match.group] }}>
+                {match.group}組
+              </span>
+            ) : (
+              <span className="text-xs font-bold text-purple-600">
+                {match.stage === "round-of-32" ? "32強" : match.stage === "round-of-16" ? "16強" : match.stage === "quarter-finals" ? "8強" : match.stage === "semi-finals" ? "準決賽" : match.stage === "third-place" ? "季軍戰" : match.stage === "final" ? "決賽" : match.stage}
               </span>
             )}
-            {homeTeam && <span className="text-xs text-gray-400 leading-tight">{homeTeam.name}</span>}
+            <span className="text-xs text-gray-400">·</span>
+            <span className="text-xs text-gray-500">{getMatchDateTime((match as any).datetime_utc || match.time, match.date)}</span>
           </div>
-          {homeFlag ? (
-            <span className={`${homeFlag} text-3xl rounded-sm shrink-0`} title={homeTeam?.name} />
-          ) : (
-            <span className="inline-flex items-center justify-center rounded-full text-3xl shrink-0">🏳️</span>
-          )}
-        </div>
-
-        {/* Middle column: 比分置中 */}
-        <div className="flex flex-col items-center gap-1">
-          {match.status === "completed" ? (
-            <span className="text-2xl font-bold text-gray-900 font-mono">
-              <span className={isHomeWinner ? "text-amber-600 font-black" : ""}>{match.score.home}</span>
-              {" - "}
-              <span className={isAwayWinner ? "text-amber-600 font-black" : ""}>{match.score.away}</span>
-            </span>
-          ) : (
-            <span className="text-lg font-semibold text-gray-600">vs</span>
-          )}
-          <span className="text-xs text-gray-500">{getMatchDateTime((match as any).datetime_utc || match.time, match.date)}</span>
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
+          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${statusStyles[match.status] || statusStyles.upcoming}`}>
             {statusLabels[match.status] || match.status}
           </span>
         </div>
 
-        {/* Right column: 國旗（靠中間）+ 中文隊名 + 英文隊名 */}
-        <div className={`flex items-center gap-3 transition-opacity ${isAwayLoser ? "opacity-45" : ""}`}>
-          {awayFlag ? (
-            <span className={`${awayFlag} text-3xl rounded-sm shrink-0`} title={awayTeam?.name} />
-          ) : (
-            <span className="inline-flex items-center justify-center rounded-full text-3xl shrink-0">🏳️</span>
-          )}
-          <div className="flex flex-col">
-            {awayTeam && (
-              <span className={`text-sm leading-tight text-gray-800 ${isAwayWinner ? "font-bold text-gray-900" : "font-semibold"}`}>
-                {isAwayWinner && <span className="mr-1 text-xs" title="獲勝">👑</span>}
-                {awayTeam.name_zh}
+        <div className="flex flex-col gap-2">
+          {/* Home Team */}
+          <div className={`flex justify-between items-center ${isHomeLoser ? 'opacity-50' : ''}`}>
+            <div className="flex items-center gap-3">
+              {homeFlag ? (
+                <span className={`${homeFlag} text-xl rounded-sm shrink-0 shadow-sm`} title={homeTeam?.name} />
+              ) : (
+                <span className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center text-xs">?</span>
+              )}
+              <span className={`text-sm ${isHomeWinner ? 'font-bold text-gray-900' : 'font-medium text-gray-700'}`}>
+                {homeTeam ? homeTeam.name_zh : 'TBD'}
               </span>
-            )}
-            {awayTeam && <span className="text-xs text-gray-400 leading-tight">{awayTeam.name}</span>}
+            </div>
+            <div className={`text-lg font-mono ${isHomeWinner ? 'font-bold text-amber-600' : 'font-semibold text-gray-600'}`}>
+              {match.status === "scheduled" || match.status === "upcoming" ? "-" : (match.score?.home ?? "-")}
+            </div>
+          </div>
+
+          {/* Away Team */}
+          <div className={`flex justify-between items-center ${isAwayLoser ? 'opacity-50' : ''}`}>
+            <div className="flex items-center gap-3">
+              {awayFlag ? (
+                <span className={`${awayFlag} text-xl rounded-sm shrink-0 shadow-sm`} title={awayTeam?.name} />
+              ) : (
+                <span className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center text-xs">?</span>
+              )}
+              <span className={`text-sm ${isAwayWinner ? 'font-bold text-gray-900' : 'font-medium text-gray-700'}`}>
+                {awayTeam ? awayTeam.name_zh : 'TBD'}
+              </span>
+            </div>
+            <div className={`text-lg font-mono ${isAwayWinner ? 'font-bold text-amber-600' : 'font-semibold text-gray-600'}`}>
+              {match.status === "scheduled" || match.status === "upcoming" ? "-" : (match.score?.away ?? "-")}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between gap-1 text-xs text-gray-400">
-        <div className="flex items-center gap-1">
-          <span>&#128205;</span>
-          <span>{match.city}</span>
-          {match.referee && (
-            <>
-              <span className="mx-1">·</span>
-              <span>&#128695; {match.referee}</span>
-            </>
-          )}
+        <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between gap-1 text-[11px] text-gray-400">
+          <div className="flex items-center gap-1.5 line-clamp-1">
+            <span>&#128205;</span>
+            <span className="truncate">{match.city}</span>
+            {match.referee && (
+              <>
+                <span className="mx-0.5">·</span>
+                <span className="truncate">&#128695; {match.referee}</span>
+              </>
+            )}
+          </div>
+          <span className="text-blue-500 font-medium shrink-0">詳情 →</span>
         </div>
-        <span className="text-blue-400 text-[10px] shrink-0">詳情 →</span>
+
+        {match.goals && match.goals.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {match.goals.map((g: Goal, i: number) => (
+              <span
+                key={i}
+                className={`text-[10px] px-1.5 py-0.5 rounded border ${
+                  g.team === "home"
+                    ? "bg-blue-50/50 text-blue-700 border-blue-100"
+                    : "bg-orange-50/50 text-orange-700 border-orange-100"
+                }`}
+              >
+                {g.player} {g.minute}'
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-
-      {match.goals && match.goals.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {match.goals.map((g: Goal, i: number) => (
-            <span
-              key={i}
-              className={`text-xs px-1.5 py-0.5 rounded ${
-                g.team === "home"
-                  ? "bg-blue-50 text-blue-700"
-                  : "bg-orange-50 text-orange-700"
-              }`}
-            >
-              {g.player} {g.minute}'
-            </span>
-          ))}
-        </div>
-      )}
-
-    </div>
     </Link>
   );
 }
