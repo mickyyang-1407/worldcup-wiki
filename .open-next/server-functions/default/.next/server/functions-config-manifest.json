@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/espn": {},
+    "/api/espn-standings": {},
+    "/api/match-detail": {},
+    "/api/news": {}
+  }
+}

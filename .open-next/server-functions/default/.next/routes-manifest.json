@@ -1,0 +1,246 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/countries/[country]",
+      "regex": "^/countries/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcountry": "nxtPcountry"
+      },
+      "namedRegex": "^/countries/(?<nxtPcountry>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/groups/[group]",
+      "regex": "^/groups/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPgroup": "nxtPgroup"
+      },
+      "namedRegex": "^/groups/(?<nxtPgroup>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/matches/[slug]",
+      "regex": "^/matches/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/matches/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/media/[matchId]",
+      "regex": "^/media/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPmatchId": "nxtPmatchId"
+      },
+      "namedRegex": "^/media/(?<nxtPmatchId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/news/[id]",
+      "regex": "^/news/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/news/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/players/[slug]",
+      "regex": "^/players/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/players/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/teams/[team]",
+      "regex": "^/teams/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPteam": "nxtPteam"
+      },
+      "namedRegex": "^/teams/(?<nxtPteam>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/espn",
+      "regex": "^/api/espn(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/espn(?:/)?$"
+    },
+    {
+      "page": "/api/espn-scorers",
+      "regex": "^/api/espn\\-scorers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/espn\\-scorers(?:/)?$"
+    },
+    {
+      "page": "/api/espn-standings",
+      "regex": "^/api/espn\\-standings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/espn\\-standings(?:/)?$"
+    },
+    {
+      "page": "/api/live-commentary",
+      "regex": "^/api/live\\-commentary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/live\\-commentary(?:/)?$"
+    },
+    {
+      "page": "/api/live-scores",
+      "regex": "^/api/live\\-scores(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/live\\-scores(?:/)?$"
+    },
+    {
+      "page": "/api/match-detail",
+      "regex": "^/api/match\\-detail(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/match\\-detail(?:/)?$"
+    },
+    {
+      "page": "/api/news",
+      "regex": "^/api/news(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/news(?:/)?$"
+    },
+    {
+      "page": "/api/predictions",
+      "regex": "^/api/predictions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/predictions(?:/)?$"
+    },
+    {
+      "page": "/api/predictions-sources",
+      "regex": "^/api/predictions\\-sources(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/predictions\\-sources(?:/)?$"
+    },
+    {
+      "page": "/countries",
+      "regex": "^/countries(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/countries(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/groups",
+      "regex": "^/groups(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/groups(?:/)?$"
+    },
+    {
+      "page": "/highlights",
+      "regex": "^/highlights(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/highlights(?:/)?$"
+    },
+    {
+      "page": "/knockout",
+      "regex": "^/knockout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/knockout(?:/)?$"
+    },
+    {
+      "page": "/players",
+      "regex": "^/players(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/players(?:/)?$"
+    },
+    {
+      "page": "/predictions",
+      "regex": "^/predictions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/predictions(?:/)?$"
+    },
+    {
+      "page": "/schedule",
+      "regex": "^/schedule(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/schedule(?:/)?$"
+    },
+    {
+      "page": "/schedule/today",
+      "regex": "^/schedule/today(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/schedule/today(?:/)?$"
+    },
+    {
+      "page": "/stats",
+      "regex": "^/stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/stats(?:/)?$"
+    },
+    {
+      "page": "/teams",
+      "regex": "^/teams(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/teams(?:/)?$"
+    },
+    {
+      "page": "/venues",
+      "regex": "^/venues(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/venues(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
