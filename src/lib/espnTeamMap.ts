@@ -54,7 +54,27 @@ export function espnNameToSlug(name: string): string {
 }
 
 export function espnStatusToLocal(status: string): string {
-  if (status === "STATUS_FULL_TIME" || status === "STATUS_FINAL") return "completed";
-  if (status === "STATUS_IN_PROGRESS" || status === "STATUS_HALFTIME") return "live";
+  const s = status.toUpperCase();
+  if (
+    s === "STATUS_FULL_TIME" ||
+    s === "STATUS_FINAL" ||
+    s === "STATUS_FINAL_PEN" ||
+    s === "STATUS_END_OF_EXTRATIME"
+  ) {
+    return "completed";
+  }
+  if (
+    s === "STATUS_IN_PROGRESS" ||
+    s === "STATUS_HALFTIME" ||
+    s === "STATUS_FIRST_HALF" ||
+    s === "STATUS_SECOND_HALF" ||
+    s === "STATUS_OVERTIME" ||
+    s === "STATUS_SHOOTOUT" ||
+    s === "STATUS_PENALTY_SHOOTOUT" ||
+    s === "STATUS_END_OF_SECOND_HALF"
+  ) {
+    return "live";
+  }
   return "scheduled";
 }
+

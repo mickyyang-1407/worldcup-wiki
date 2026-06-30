@@ -15,8 +15,7 @@ export default function HomeUpcomingClient() {
         return r.json();
       })
       .then((d) => {
-        const knockoutMatches = (d.matches || []).filter((m: any) => m.stage !== "group");
-        setMatches(knockoutMatches);
+        setMatches(d.matches || []);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
