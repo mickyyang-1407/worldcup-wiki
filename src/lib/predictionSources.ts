@@ -1,7 +1,8 @@
 import type { GroupData, FifaRankEntry, OddsEntry, RawSourceData, StandingEntry } from './predictionTypes';
 import teamsRaw from '@/data/teams.json';
 import groupsRaw from '@/data/groups.json';
-import { espnNameToSlug } from './espnTeamMap';
+import { matches as scheduleMatches } from '@/data/schedule';
+import { espnNameToSlug, espnStatusToLocal } from './espnTeamMap';
 
 const ESPN_STANDINGS_URL =
   'https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings';
@@ -141,15 +142,97 @@ export const BETTING_ODDS: OddsEntry[] = [
   { teamId: 'curacao',                teamName: 'Curaçao',                decimalOdds: 5001.00 },
 ];
 
+async function fetchESPNEliminatedTeams(): Promise<string[]> {
+  try {
+    const dateRange = '20260609-20260721';
+    const res = await fetch(
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateRange}&limit=100`,
+      { cache: 'no-store', signal: AbortSignal.timeout(10000) }
+    );
+    if (!res.ok) return [];
+
+    const data = await res.json();
+    const events = data.events || [];
+    const eliminated = new Set<string>();
+
+    for (const event of events) {
+      const comp = event.competitions?.[0] || {};
+      const espnStatus = comp.status?.type?.name || "";
+      const status = espnStatusToLocal(espnStatus);
+
+      if (status !== 'completed') continue;
+
+      const competitors = comp.competitors || [];
+      const home = competitors.find((c: any) => c.homeAway === "home");
+      const away = competitors.find((c: any) => c.homeAway === "away");
+      const homeSlug = espnNameToSlug(home?.team?.displayName || "");
+      const awaySlug = espnNameToSlug(away?.team?.displayName || "");
+
+      // Check if knockout match
+      let stage = "group";
+      const matched = scheduleMatches.find((m: any) => 
+        (m.home === homeSlug && m.away === awaySlug) || 
+        (m.home === awaySlug && m.away === homeSlug)
+      );
+      if (matched) {
+        stage = matched.stage;
+      } else if (event.date) {
+        const date = new Date(event.date);
+        const month = date.getUTCMonth() + 1;
+        const day = date.getUTCDate();
+        if (month === 6) {
+          if (day >= 11 && day <= 27) stage = "group";
+          else if (day >= 28 && day <= 30) stage = "round-of-32";
+        } else if (month === 7) {
+          if (day >= 1 && day <= 2) stage = "round-of-32";
+          else if (day >= 3 && day <= 7) stage = "round-of-16";
+          else if (day >= 8 && day <= 12) stage = "quarter-finals";
+          else if (day >= 13 && day <= 16) stage = "semi-finals";
+          else if (day === 17 || day === 18) stage = "third-place";
+          else if (day === 19) stage = "final";
+        }
+      }
+
+      if (stage === 'group') continue;
+
+      // Extract loser
+      const homeWinner = home?.winner === true;
+      const awayWinner = away?.winner === true;
+
+      if (homeWinner && awaySlug) {
+        eliminated.add(awaySlug);
+      } else if (awayWinner && homeSlug) {
+        eliminated.add(homeSlug);
+      } else {
+        const hs = home?.score != null ? parseInt(home.score) : 0;
+        const as = away?.score != null ? parseInt(away.score) : 0;
+        if (hs > as && awaySlug) {
+          eliminated.add(awaySlug);
+        } else if (as > hs && homeSlug) {
+          eliminated.add(homeSlug);
+        }
+      }
+    }
+
+    return Array.from(eliminated);
+  } catch (err) {
+    console.warn('[predictionSources] fetchESPNEliminatedTeams failed:', err);
+    return [];
+  }
+}
+
 export async function fetchAllSources(): Promise<RawSourceData & { live: boolean }> {
   const { groups: espnStandings, live } = await fetchESPNStandings();
   const fifaRankings = buildFifaRankings();
+  const eliminatedTeams = await fetchESPNEliminatedTeams();
 
   return {
     espnStandings,
     fifaRankings,
     bettingOdds: BETTING_ODDS,
-    sources: ['ESPN Standings', 'FIFA Rankings', 'Betting Odds (simulation)'],
+    sources: ['ESPN Standings', 'FIFA Rankings', 'Betting Odds (simulation)', 'ESPN Knockout Results'],
     live,
+    eliminatedTeams,
   };
 }
+

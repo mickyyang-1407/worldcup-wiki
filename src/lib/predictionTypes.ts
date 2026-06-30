@@ -37,6 +37,7 @@ export interface RawSourceData {
   fifaRankings: FifaRankEntry[];
   bettingOdds: OddsEntry[];
   sources: string[];
+  eliminatedTeams?: string[];
 }
 
 export interface GroupData {

@@ -139,7 +139,10 @@ export function calculatePredictions(
       dimensions.attackDefense  * WEIGHTS.attackDefense;
 
     const groupId = (team.group as string) || 'A';
-    const qualificationStatus = getQualificationStatus(teamId, groupId, sourceData.espnStandings);
+    let qualificationStatus = getQualificationStatus(teamId, groupId, sourceData.espnStandings);
+    if (sourceData.eliminatedTeams?.includes(teamId)) {
+      qualificationStatus = 'eliminated';
+    }
 
     return {
       teamId,
