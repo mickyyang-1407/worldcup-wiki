@@ -107,6 +107,15 @@ function formatToTaipeiTime(datetimeUtc: string) {
   }
 }
 
+function getDateRange() {
+  const now = new Date();
+  const past = new Date(now.getTime() - 21 * 24 * 3600000);
+  const future = new Date(now.getTime() + 21 * 24 * 3600000);
+  const fmt = (d: Date) =>
+    `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, "0")}${String(d.getUTCDate()).padStart(2, "0")}`;
+  return `${fmt(past)}-${fmt(future)}`;
+}
+
 function createEmptyMatchup(matchNum: number): Matchup {
   return {
     id: `M${matchNum}`,
@@ -122,8 +131,9 @@ export default function LiveKnockoutBracket() {
   const [matchups, setMatchups] = useState<Record<string, Matchup>>({});
 
   useEffect(() => {
+    const dateRange = getDateRange();
     fetch(
-      "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260628-20260707&limit=100",
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateRange}&limit=100`,
       { cache: "no-store" }
     )
       .then((r) => {
@@ -144,12 +154,30 @@ export default function LiveKnockoutBracket() {
           const awayDisplayName: string = awayComp?.team?.displayName || "";
           const homeSlug = espnNameToSlug(homeDisplayName);
           const awaySlug = espnNameToSlug(awayDisplayName);
-          const winner =
-            homeComp?.winner === true
+          let winner =
+            homeComp?.winner === true || homeComp?.winner === "true"
               ? homeSlug
-              : awayComp?.winner === true
+              : awayComp?.winner === true || awayComp?.winner === "true"
               ? awaySlug
               : null;
+
+          if (!winner && status === "completed") {
+            const homeScore = homeComp?.score !== undefined ? parseInt(homeComp.score) : 0;
+            const awayScore = awayComp?.score !== undefined ? parseInt(awayComp.score) : 0;
+            if (homeScore > awayScore) {
+              winner = homeSlug;
+            } else if (awayScore > homeScore) {
+              winner = awaySlug;
+            } else {
+              const homeShootout = homeComp?.shootoutScore !== undefined ? parseInt(homeComp.shootoutScore) : 0;
+              const awayShootout = awayComp?.shootoutScore !== undefined ? parseInt(awayComp.shootoutScore) : 0;
+              if (homeShootout > awayShootout) {
+                winner = homeSlug;
+              } else if (awayShootout > homeShootout) {
+                winner = awaySlug;
+              }
+            }
+          }
           const stage = getStageFromDate(event.date || "");
           return {
             homeSlug,
@@ -239,7 +267,7 @@ export default function LiveKnockoutBracket() {
           }
         }
 
-        // R16: only show if the actual R16 match is completed in ESPN data
+        // R16: show confirmed participants even if only one is known
         const r16Matchups: Record<number, Matchup> = {};
         for (const r16Num of R16_NUMS) {
           const sources = R32_TO_R16[r16Num];
@@ -251,14 +279,12 @@ export default function LiveKnockoutBracket() {
           const homeWinner = r32Winners[sources.home];
           const awayWinner = r32Winners[sources.away];
 
-          if (!homeWinner || !awayWinner) {
-            // R32 not done → R16 participants unknown
-            r16Matchups[r16Num] = createEmptyMatchup(r16Num);
-            continue;
+          // Look for an R16 match in ESPN data if both winners are known
+          let m: ParsedMatch | undefined;
+          if (homeWinner && awayWinner) {
+            m = r16Lut[`${homeWinner.slug}|${awayWinner.slug}`];
           }
 
-          // Look for a completed R16 match with exactly these two teams
-          const m = r16Lut[`${homeWinner.slug}|${awayWinner.slug}`];
           if (m && m.status === "completed" && m.winner) {
             const isHomeWinner = m.winner === homeWinner.slug;
             r16Matchups[r16Num] = {
@@ -282,26 +308,30 @@ export default function LiveKnockoutBracket() {
               },
             };
           } else {
-            // R16 match not yet played → show participants, no winner
+            // R16 match not yet completed, or one/both participants are still TBD
             r16Matchups[r16Num] = {
               id: `M${r16Num}`,
               matchNumber: r16Num,
               timeStr: m ? formatToTaipeiTime(m.date) : "",
               status: "scheduled",
-              home: {
-                label: homeWinner.name,
-                teamId: homeWinner.slug,
-                isConfirmed: true,
-                isWinner: false,
-                isLoser: false,
-              },
-              away: {
-                label: awayWinner.name,
-                teamId: awayWinner.slug,
-                isConfirmed: true,
-                isWinner: false,
-                isLoser: false,
-              },
+              home: homeWinner
+                ? {
+                    label: homeWinner.name,
+                    teamId: homeWinner.slug,
+                    isConfirmed: true,
+                    isWinner: false,
+                    isLoser: false,
+                  }
+                : { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
+              away: awayWinner
+                ? {
+                    label: awayWinner.name,
+                    teamId: awayWinner.slug,
+                    isConfirmed: true,
+                    isWinner: false,
+                    isLoser: false,
+                  }
+                : { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
             };
           }
         }
