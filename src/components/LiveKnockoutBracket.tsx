@@ -125,8 +125,8 @@ function getDateRange() {
 function MatchCard({ matchup }: { matchup?: Matchup }) {
   if (!matchup) {
     return (
-      <div className="w-[190px] h-[72px] bg-slate-900/30 border border-dashed border-slate-800 rounded-xl flex items-center justify-center">
-        <span className="text-slate-600 text-xs italic">未排定比賽</span>
+      <div className="w-[190px] h-[72px] bg-gray-50/50 dark:bg-slate-900/30 border border-dashed border-gray-250 dark:border-slate-800 rounded-xl flex items-center justify-center">
+        <span className="text-gray-400 dark:text-slate-600 text-xs italic">未排定比賽</span>
       </div>
     );
   }
@@ -141,17 +141,17 @@ function MatchCard({ matchup }: { matchup?: Matchup }) {
     return (
       <div
         className={`flex items-center justify-between h-[30px] px-2.5 transition-all duration-300
-          ${team.isWinner ? "bg-amber-500/10 text-amber-300 font-semibold" : "text-slate-300"}
+          ${team.isWinner ? "bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold" : "text-gray-700 dark:text-slate-300"}
           ${team.isLoser ? "opacity-35" : ""}
         `}
       >
         <div className="flex items-center gap-2 min-w-0">
           {isTBD ? (
             <div className="flex items-center gap-1.5">
-              <span className="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[9px] text-slate-500 font-mono">
+              <span className="w-4 h-4 rounded-full bg-gray-250 dark:bg-slate-800 flex items-center justify-center text-[9px] text-gray-500 dark:text-slate-500 font-mono">
                 ?
               </span>
-              <span className="text-[11px] text-slate-500 italic tracking-wide">TBD</span>
+              <span className="text-[11px] text-gray-400 dark:text-slate-500 italic tracking-wide">TBD</span>
             </div>
           ) : (
             <TeamBadge
@@ -160,7 +160,7 @@ function MatchCard({ matchup }: { matchup?: Matchup }) {
               linkable={false}
               showName={true}
               className={`text-[11px] truncate max-w-[105px] ${
-                team.isWinner ? "text-amber-300 font-bold" : "text-slate-200 font-medium"
+                team.isWinner ? "text-amber-700 dark:text-amber-300 font-bold" : "text-gray-750 dark:text-slate-200 font-medium"
               }`}
             />
           )}
@@ -170,7 +170,7 @@ function MatchCard({ matchup }: { matchup?: Matchup }) {
         {!isTBD && (isCompleted || isLive) && (
           <div className="flex items-center gap-1 font-mono text-[11px]">
             {team.shootoutScore !== undefined && (
-              <span className="text-[9px] text-slate-400 font-normal">
+              <span className="text-[9px] text-gray-450 dark:text-slate-400 font-normal">
                 ({team.shootoutScore})
               </span>
             )}
@@ -179,7 +179,7 @@ function MatchCard({ matchup }: { matchup?: Matchup }) {
                 ${
                   team.isWinner
                     ? "bg-amber-400 text-slate-950 font-black shadow-[0_0_6px_rgba(251,191,36,0.4)]"
-                    : "bg-slate-800 text-slate-300"
+                    : "bg-gray-150 dark:bg-slate-800 text-gray-600 dark:text-slate-300"
                 }
               `}
             >
@@ -193,29 +193,29 @@ function MatchCard({ matchup }: { matchup?: Matchup }) {
 
   return (
     <div
-      className={`w-[190px] bg-slate-900/90 border rounded-xl overflow-hidden shadow-lg shadow-black/40 transition-all duration-300 group
-        ${isLive ? "border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)] ring-1 ring-red-500/20" : "border-slate-800/80"}
-        ${isCompleted ? "hover:border-amber-400/40" : "hover:border-slate-700"}
-        hover:scale-[1.02] hover:shadow-xl hover:shadow-black/50
+      className={`w-[190px] bg-white dark:bg-slate-900/90 border rounded-xl overflow-hidden shadow-md dark:shadow-black/40 transition-all duration-300 group
+        ${isLive ? "border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)] ring-1 ring-red-500/20" : "border-gray-200 dark:border-slate-800/80"}
+        ${isCompleted ? "hover:border-amber-400/40" : "hover:border-gray-300 dark:hover:border-slate-700"}
+        hover:scale-[1.02] hover:shadow-lg dark:hover:shadow-black/50
       `}
     >
       {/* Header Info */}
-      <div className="bg-slate-950/80 px-2.5 py-1 text-[9px] text-slate-400 flex justify-between items-center border-b border-slate-800/60 font-semibold tracking-wide">
-        <span className="text-slate-500 font-bold">M{matchNumber}</span>
+      <div className="bg-gray-50 dark:bg-slate-950/80 px-2.5 py-1 text-[9px] text-gray-500 dark:text-slate-400 flex justify-between items-center border-b border-gray-200 dark:border-slate-800/60 font-semibold tracking-wide">
+        <span className="text-gray-450 dark:text-slate-500 font-bold">M{matchNumber}</span>
         {isLive ? (
-          <span className="flex items-center gap-1 text-red-400 font-bold animate-pulse">
+          <span className="flex items-center gap-1 text-red-500 dark:text-red-400 font-bold animate-pulse">
             <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
             LIVE
           </span>
         ) : isCompleted ? (
-          <span className="text-slate-500 font-black tracking-widest">FT</span>
+          <span className="text-gray-450 dark:text-slate-500 font-black tracking-widest">FT</span>
         ) : (
-          <span className="text-slate-400 font-normal">{timeStr || "TBD"}</span>
+          <span className="text-gray-500 dark:text-slate-400 font-normal">{timeStr || "TBD"}</span>
         )}
       </div>
 
       {/* Teams Container */}
-      <div className="py-1 flex flex-col divide-y divide-slate-800/40">
+      <div className="py-1 flex flex-col divide-y divide-gray-150 dark:divide-slate-800/40">
         {renderTeamRow(home)}
         {renderTeamRow(away)}
       </div>
@@ -263,14 +263,14 @@ function MatchGroup({
         <div
           className={`absolute top-[25%] h-[2px] w-[20px] 
             ${side === "left" ? "right-[15px]" : "left-[15px]"} 
-            ${highlightTop ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+            ${highlightTop ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-[var(--bracket-line)]"}`}
         />
 
         {/* Bottom Horizontal Line */}
         <div
           className={`absolute top-[75%] h-[2px] w-[20px] 
             ${side === "left" ? "right-[15px]" : "left-[15px]"} 
-            ${highlightBottom ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+            ${highlightBottom ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-[var(--bracket-line)]"}`}
         />
 
         {/* Vertical Connector Line */}
@@ -282,10 +282,10 @@ function MatchGroup({
               highlightTop && highlightBottom
                 ? "#fbbf24"
                 : highlightTop
-                ? "linear-gradient(to bottom, #fbbf24, #1e293b)"
+                ? "linear-gradient(to bottom, #fbbf24, var(--bracket-line))"
                 : highlightBottom
-                ? "linear-gradient(to top, #fbbf24, #1e293b)"
-                : "#1e293b",
+                ? "linear-gradient(to top, #fbbf24, var(--bracket-line))"
+                : "var(--bracket-line)",
             boxShadow:
               highlightTop || highlightBottom
                 ? "0 0 6px rgba(251, 191, 36, 0.3)"
@@ -297,7 +297,7 @@ function MatchGroup({
         <div
           className={`absolute top-[50%] h-[2px] w-[25px] 
             ${side === "left" ? "right-[-10px]" : "left-[-10px]"} 
-            ${highlightExport ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+            ${highlightExport ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-[var(--bracket-line)]"}`}
         />
       </div>
     </div>
@@ -539,12 +539,12 @@ export default function LiveKnockoutBracket() {
 
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center py-32 bg-slate-950 rounded-2xl border border-slate-900 shadow-2xl">
+      <div className="flex flex-col justify-center items-center py-32 bg-gray-50 dark:bg-slate-950 rounded-2xl border border-gray-200 dark:border-slate-900 shadow-lg">
         <div className="relative w-12 h-12">
-          <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-gray-200 dark:border-slate-800"></div>
           <div className="absolute inset-0 rounded-full border-4 border-amber-500 border-t-transparent animate-spin"></div>
         </div>
-        <span className="text-slate-400 text-sm mt-4 tracking-wider animate-pulse">載入世界盃淘汰賽數據中...</span>
+        <span className="text-gray-500 dark:text-slate-400 text-sm mt-4 tracking-wider animate-pulse">載入世界盃淘汰賽數據中...</span>
       </div>
     );
   }
@@ -552,15 +552,15 @@ export default function LiveKnockoutBracket() {
   // Bracket View (horizontal layout with connecting lines)
   const renderBracketView = () => {
     return (
-      <div className="relative w-full overflow-x-auto select-none pb-6 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-950">
-        <div className="min-w-[1550px] h-[820px] flex items-stretch bg-slate-950/70 rounded-2xl border border-slate-900/80 p-6 relative overflow-hidden backdrop-blur-sm">
+      <div className="relative w-full overflow-x-auto select-none pb-6 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-slate-800 scrollbar-track-transparent">
+        <div className="min-w-[1550px] h-[820px] flex items-stretch bg-white/80 dark:bg-slate-950/70 rounded-2xl border border-gray-250 dark:border-slate-900/80 p-6 relative overflow-hidden backdrop-blur-sm">
           {/* Overlay aesthetic effects */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,41,59,0.3),transparent)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--bracket-glow),transparent)] pointer-events-none" />
 
           {/* Col 1: R32 Left */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (左半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-amber-600 dark:text-amber-300 bg-amber-500/5 dark:bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (左半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-between py-1">
               <MatchGroup
@@ -608,8 +608,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 2: R16 Left */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (左半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-300 bg-indigo-500/5 dark:bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (左半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-around py-4">
               <MatchGroup
@@ -637,8 +637,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 3: QF Left */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (左半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-purple-650 dark:text-purple-300 bg-purple-500/5 dark:bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (左半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-center py-4">
               <MatchGroup
@@ -656,8 +656,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 4: SF Left */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (左)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-rose-650 dark:text-rose-300 bg-rose-500/5 dark:bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (左)</span>
             </div>
             <div className="flex-1 flex flex-col justify-center items-center relative">
               <MatchCard matchup={matchups["M101"]} />
@@ -666,22 +666,22 @@ export default function LiveKnockoutBracket() {
               <div className="absolute inset-0 pointer-events-none hidden md:block">
                 <div
                   className={`absolute top-[50%] h-[2px] w-[30px] right-[-15px]
-                    ${matchups["M101"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+                    ${matchups["M101"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-[var(--bracket-line)]"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Col 5: Center Final */}
-          <div className="w-[230px] flex flex-col justify-between h-full relative z-10 border-x border-slate-900/60 bg-slate-950/20 px-3">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full uppercase tracking-wider font-extrabold animate-pulse">🏆 決賽 🏆</span>
+          <div className="w-[230px] flex flex-col justify-between h-full relative z-10 border-x border-gray-250 dark:border-slate-900/60 bg-gray-50/50 dark:bg-slate-950/20 px-3">
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-yellow-600 dark:text-yellow-400 bg-yellow-500/5 dark:bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full uppercase tracking-wider font-extrabold animate-pulse">🏆 決賽 🏆</span>
             </div>
             <div className="flex-1 flex flex-col justify-center items-center relative">
               {/* Champion gold icon and glow */}
               <div className="absolute top-[26%] flex flex-col items-center gap-1">
                 <span className="text-4xl filter drop-shadow-[0_0_12px_rgba(251,191,36,0.6)] animate-bounce duration-1000">🏆</span>
-                <span className="text-[9px] uppercase tracking-widest text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">2026 WORLD CHAMPION</span>
+                <span className="text-[9px] uppercase tracking-widest text-amber-600 dark:text-amber-400 font-extrabold bg-amber-500/5 dark:bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">2026 WORLD CHAMPION</span>
               </div>
               
               <MatchCard matchup={matchups["M104"]} />
@@ -690,8 +690,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 6: SF Right */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (右)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-rose-650 dark:text-rose-300 bg-rose-500/5 dark:bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (右)</span>
             </div>
             <div className="flex-1 flex flex-col justify-center items-center relative">
               <MatchCard matchup={matchups["M102"]} />
@@ -700,7 +700,7 @@ export default function LiveKnockoutBracket() {
               <div className="absolute inset-0 pointer-events-none hidden md:block">
                 <div
                   className={`absolute top-[50%] h-[2px] w-[30px] left-[-15px]
-                    ${matchups["M102"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+                    ${matchups["M102"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-[var(--bracket-line)]"}`}
                 />
               </div>
             </div>
@@ -708,8 +708,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 7: QF Right */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (右半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-purple-650 dark:text-purple-300 bg-purple-500/5 dark:bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (右半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-center py-4">
               <MatchGroup
@@ -727,8 +727,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 8: R16 Right */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (右半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-300 bg-indigo-500/5 dark:bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (右半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-around py-4">
               <MatchGroup
@@ -756,8 +756,8 @@ export default function LiveKnockoutBracket() {
 
           {/* Col 9: R32 Right */}
           <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
-            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
-              <span className="text-[10px] font-black text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (右半區)</span>
+            <div className="text-center py-2 border-b border-gray-200 dark:border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-amber-600 dark:text-amber-300 bg-amber-500/5 dark:bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (右半區)</span>
             </div>
             <div className="flex-1 flex flex-col justify-between py-1">
               <MatchGroup
@@ -828,9 +828,9 @@ export default function LiveKnockoutBracket() {
     ];
 
     return (
-      <div className="w-full bg-slate-950 border border-slate-900 rounded-2xl p-4">
+      <div className="w-full bg-gray-50/60 dark:bg-slate-950 border border-gray-250 dark:border-slate-900 rounded-2xl p-4">
         {/* Round Tab Selector */}
-        <div className="flex border-b border-slate-800 mb-6 overflow-x-auto gap-2 pb-1">
+        <div className="flex border-b border-gray-250 dark:border-slate-800 mb-6 overflow-x-auto gap-2 pb-1">
           {tabs.map((t) => (
             <button
               key={t.id}
@@ -839,7 +839,7 @@ export default function LiveKnockoutBracket() {
                 ${
                   activeRoundTab === t.id
                     ? "bg-amber-500 text-slate-950 font-black shadow-lg"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
+                    : "text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-900/60"
                 }
               `}
             >
@@ -867,21 +867,21 @@ export default function LiveKnockoutBracket() {
   };
 
   return (
-    <div className="w-full text-slate-100">
+    <div className="w-full text-gray-800 dark:text-slate-100">
       {/* View Switcher Controls */}
-      <div className="flex justify-between items-center mb-6 bg-slate-950/80 p-2 rounded-xl border border-slate-900/50">
+      <div className="flex justify-between items-center mb-6 bg-gray-50 dark:bg-slate-950/80 p-2 rounded-xl border border-gray-250 dark:border-slate-900/50">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-          <span className="text-xs text-slate-400 font-medium">即時淘汰賽晉級追蹤</span>
+          <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">即時淘汰賽晉級追蹤</span>
         </div>
-        <div className="flex bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+        <div className="flex bg-gray-150/70 dark:bg-slate-900/80 p-1 rounded-lg border border-gray-250 dark:border-slate-800">
           <button
             onClick={() => setActiveView("bracket")}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded transition-all duration-200
               ${
                 activeView === "bracket"
-                  ? "bg-slate-800 text-amber-400 shadow-sm font-black"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm font-black"
+                  : "text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-slate-200"
               }
             `}
           >
@@ -892,8 +892,8 @@ export default function LiveKnockoutBracket() {
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded transition-all duration-200
               ${
                 activeView === "rounds"
-                  ? "bg-slate-800 text-amber-400 shadow-sm font-black"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm font-black"
+                  : "text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-slate-200"
               }
             `}
           >
@@ -905,14 +905,14 @@ export default function LiveKnockoutBracket() {
       {/* Render selected view */}
       {activeView === "bracket" ? renderBracketView() : renderRoundsView()}
 
-      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-3 bg-slate-950/40 border border-slate-900/30 rounded-xl px-4 py-3 text-[10px] text-slate-500 font-medium">
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-3 bg-gray-50/50 dark:bg-slate-950/40 border border-gray-200 dark:border-slate-900/30 rounded-xl px-4 py-3 text-[10px] text-gray-500 dark:text-slate-500 font-medium">
         <span>* 數據來源：ESPN。淘汰賽小組賽結束後，晉級國家隊將即時更新。</span>
         <div className="flex gap-4">
           <span className="flex items-center gap-1">
             <span className="w-2.5 h-1.5 bg-amber-400 rounded-sm"></span> 黃金晉級路徑
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-2.5 h-1.5 bg-slate-800 rounded-sm"></span> 待踢 / 未開賽
+            <span className="w-2.5 h-1.5 bg-gray-200 dark:bg-slate-800 rounded-sm"></span> 待踢 / 未開賽
           </span>
         </div>
       </div>

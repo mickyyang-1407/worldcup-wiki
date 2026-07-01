@@ -11,7 +11,7 @@ export default function TrophyWidget({ topTeam }: Props) {
   const pct = (topTeam.probability * 100).toFixed(1);
 
   return (
-    <div className="flex flex-col items-center py-6 px-8 bg-slate-900/40 rounded-2xl border border-slate-800/80 backdrop-blur-sm relative overflow-hidden">
+    <div className="flex flex-col items-center py-6 px-8 bg-gray-50/50 dark:bg-slate-900/40 rounded-2xl border border-gray-200 dark:border-slate-800/80 backdrop-blur-sm relative overflow-hidden">
       {/* Decorative background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       
@@ -48,38 +48,38 @@ export default function TrophyWidget({ topTeam }: Props) {
         <div className="flex items-center justify-center gap-2 mb-1">
           {topTeam.flagCode && (
             <span
-              className={`fi fi-${topTeam.flagCode} fis shadow-md border border-slate-800`}
+              className={`fi fi-${topTeam.flagCode} fis shadow-md border border-gray-200 dark:border-slate-800`}
               style={{ fontSize: 24, borderRadius: 3 }}
             />
           )}
-          <span className="text-xl font-bold text-slate-100 tracking-wide">{topTeam.teamNameZh}</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-slate-100 tracking-wide">{topTeam.teamNameZh}</span>
           
-          {topTeam.trend === 'up' && <TrendingUp size={16} className="text-emerald-400" />}
+          {topTeam.trend === 'up' && <TrendingUp size={16} className="text-emerald-450" />}
           {topTeam.trend === 'down' && <TrendingDown size={16} className="text-rose-400" />}
           {topTeam.trend === 'stable' && <Minus size={16} className="text-slate-450" />}
         </div>
         
-        <p className="text-xs text-slate-400 font-medium">{topTeam.teamName} · Group {topTeam.group}</p>
+        <p className="text-xs text-gray-500 dark:text-slate-400 font-medium">{topTeam.teamName} · Group {topTeam.group}</p>
         
-        <div className="mt-3 py-1.5 px-4 bg-slate-950/60 rounded-xl border border-slate-850/60 inline-flex items-center gap-2.5">
+        <div className="mt-3 py-1.5 px-4 bg-gray-100 dark:bg-slate-950/60 rounded-xl border border-gray-200 dark:border-slate-850/60 inline-flex items-center gap-2.5">
           <span
             className="text-2xl font-black tracking-tight"
             style={{ 
-              background: 'linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 8px rgba(245,158,11,0.25))'
+               background: 'linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)', 
+               WebkitBackgroundClip: 'text', 
+               WebkitTextFillColor: 'transparent',
+               filter: 'drop-shadow(0 0 8px rgba(245,158,11,0.25))'
             }}
           >
             {pct}%
           </span>
-          <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider border-l border-slate-800 pl-2">
+          <span className="text-[10px] text-gray-550 dark:text-slate-400 font-semibold uppercase tracking-wider border-l border-gray-200 dark:border-slate-800 pl-2">
             奪冠機率
           </span>
         </div>
         
         {topTeam.odds && (
-          <p className="text-[11px] text-slate-500 mt-2 font-medium">即時賠率 {topTeam.odds.toFixed(2)}</p>
+          <p className="text-[11px] text-gray-500 dark:text-slate-500 mt-2 font-medium">即時賠率 {topTeam.odds.toFixed(2)}</p>
         )}
       </div>
     </div>

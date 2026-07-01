@@ -11,7 +11,11 @@ interface Props {
 }
 
 const TREND_ICON: Record<string, string> = { up: '▲', down: '▼', stable: '—' };
-const TREND_COLOR: Record<string, string> = { up: 'text-emerald-400', down: 'text-rose-500', stable: 'text-slate-500' };
+const TREND_COLOR: Record<string, string> = { 
+  up: 'text-emerald-600 dark:text-emerald-400', 
+  down: 'text-rose-600 dark:text-rose-500', 
+  stable: 'text-gray-400 dark:text-slate-500' 
+};
 
 const SORT_LABELS: Record<SortKey, string> = {
   rank:        '總排名',
@@ -52,7 +56,7 @@ export default function PredictionsTable({ predictions }: Props) {
         className={`flex items-center gap-1.5 text-xs px-3.5 py-1.5 rounded-full font-semibold border transition-all duration-200 cursor-pointer ${
           active 
             ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/10' 
-            : 'bg-[#161F4C]/40 text-slate-300 border-slate-800 hover:bg-[#1E296B]/60 hover:text-white'
+            : 'bg-gray-100 dark:bg-[#161F4C]/40 text-gray-600 dark:text-slate-300 border-gray-250 dark:border-slate-800 hover:bg-gray-200 dark:hover:bg-[#1E296B]/60 hover:text-gray-900 dark:hover:text-white'
         }`}
       >
         <span>{SORT_LABELS[k]}</span>
@@ -68,8 +72,8 @@ export default function PredictionsTable({ predictions }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {/* Sort controls */}
-      <div className="flex flex-wrap items-center gap-3 bg-slate-950/20 p-3 rounded-xl border border-slate-850/50">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">排序維度：</span>
+      <div className="flex flex-wrap items-center gap-3 bg-gray-50/60 dark:bg-slate-950/20 p-3 rounded-xl border border-gray-200 dark:border-slate-850/50">
+        <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">排序維度：</span>
         <div className="flex flex-wrap gap-2">
           {(Object.keys(SORT_LABELS) as SortKey[]).map((k) => (
             <SortBtn key={k} k={k} />
@@ -78,11 +82,11 @@ export default function PredictionsTable({ predictions }: Props) {
       </div>
 
       {/* Standings Table container */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800/80 bg-[#0F132E]/65 shadow-xl backdrop-blur-sm">
+      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800/80 bg-white/80 dark:bg-[#0F132E]/65 shadow-xl backdrop-blur-sm">
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="bg-[#18204E]/50 text-[11px] font-bold text-slate-450 tracking-wider uppercase border-b border-slate-800">
-              <th className="px-4 py-3.5 text-left w-12 font-extrabold text-slate-400">#</th>
+            <tr className="bg-gray-50 dark:bg-[#18204E]/50 text-[11px] font-bold text-gray-500 dark:text-slate-450 tracking-wider uppercase border-b border-gray-200 dark:border-slate-800">
+              <th className="px-4 py-3.5 text-left w-12 font-extrabold text-gray-500 dark:text-slate-400">#</th>
               <th className="px-4 py-3.5 text-left min-w-[150px]">隊伍</th>
               <th className="px-4 py-3.5 text-center w-14">小組</th>
               <th className="px-4 py-3.5 text-right w-28">奪冠機率</th>
@@ -92,7 +96,7 @@ export default function PredictionsTable({ predictions }: Props) {
               <th className="px-4 py-3.5 text-center w-16">走勢</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-850/40">
+          <tbody className="divide-y divide-gray-150 dark:divide-slate-850/40">
             {sorted.map((p) => {
               const pct = (p.probability * 100).toFixed(2);
               const isTop4 = p.rank <= 4;
@@ -103,18 +107,18 @@ export default function PredictionsTable({ predictions }: Props) {
               return (
                 <tr
                   key={p.teamId}
-                  className={`hover:bg-[#182356]/30 transition-colors duration-150 ${
+                  className={`hover:bg-gray-50/80 dark:hover:bg-[#182356]/30 transition-colors duration-150 ${
                     isEliminated 
-                      ? 'bg-slate-950/30 opacity-40 text-slate-500' 
+                      ? 'bg-gray-100/40 dark:bg-slate-950/30 opacity-40 text-gray-400 dark:text-slate-500' 
                       : p.rank === 1 
                         ? 'bg-amber-500/5' 
-                        : 'text-slate-200'
+                        : 'text-gray-700 dark:text-slate-200'
                   }`}
                 >
                   {/* Rank */}
-                  <td className="px-4 py-3 font-mono font-bold text-xs text-slate-550">
+                  <td className="px-4 py-3 font-mono font-bold text-xs text-gray-500 dark:text-slate-550">
                     {p.rank === 1 ? (
-                      <span className="text-amber-400 font-extrabold">🏆 1</span>
+                      <span className="text-amber-500 dark:text-amber-400 font-extrabold">🏆 1</span>
                     ) : p.rank}
                   </td>
 
@@ -126,7 +130,7 @@ export default function PredictionsTable({ predictions }: Props) {
                       )}
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center flex-wrap gap-1.5">
-                          <p className={`font-bold leading-snug tracking-wide truncate ${isEliminated ? 'line-through text-slate-500' : 'text-slate-100'}`}>
+                          <p className={`font-bold leading-snug tracking-wide truncate ${isEliminated ? 'line-through text-gray-400 dark:text-slate-500' : 'text-gray-900 dark:text-slate-100'}`}>
                             {p.teamNameZh}
                           </p>
                           
@@ -147,14 +151,14 @@ export default function PredictionsTable({ predictions }: Props) {
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-450 font-medium truncate">{p.teamName}</p>
+                        <p className="text-[11px] text-gray-400 dark:text-slate-450 font-medium truncate">{p.teamName}</p>
                       </div>
                     </div>
                   </td>
 
                   {/* Group */}
                   <td className="px-4 py-3 text-center">
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-slate-900/60 border-slate-800 text-slate-350">
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-gray-50 dark:bg-slate-900/60 border-gray-200 dark:border-slate-800 text-gray-600 dark:text-slate-350">
                       {p.group}組
                     </span>
                   </td>
@@ -162,16 +166,16 @@ export default function PredictionsTable({ predictions }: Props) {
                   {/* Probability Bar */}
                   <td className="px-4 py-3 text-right">
                     <div className="inline-flex flex-col items-end min-w-[70px]">
-                      <p className={`font-mono font-bold ${isEliminated ? 'text-slate-500' : isTop4 ? 'text-amber-400' : 'text-sky-400'}`}>
+                      <p className={`font-mono font-bold ${isEliminated ? 'text-gray-400 dark:text-slate-500' : isTop4 ? 'text-amber-600 dark:text-amber-400' : 'text-sky-600 dark:text-sky-400'}`}>
                         {isEliminated ? '0.00' : pct}%
                       </p>
-                      <div className="w-16 h-1.5 bg-slate-850 rounded-full mt-1 overflow-hidden">
+                      <div className="w-16 h-1.5 bg-gray-200 dark:bg-slate-850 rounded-full mt-1 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-500 ${
                             isEliminated 
                               ? 'bg-transparent' 
                               : isTop8 
-                                ? 'bg-gradient-to-r from-amber-500 to-yellow-450 shadow-[0_0_4px_#f59e0b]' 
+                                ? 'bg-gradient-to-r from-amber-50 to-yellow-450 shadow-[0_0_4px_#f59e0b]' 
                                 : 'bg-gradient-to-r from-sky-500 to-cyan-400'
                           }`}
                           style={{
@@ -183,30 +187,30 @@ export default function PredictionsTable({ predictions }: Props) {
                   </td>
 
                   {/* Group Points */}
-                  <td className="px-4 py-3 text-right font-mono font-semibold text-slate-200">
+                  <td className="px-4 py-3 text-right font-mono font-semibold text-gray-700 dark:text-slate-200">
                     {p.groupPoints}
                   </td>
 
                   {/* GD */}
                   <td className={`px-4 py-3 text-right font-mono font-medium ${
                     isEliminated 
-                      ? 'text-slate-500' 
+                      ? 'text-gray-400 dark:text-slate-500' 
                       : p.goalDifference > 0 
-                        ? 'text-emerald-450' 
+                        ? 'text-emerald-600 dark:text-emerald-450' 
                         : p.goalDifference < 0 
-                          ? 'text-rose-450' 
-                          : 'text-slate-400'
+                          ? 'text-rose-600 dark:text-rose-450' 
+                          : 'text-gray-400 dark:text-slate-400'
                   }`}>
                     {p.goalDifference > 0 ? `+${p.goalDifference}` : p.goalDifference}
                   </td>
 
                   {/* Odds */}
-                  <td className="px-4 py-3 text-right font-mono text-slate-300">
+                  <td className="px-4 py-3 text-right font-mono text-gray-600 dark:text-slate-300">
                     {p.odds ? p.odds.toFixed(1) : '—'}
                   </td>
 
                   {/* Trend */}
-                  <td className={`px-4 py-3 text-center font-bold ${isEliminated ? 'text-slate-550' : TREND_COLOR[p.trend]}`}>
+                  <td className={`px-4 py-3 text-center font-bold ${isEliminated ? 'text-gray-400 dark:text-slate-550' : TREND_COLOR[p.trend]}`}>
                     <span className="text-xs">{isEliminated ? '—' : TREND_ICON[p.trend]}</span>
                   </td>
                 </tr>

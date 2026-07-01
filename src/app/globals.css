@@ -15,6 +15,15 @@
   --fifa-red: #DA291C;
   --fifa-sky: #00A3E0;
   --fifa-gold: #C6A15B;
+  --bracket-line: #e2e8f0;
+  --bracket-glow: rgba(203, 213, 225, 0.15);
+  --radar-grid: rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --bracket-line: #1e293b;
+  --bracket-glow: rgba(30, 41, 59, 0.3);
+  --radar-grid: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
