@@ -27,22 +27,8 @@ export default function KnockoutPage() {
       <div className="mb-12">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <h2 className="text-2xl font-bold text-gray-900">即時戰況預測晉級樹 (Knockout Bracket)</h2>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 bg-white px-4 py-2 rounded-lg border border-gray-100">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded bg-amber-100 border-l-4 border-amber-500"></span>
-              <span>金色：已贏球確定晉級</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded bg-gray-50/50 border border-gray-200 opacity-40"></span>
-              <span>淡化：輸球已淘汰</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded bg-white border border-gray-200"></span>
-              <span>白色：待踢 / 預測參賽</span>
-            </div>
+            <div className="w-3 h-3 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.5)]"></div>
+            <h2 className="text-2xl font-bold text-gray-900">即時淘汰賽對陣樹 (Live Knockout Bracket)</h2>
           </div>
         </div>
         <LiveKnockoutBracket />

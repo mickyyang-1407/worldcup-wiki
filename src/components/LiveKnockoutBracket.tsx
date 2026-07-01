@@ -11,13 +11,15 @@ interface MatchupTeam {
   isConfirmed: boolean;
   isWinner: boolean;
   isLoser: boolean;
+  score?: number;
+  shootoutScore?: number;
 }
 
 interface Matchup {
   id: string;
   matchNumber: number;
   timeStr?: string;
-  status: string;
+  status: string; // "completed" | "live" | "scheduled"
   home: MatchupTeam;
   away: MatchupTeam;
 }
@@ -27,6 +29,10 @@ interface ParsedMatch {
   awaySlug: string;
   homeDisplayName: string;
   awayDisplayName: string;
+  homeScore?: number;
+  awayScore?: number;
+  homeShootout?: number;
+  awayShootout?: number;
   winner: string | null;
   status: string;
   stage: string;
@@ -35,7 +41,6 @@ interface ParsedMatch {
 
 const R32_MATCH_NUMS = [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88];
 const R16_NUMS = [89, 90, 91, 92, 93, 94, 95, 96];
-const LATER_NUMS = [97, 98, 99, 100, 101, 102, 104];
 
 interface Pairing {
   home: string;
@@ -74,21 +79,21 @@ const R32_TO_R16: Record<number, { home: number; away: number }> = {
   96: { home: 85, away: 87 },
 };
 
-function getStageFromDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  const month = date.getUTCMonth() + 1;
-  const day = date.getUTCDate();
-  if (month === 6 && day >= 28) return "round-of-32";
-  if (month === 7) {
-    if (day <= 2) return "round-of-32";
-    if (day <= 7) return "round-of-16";
-    if (day <= 12) return "quarter-finals";
-    if (day <= 16) return "semi-finals";
-    if (day <= 18) return "third-place";
-    if (day === 19) return "final";
-  }
-  return "group";
-}
+const R16_TO_QF: Record<number, { home: number; away: number }> = {
+  97: { home: 89, away: 90 },
+  98: { home: 91, away: 92 },
+  99: { home: 93, away: 94 },
+  100: { home: 95, away: 96 },
+};
+
+const QF_TO_SF: Record<number, { home: number; away: number }> = {
+  101: { home: 97, away: 98 },
+  102: { home: 99, away: 100 },
+};
+
+const SF_TO_FINAL: Record<number, { home: number; away: number }> = {
+  104: { home: 101, away: 102 },
+};
 
 function formatToTaipeiTime(datetimeUtc: string) {
   try {
@@ -116,19 +121,194 @@ function getDateRange() {
   return `${fmt(past)}-${fmt(future)}`;
 }
 
-function createEmptyMatchup(matchNum: number): Matchup {
-  return {
-    id: `M${matchNum}`,
-    matchNumber: matchNum,
-    status: "scheduled",
-    home: { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
-    away: { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
+// Interactive Match Card component
+function MatchCard({ matchup }: { matchup?: Matchup }) {
+  if (!matchup) {
+    return (
+      <div className="w-[190px] h-[72px] bg-slate-900/30 border border-dashed border-slate-800 rounded-xl flex items-center justify-center">
+        <span className="text-slate-600 text-xs italic">未排定比賽</span>
+      </div>
+    );
+  }
+
+  const { home, away, status, timeStr, matchNumber } = matchup;
+  const isLive = status === "live";
+  const isCompleted = status === "completed";
+
+  const renderTeamRow = (team: MatchupTeam) => {
+    const isTBD = !team.isConfirmed || !team.teamId;
+
+    return (
+      <div
+        className={`flex items-center justify-between h-[30px] px-2.5 transition-all duration-300
+          ${team.isWinner ? "bg-amber-500/10 text-amber-300 font-semibold" : "text-slate-300"}
+          ${team.isLoser ? "opacity-35" : ""}
+        `}
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          {isTBD ? (
+            <div className="flex items-center gap-1.5">
+              <span className="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[9px] text-slate-500 font-mono">
+                ?
+              </span>
+              <span className="text-[11px] text-slate-500 italic tracking-wide">TBD</span>
+            </div>
+          ) : (
+            <TeamBadge
+              teamId={team.teamId!}
+              size="sm"
+              linkable={false}
+              showName={true}
+              className={`text-[11px] truncate max-w-[105px] ${
+                team.isWinner ? "text-amber-300 font-bold" : "text-slate-200 font-medium"
+              }`}
+            />
+          )}
+        </div>
+
+        {/* Score Display */}
+        {!isTBD && (isCompleted || isLive) && (
+          <div className="flex items-center gap-1 font-mono text-[11px]">
+            {team.shootoutScore !== undefined && (
+              <span className="text-[9px] text-slate-400 font-normal">
+                ({team.shootoutScore})
+              </span>
+            )}
+            <span
+              className={`px-1.5 py-0.5 rounded text-center min-w-[18px]
+                ${
+                  team.isWinner
+                    ? "bg-amber-400 text-slate-950 font-black shadow-[0_0_6px_rgba(251,191,36,0.4)]"
+                    : "bg-slate-800 text-slate-300"
+                }
+              `}
+            >
+              {team.score ?? 0}
+            </span>
+          </div>
+        )}
+      </div>
+    );
   };
+
+  return (
+    <div
+      className={`w-[190px] bg-slate-900/90 border rounded-xl overflow-hidden shadow-lg shadow-black/40 transition-all duration-300 group
+        ${isLive ? "border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)] ring-1 ring-red-500/20" : "border-slate-800/80"}
+        ${isCompleted ? "hover:border-amber-400/40" : "hover:border-slate-700"}
+        hover:scale-[1.02] hover:shadow-xl hover:shadow-black/50
+      `}
+    >
+      {/* Header Info */}
+      <div className="bg-slate-950/80 px-2.5 py-1 text-[9px] text-slate-400 flex justify-between items-center border-b border-slate-800/60 font-semibold tracking-wide">
+        <span className="text-slate-500 font-bold">M{matchNumber}</span>
+        {isLive ? (
+          <span className="flex items-center gap-1 text-red-400 font-bold animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+            LIVE
+          </span>
+        ) : isCompleted ? (
+          <span className="text-slate-500 font-black tracking-widest">FT</span>
+        ) : (
+          <span className="text-slate-400 font-normal">{timeStr || "TBD"}</span>
+        )}
+      </div>
+
+      {/* Teams Container */}
+      <div className="py-1 flex flex-col divide-y divide-slate-800/40">
+        {renderTeamRow(home)}
+        {renderTeamRow(away)}
+      </div>
+    </div>
+  );
+}
+
+// MatchGroup component for rendering layout & connecting lines
+interface MatchGroupProps {
+  side: "left" | "right";
+  height: number; // 200 | 400 | 800
+  matchTop: Matchup;
+  matchBottom: Matchup;
+  highlightTop?: boolean;
+  highlightBottom?: boolean;
+  highlightExport?: boolean;
+  renderMatch: (m: Matchup) => React.ReactNode;
+}
+
+function MatchGroup({
+  side,
+  height,
+  matchTop,
+  matchBottom,
+  highlightTop = false,
+  highlightBottom = false,
+  highlightExport = false,
+  renderMatch,
+}: MatchGroupProps) {
+  return (
+    <div className="relative w-full" style={{ height: `${height}px` }}>
+      {/* Top Match */}
+      <div className="absolute top-[calc(25%-36px)] inset-x-0 flex justify-center z-10">
+        {renderMatch(matchTop)}
+      </div>
+
+      {/* Bottom Match */}
+      <div className="absolute top-[calc(75%-36px)] inset-x-0 flex justify-center z-10">
+        {renderMatch(matchBottom)}
+      </div>
+
+      {/* Connection Lines (Desktop only) */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
+        {/* Top Horizontal Line */}
+        <div
+          className={`absolute top-[25%] h-[2px] w-[20px] 
+            ${side === "left" ? "right-[15px]" : "left-[15px]"} 
+            ${highlightTop ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+        />
+
+        {/* Bottom Horizontal Line */}
+        <div
+          className={`absolute top-[75%] h-[2px] w-[20px] 
+            ${side === "left" ? "right-[15px]" : "left-[15px]"} 
+            ${highlightBottom ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+        />
+
+        {/* Vertical Connector Line */}
+        <div
+          className={`absolute top-[25%] bottom-[25%] w-[2px] 
+            ${side === "left" ? "right-[15px]" : "left-[15px]"}`}
+          style={{
+            background:
+              highlightTop && highlightBottom
+                ? "#fbbf24"
+                : highlightTop
+                ? "linear-gradient(to bottom, #fbbf24, #1e293b)"
+                : highlightBottom
+                ? "linear-gradient(to top, #fbbf24, #1e293b)"
+                : "#1e293b",
+            boxShadow:
+              highlightTop || highlightBottom
+                ? "0 0 6px rgba(251, 191, 36, 0.3)"
+                : "none",
+          }}
+        />
+
+        {/* Export Horizontal Line (crosses column boundary) */}
+        <div
+          className={`absolute top-[50%] h-[2px] w-[25px] 
+            ${side === "left" ? "right-[-10px]" : "left-[-10px]"} 
+            ${highlightExport ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default function LiveKnockoutBracket() {
   const [loading, setLoading] = useState(true);
   const [matchups, setMatchups] = useState<Record<string, Matchup>>({});
+  const [activeView, setActiveView] = useState<"bracket" | "rounds">("bracket");
+  const [activeRoundTab, setActiveRoundTab] = useState<string>("r32");
 
   useEffect(() => {
     const dateRange = getDateRange();
@@ -178,12 +358,16 @@ export default function LiveKnockoutBracket() {
               }
             }
           }
-          const stage = getStageFromDate(event.date || "");
+          const stage = "knockout"; // Ignore date staging for lookup mapping
           return {
             homeSlug,
             awaySlug,
             homeDisplayName,
             awayDisplayName,
+            homeScore: homeComp?.score !== undefined ? parseInt(homeComp.score) : undefined,
+            awayScore: awayComp?.score !== undefined ? parseInt(awayComp.score) : undefined,
+            homeShootout: homeComp?.shootoutScore !== undefined ? parseInt(homeComp.shootoutScore) : undefined,
+            awayShootout: awayComp?.shootoutScore !== undefined ? parseInt(awayComp.shootoutScore) : undefined,
             winner,
             status,
             stage,
@@ -191,325 +375,547 @@ export default function LiveKnockoutBracket() {
           };
         });
 
-        // Build lookup by team pair
-        const makeLookup = (matches: ParsedMatch[]) => {
-          const lut: Record<string, ParsedMatch> = {};
-          matches.forEach((m) => {
-            lut[`${m.homeSlug}|${m.awaySlug}`] = m;
-            lut[`${m.awaySlug}|${m.homeSlug}`] = m;
-          });
-          return lut;
-        };
+        // Global lookup map by slug pairs
+        const globalLut: Record<string, ParsedMatch> = {};
+        parsed.forEach((m) => {
+          globalLut[`${m.homeSlug}|${m.awaySlug}`] = m;
+          globalLut[`${m.awaySlug}|${m.homeSlug}`] = m;
+        });
 
-        const r32Lut = makeLookup(parsed.filter((m) => m.stage === "round-of-32"));
-        const r16Lut = makeLookup(parsed.filter((m) => m.stage === "round-of-16"));
+        const winners: Record<number, { slug: string; name: string }> = {};
+        const inferredMatchups: Record<string, Matchup> = {};
 
-        // R32 winners: matchNum → { slug, name }
-        const r32Winners: Record<number, { slug: string; name: string }> = {};
+        // Helper: Resolve a matchup using bottom-up mapping
+        function resolveMatchup(
+          matchNum: number,
+          homeTeam: { slug?: string; name: string },
+          awayTeam: { slug?: string; name: string }
+        ): Matchup {
+          const emptyMatch: Matchup = {
+            id: `M${matchNum}`,
+            matchNumber: matchNum,
+            status: "scheduled",
+            home: homeTeam.slug
+              ? { label: homeTeam.name, teamId: homeTeam.slug, isConfirmed: true, isWinner: false, isLoser: false }
+              : { label: homeTeam.name, isConfirmed: false, isWinner: false, isLoser: false },
+            away: awayTeam.slug
+              ? { label: awayTeam.name, teamId: awayTeam.slug, isConfirmed: true, isWinner: false, isLoser: false }
+              : { label: awayTeam.name, isConfirmed: false, isWinner: false, isLoser: false },
+          };
 
-        const r32Matchups: Record<number, Matchup> = {};
-        for (const matchNum of R32_MATCH_NUMS) {
-          const pairing = R32_PAIRINGS[matchNum];
-          if (!pairing) {
-            r32Matchups[matchNum] = createEmptyMatchup(matchNum);
-            continue;
+          if (!homeTeam.slug || !awayTeam.slug) {
+            return emptyMatch;
           }
 
-          const m = r32Lut[`${pairing.home}|${pairing.away}`];
-          if (m && m.status === "completed" && m.winner) {
-            const isHomeWinner = m.winner === m.homeSlug;
-            r32Winners[matchNum] = {
+          const m = globalLut[`${homeTeam.slug}|${awayTeam.slug}`];
+          if (!m) {
+            return emptyMatch;
+          }
+
+          const isCompleted = m.status === "completed";
+          let isHomeWinner = false;
+          let isAwayWinner = false;
+          let isHomeLoser = false;
+          let isAwayLoser = false;
+
+          if (isCompleted && m.winner) {
+            isHomeWinner = m.winner === homeTeam.slug;
+            isAwayWinner = m.winner === awayTeam.slug;
+            isHomeLoser = !isHomeWinner;
+            isAwayLoser = !isAwayWinner;
+
+            winners[matchNum] = {
               slug: m.winner,
               name: isHomeWinner ? m.homeDisplayName : m.awayDisplayName,
             };
-            r32Matchups[matchNum] = {
-              id: `M${matchNum}`,
-              matchNumber: matchNum,
-              timeStr: formatToTaipeiTime(m.date),
-              status: "completed",
-              home: {
-                label: m.homeDisplayName,
-                teamId: m.homeSlug,
-                isConfirmed: true,
-                isWinner: isHomeWinner,
-                isLoser: !isHomeWinner,
-              },
-              away: {
-                label: m.awayDisplayName,
-                teamId: m.awaySlug,
-                isConfirmed: true,
-                isWinner: !isHomeWinner,
-                isLoser: isHomeWinner,
-              },
-            };
-          } else {
-            // Not completed → show team names but no winner/loser styling
-            r32Matchups[matchNum] = {
-              id: `M${matchNum}`,
-              matchNumber: matchNum,
-              timeStr: m ? formatToTaipeiTime(m.date) : "",
-              status: "scheduled",
-              home: {
-                label: m ? m.homeDisplayName : pairing.homeName,
-                teamId: pairing.home,
-                isConfirmed: true,
-                isWinner: false,
-                isLoser: false,
-              },
-              away: {
-                label: m ? m.awayDisplayName : pairing.awayName,
-                teamId: pairing.away,
-                isConfirmed: true,
-                isWinner: false,
-                isLoser: false,
-              },
-            };
           }
+
+          return {
+            id: `M${matchNum}`,
+            matchNumber: matchNum,
+            timeStr: formatToTaipeiTime(m.date),
+            status: m.status,
+            home: {
+              label: m.homeSlug === homeTeam.slug ? m.homeDisplayName : m.awayDisplayName,
+              teamId: homeTeam.slug,
+              isConfirmed: true,
+              isWinner: isHomeWinner,
+              isLoser: isHomeLoser,
+              score: m.homeSlug === homeTeam.slug ? m.homeScore : m.awayScore,
+              shootoutScore: m.homeSlug === homeTeam.slug ? m.homeShootout : m.awayShootout,
+            },
+            away: {
+              label: m.awaySlug === awayTeam.slug ? m.awayDisplayName : m.homeDisplayName,
+              teamId: awayTeam.slug,
+              isConfirmed: true,
+              isWinner: isAwayWinner,
+              isLoser: isAwayLoser,
+              score: m.awaySlug === awayTeam.slug ? m.awayScore : m.homeScore,
+              shootoutScore: m.awaySlug === awayTeam.slug ? m.awayShootout : m.homeShootout,
+            },
+          };
         }
 
-        // R16: show confirmed participants even if only one is known
-        const r16Matchups: Record<number, Matchup> = {};
-        for (const r16Num of R16_NUMS) {
-          const sources = R32_TO_R16[r16Num];
-          if (!sources) {
-            r16Matchups[r16Num] = createEmptyMatchup(r16Num);
-            continue;
-          }
+        // 1. Resolve R32
+        R32_MATCH_NUMS.forEach((num) => {
+          const p = R32_PAIRINGS[num];
+          inferredMatchups[`M${num}`] = resolveMatchup(
+            num,
+            { slug: p.home, name: p.homeName },
+            { slug: p.away, name: p.awayName }
+          );
+        });
 
-          const homeWinner = r32Winners[sources.home];
-          const awayWinner = r32Winners[sources.away];
+        // 2. Resolve R16
+        R16_NUMS.forEach((num) => {
+          const sources = R32_TO_R16[num];
+          const homeWinner = winners[sources.home];
+          const awayWinner = winners[sources.away];
+          inferredMatchups[`M${num}`] = resolveMatchup(
+            num,
+            homeWinner ? { slug: homeWinner.slug, name: homeWinner.name } : { name: "TBD" },
+            awayWinner ? { slug: awayWinner.slug, name: awayWinner.name } : { name: "TBD" }
+          );
+        });
 
-          // Look for an R16 match in ESPN data if both winners are known
-          let m: ParsedMatch | undefined;
-          if (homeWinner && awayWinner) {
-            m = r16Lut[`${homeWinner.slug}|${awayWinner.slug}`];
-          }
+        // 3. Resolve QF (97-100)
+        [97, 98, 99, 100].forEach((num) => {
+          const sources = R16_TO_QF[num];
+          const homeWinner = winners[sources.home];
+          const awayWinner = winners[sources.away];
+          inferredMatchups[`M${num}`] = resolveMatchup(
+            num,
+            homeWinner ? { slug: homeWinner.slug, name: homeWinner.name } : { name: "TBD" },
+            awayWinner ? { slug: awayWinner.slug, name: awayWinner.name } : { name: "TBD" }
+          );
+        });
 
-          if (m && m.status === "completed" && m.winner) {
-            const isHomeWinner = m.winner === homeWinner.slug;
-            r16Matchups[r16Num] = {
-              id: `M${r16Num}`,
-              matchNumber: r16Num,
-              timeStr: formatToTaipeiTime(m.date),
-              status: "completed",
-              home: {
-                label: homeWinner.name,
-                teamId: homeWinner.slug,
-                isConfirmed: true,
-                isWinner: isHomeWinner,
-                isLoser: !isHomeWinner,
-              },
-              away: {
-                label: awayWinner.name,
-                teamId: awayWinner.slug,
-                isConfirmed: true,
-                isWinner: !isHomeWinner,
-                isLoser: isHomeWinner,
-              },
-            };
-          } else {
-            // R16 match not yet completed, or one/both participants are still TBD
-            r16Matchups[r16Num] = {
-              id: `M${r16Num}`,
-              matchNumber: r16Num,
-              timeStr: m ? formatToTaipeiTime(m.date) : "",
-              status: "scheduled",
-              home: homeWinner
-                ? {
-                    label: homeWinner.name,
-                    teamId: homeWinner.slug,
-                    isConfirmed: true,
-                    isWinner: false,
-                    isLoser: false,
-                  }
-                : { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
-              away: awayWinner
-                ? {
-                    label: awayWinner.name,
-                    teamId: awayWinner.slug,
-                    isConfirmed: true,
-                    isWinner: false,
-                    isLoser: false,
-                  }
-                : { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
-            };
-          }
-        }
+        // 4. Resolve SF (101-102)
+        [101, 102].forEach((num) => {
+          const sources = QF_TO_SF[num];
+          const homeWinner = winners[sources.home];
+          const awayWinner = winners[sources.away];
+          inferredMatchups[`M${num}`] = resolveMatchup(
+            num,
+            homeWinner ? { slug: homeWinner.slug, name: homeWinner.name } : { name: "TBD" },
+            awayWinner ? { slug: awayWinner.slug, name: awayWinner.name } : { name: "TBD" }
+          );
+        });
 
-        // QF / SF / Final: always empty
-        const laterMatchups: Record<number, Matchup> = {};
-        for (const num of LATER_NUMS) {
-          laterMatchups[num] = createEmptyMatchup(num);
-        }
+        // 5. Resolve Final (104)
+        const finalNum = 104;
+        const finalSources = SF_TO_FINAL[finalNum];
+        const finalHomeWinner = winners[finalSources.home];
+        const finalAwayWinner = winners[finalSources.away];
+        inferredMatchups[`M${finalNum}`] = resolveMatchup(
+          finalNum,
+          finalHomeWinner ? { slug: finalHomeWinner.slug, name: finalHomeWinner.name } : { name: "TBD" },
+          finalAwayWinner ? { slug: finalAwayWinner.slug, name: finalAwayWinner.name } : { name: "TBD" }
+        );
 
-        const allMatchups: Record<string, Matchup> = {};
-        for (const [k, v] of Object.entries(r32Matchups)) allMatchups[`M${k}`] = v;
-        for (const [k, v] of Object.entries(r16Matchups)) allMatchups[`M${k}`] = v;
-        for (const [k, v] of Object.entries(laterMatchups)) allMatchups[`M${k}`] = v;
-
-        setMatchups(allMatchups);
+        setMatchups(inferredMatchups);
         setLoading(false);
       })
       .catch(() => {
-        const allMatchups: Record<string, Matchup> = {};
-        [...R32_MATCH_NUMS, ...R16_NUMS, ...LATER_NUMS].forEach((n) => {
-          allMatchups[`M${n}`] = createEmptyMatchup(n);
+        // Fallback: Populate all as empty matchups
+        const fallbackMatchups: Record<string, Matchup> = {};
+        [...R32_MATCH_NUMS, ...R16_NUMS, 97, 98, 99, 100, 101, 102, 104].forEach((n) => {
+          fallbackMatchups[`M${n}`] = {
+            id: `M${n}`,
+            matchNumber: n,
+            status: "scheduled",
+            home: { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
+            away: { label: "TBD", isConfirmed: false, isWinner: false, isLoser: false },
+          };
         });
-        setMatchups(allMatchups);
+        setMatchups(fallbackMatchups);
         setLoading(false);
       });
   }, []);
 
-  const renderTeam = (team: MatchupTeam) => {
-    if (!team.teamId || !team.isConfirmed) {
-      return (
-        <div className="h-6 flex items-center justify-center text-gray-300 text-[10px] italic font-medium">
-          TBD
-        </div>
-      );
-    }
-
-    return (
-      <Link
-        href={`/teams/${team.teamId}`}
-        className={`flex items-center gap-1.5 h-6 px-2 rounded transition-all
-          ${team.isWinner ? "bg-amber-100 text-amber-900 font-bold shadow-sm border-l-2 border-amber-500" : ""}
-          ${team.isLoser ? "opacity-40" : ""}
-          ${!team.isWinner && !team.isLoser ? "bg-gray-50 text-gray-700 hover:bg-gray-100" : ""}
-        `}
-      >
-        <TeamBadge teamId={team.teamId} size="sm" linkable={false} showName={false} />
-        <span className="text-[10px] uppercase tracking-wide truncate max-w-[70px]">
-          {team.label}
-        </span>
-      </Link>
-    );
-  };
-
   const renderMatch = (matchup?: Matchup) => {
-    if (!matchup) return null;
-    return (
-      <div key={matchup.id} className="mb-3 last:mb-0">
-        <div className="bg-white border border-gray-100 rounded-lg shadow-sm overflow-hidden">
-          <div className="border-b border-gray-50">{renderTeam(matchup.home)}</div>
-          <div>{renderTeam(matchup.away)}</div>
-        </div>
-        {matchup.timeStr && matchup.status === "completed" && (
-          <div className="text-[8px] text-gray-400 text-center mt-1">{matchup.timeStr}</div>
-        )}
-      </div>
-    );
+    return <MatchCard matchup={matchup} />;
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex flex-col justify-center items-center py-32 bg-slate-950 rounded-2xl border border-slate-900 shadow-2xl">
+        <div className="relative w-12 h-12">
+          <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-amber-500 border-t-transparent animate-spin"></div>
+        </div>
+        <span className="text-slate-400 text-sm mt-4 tracking-wider animate-pulse">載入世界盃淘汰賽數據中...</span>
       </div>
     );
   }
 
+  // Bracket View (horizontal layout with connecting lines)
+  const renderBracketView = () => {
+    return (
+      <div className="relative w-full overflow-x-auto select-none pb-6 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-950">
+        <div className="min-w-[1550px] h-[820px] flex items-stretch bg-slate-950/70 rounded-2xl border border-slate-900/80 p-6 relative overflow-hidden backdrop-blur-sm">
+          {/* Overlay aesthetic effects */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,41,59,0.3),transparent)] pointer-events-none" />
+
+          {/* Col 1: R32 Left */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (左半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-between py-1">
+              <MatchGroup
+                side="left"
+                height={170}
+                matchTop={matchups["M73"]}
+                matchBottom={matchups["M75"]}
+                highlightTop={matchups["M73"]?.status === "completed"}
+                highlightBottom={matchups["M75"]?.status === "completed"}
+                highlightExport={matchups["M73"]?.status === "completed" && matchups["M75"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="left"
+                height={170}
+                matchTop={matchups["M74"]}
+                matchBottom={matchups["M77"]}
+                highlightTop={matchups["M74"]?.status === "completed"}
+                highlightBottom={matchups["M77"]?.status === "completed"}
+                highlightExport={matchups["M74"]?.status === "completed" && matchups["M77"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="left"
+                height={170}
+                matchTop={matchups["M76"]}
+                matchBottom={matchups["M78"]}
+                highlightTop={matchups["M76"]?.status === "completed"}
+                highlightBottom={matchups["M78"]?.status === "completed"}
+                highlightExport={matchups["M76"]?.status === "completed" && matchups["M78"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="left"
+                height={170}
+                matchTop={matchups["M79"]}
+                matchBottom={matchups["M80"]}
+                highlightTop={matchups["M79"]?.status === "completed"}
+                highlightBottom={matchups["M80"]?.status === "completed"}
+                highlightExport={matchups["M79"]?.status === "completed" && matchups["M80"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+
+          {/* Col 2: R16 Left */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (左半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-around py-4">
+              <MatchGroup
+                side="left"
+                height={340}
+                matchTop={matchups["M89"]}
+                matchBottom={matchups["M90"]}
+                highlightTop={matchups["M89"]?.status === "completed"}
+                highlightBottom={matchups["M90"]?.status === "completed"}
+                highlightExport={matchups["M89"]?.status === "completed" && matchups["M90"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="left"
+                height={340}
+                matchTop={matchups["M91"]}
+                matchBottom={matchups["M92"]}
+                highlightTop={matchups["M91"]?.status === "completed"}
+                highlightBottom={matchups["M92"]?.status === "completed"}
+                highlightExport={matchups["M91"]?.status === "completed" && matchups["M92"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+
+          {/* Col 3: QF Left */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (左半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-center py-4">
+              <MatchGroup
+                side="left"
+                height={680}
+                matchTop={matchups["M97"]}
+                matchBottom={matchups["M98"]}
+                highlightTop={matchups["M97"]?.status === "completed"}
+                highlightBottom={matchups["M98"]?.status === "completed"}
+                highlightExport={matchups["M97"]?.status === "completed" && matchups["M98"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+
+          {/* Col 4: SF Left */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (左)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-center items-center relative">
+              <MatchCard matchup={matchups["M101"]} />
+              
+              {/* Connector from SF Left to Final */}
+              <div className="absolute inset-0 pointer-events-none hidden md:block">
+                <div
+                  className={`absolute top-[50%] h-[2px] w-[30px] right-[-15px]
+                    ${matchups["M101"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Col 5: Center Final */}
+          <div className="w-[230px] flex flex-col justify-between h-full relative z-10 border-x border-slate-900/60 bg-slate-950/20 px-3">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full uppercase tracking-wider font-extrabold animate-pulse">🏆 決賽 🏆</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-center items-center relative">
+              {/* Champion gold icon and glow */}
+              <div className="absolute top-[26%] flex flex-col items-center gap-1">
+                <span className="text-4xl filter drop-shadow-[0_0_12px_rgba(251,191,36,0.6)] animate-bounce duration-1000">🏆</span>
+                <span className="text-[9px] uppercase tracking-widest text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">2026 WORLD CHAMPION</span>
+              </div>
+              
+              <MatchCard matchup={matchups["M104"]} />
+            </div>
+          </div>
+
+          {/* Col 6: SF Right */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">準決賽 (右)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-center items-center relative">
+              <MatchCard matchup={matchups["M102"]} />
+              
+              {/* Connector from SF Right to Final */}
+              <div className="absolute inset-0 pointer-events-none hidden md:block">
+                <div
+                  className={`absolute top-[50%] h-[2px] w-[30px] left-[-15px]
+                    ${matchups["M102"]?.status === "completed" ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-slate-800"}`}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Col 7: QF Right */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">8強 (右半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-center py-4">
+              <MatchGroup
+                side="right"
+                height={680}
+                matchTop={matchups["M99"]}
+                matchBottom={matchups["M100"]}
+                highlightTop={matchups["M99"]?.status === "completed"}
+                highlightBottom={matchups["M100"]?.status === "completed"}
+                highlightExport={matchups["M99"]?.status === "completed" && matchups["M100"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+
+          {/* Col 8: R16 Right */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">16強 (右半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-around py-4">
+              <MatchGroup
+                side="right"
+                height={340}
+                matchTop={matchups["M93"]}
+                matchBottom={matchups["M94"]}
+                highlightTop={matchups["M93"]?.status === "completed"}
+                highlightBottom={matchups["M94"]?.status === "completed"}
+                highlightExport={matchups["M93"]?.status === "completed" && matchups["M94"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="right"
+                height={340}
+                matchTop={matchups["M95"]}
+                matchBottom={matchups["M96"]}
+                highlightTop={matchups["M95"]?.status === "completed"}
+                highlightBottom={matchups["M96"]?.status === "completed"}
+                highlightExport={matchups["M95"]?.status === "completed" && matchups["M96"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+
+          {/* Col 9: R32 Right */}
+          <div className="w-[220px] flex flex-col justify-between h-full relative z-10">
+            <div className="text-center py-2 border-b border-slate-800/40 mb-2">
+              <span className="text-[10px] font-black text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">32強 (右半區)</span>
+            </div>
+            <div className="flex-1 flex flex-col justify-between py-1">
+              <MatchGroup
+                side="right"
+                height={170}
+                matchTop={matchups["M83"]}
+                matchBottom={matchups["M84"]}
+                highlightTop={matchups["M83"]?.status === "completed"}
+                highlightBottom={matchups["M84"]?.status === "completed"}
+                highlightExport={matchups["M83"]?.status === "completed" && matchups["M84"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="right"
+                height={170}
+                matchTop={matchups["M81"]}
+                matchBottom={matchups["M82"]}
+                highlightTop={matchups["M81"]?.status === "completed"}
+                highlightBottom={matchups["M82"]?.status === "completed"}
+                highlightExport={matchups["M81"]?.status === "completed" && matchups["M82"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="right"
+                height={170}
+                matchTop={matchups["M86"]}
+                matchBottom={matchups["M88"]}
+                highlightTop={matchups["M86"]?.status === "completed"}
+                highlightBottom={matchups["M88"]?.status === "completed"}
+                highlightExport={matchups["M86"]?.status === "completed" && matchups["M88"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+              <MatchGroup
+                side="right"
+                height={170}
+                matchTop={matchups["M85"]}
+                matchBottom={matchups["M87"]}
+                highlightTop={matchups["M85"]?.status === "completed"}
+                highlightBottom={matchups["M87"]?.status === "completed"}
+                highlightExport={matchups["M85"]?.status === "completed" && matchups["M87"]?.status === "completed"}
+                renderMatch={renderMatch}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Rounds View (ideal for mobile layout list)
+  const renderRoundsView = () => {
+    const roundMatches: Record<string, string[]> = {
+      r32: ["M73", "M74", "M75", "M76", "M77", "M78", "M79", "M80", "M81", "M82", "M83", "M84", "M85", "M86", "M87", "M88"],
+      r16: ["M89", "M90", "M91", "M92", "M93", "M94", "M95", "M96"],
+      qf: ["M97", "M98", "M99", "M100"],
+      sf: ["M101", "M102"],
+      final: ["M104"],
+    };
+
+    const currentMatches = roundMatches[activeRoundTab] || [];
+
+    const tabs = [
+      { id: "r32", name: "32強" },
+      { id: "r16", name: "16強" },
+      { id: "qf", name: "8強" },
+      { id: "sf", name: "準決賽" },
+      { id: "final", name: "決賽" },
+    ];
+
+    return (
+      <div className="w-full bg-slate-950 border border-slate-900 rounded-2xl p-4">
+        {/* Round Tab Selector */}
+        <div className="flex border-b border-slate-800 mb-6 overflow-x-auto gap-2 pb-1">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setActiveRoundTab(t.id)}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200 whitespace-nowrap
+                ${
+                  activeRoundTab === t.id
+                    ? "bg-amber-500 text-slate-950 font-black shadow-lg"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
+                }
+              `}
+            >
+              {t.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Match cards grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+          {currentMatches.map((mid) => {
+            const matchup = matchups[mid];
+            return (
+              <div key={mid} className="w-full max-w-[280px] flex justify-center">
+                {/* Scale the MatchCard slightly larger in mobile list for better readability */}
+                <div className="scale-105 my-2">
+                  <MatchCard matchup={matchup} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="w-full">
-      <div className="flex flex-row items-stretch gap-2 overflow-x-auto pb-4 px-2">
-        {/* Column 1: Left R32 */}
-        <div className="flex-1 flex flex-col justify-between py-2">
-          <div className="text-center mb-1">
-            <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">32強 (左)</span>
-          </div>
-          {renderMatch(matchups["M73"])}
-          {renderMatch(matchups["M74"])}
-          {renderMatch(matchups["M75"])}
-          {renderMatch(matchups["M76"])}
-          {renderMatch(matchups["M77"])}
-          {renderMatch(matchups["M78"])}
-          {renderMatch(matchups["M79"])}
-          {renderMatch(matchups["M80"])}
+    <div className="w-full text-slate-100">
+      {/* View Switcher Controls */}
+      <div className="flex justify-between items-center mb-6 bg-slate-950/80 p-2 rounded-xl border border-slate-900/50">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+          <span className="text-xs text-slate-400 font-medium">即時淘汰賽晉級追蹤</span>
         </div>
-
-        {/* Column 2: Left R16 */}
-        <div className="flex-1 flex flex-col justify-around py-8">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">16強 (左)</span>
-          </div>
-          {renderMatch(matchups["M89"])}
-          {renderMatch(matchups["M90"])}
-          {renderMatch(matchups["M91"])}
-          {renderMatch(matchups["M92"])}
-        </div>
-
-        {/* Column 3: Left QF - Empty */}
-        <div className="flex-1 flex flex-col justify-around py-24">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">8強 (左)</span>
-          </div>
-          {renderMatch(matchups["M97"])}
-          {renderMatch(matchups["M98"])}
-        </div>
-
-        {/* Column 4: Left SF - Empty */}
-        <div className="flex-1 flex flex-col justify-center py-32">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full uppercase">準決賽 (左)</span>
-          </div>
-          {renderMatch(matchups["M101"])}
-        </div>
-
-        {/* Column 5: Center Final - Empty */}
-        <div className="w-[200px] flex-shrink-0 flex flex-col justify-center items-center py-10 border-x border-gray-200/50 px-2">
-          <div className="text-center mb-4">
-            <span className="text-xs font-black text-purple-800 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-wider">決賽</span>
-          </div>
-          {renderMatch(matchups["M104"])}
-        </div>
-
-        {/* Column 6: Right SF - Empty */}
-        <div className="flex-1 flex flex-col justify-center py-32">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">準決賽 (右)</span>
-          </div>
-          {renderMatch(matchups["M102"])}
-        </div>
-
-        {/* Column 7: Right QF - Empty */}
-        <div className="flex-1 flex flex-col justify-around py-24">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">8強 (右)</span>
-          </div>
-          {renderMatch(matchups["M99"])}
-          {renderMatch(matchups["M100"])}
-        </div>
-
-        {/* Column 8: Right R16 */}
-        <div className="flex-1 flex flex-col justify-around py-8">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-black text-red-800 bg-red-100 px-2 py-0.5 rounded-full uppercase">16強 (右)</span>
-          </div>
-          {renderMatch(matchups["M93"])}
-          {renderMatch(matchups["M94"])}
-          {renderMatch(matchups["M95"])}
-          {renderMatch(matchups["M96"])}
-        </div>
-
-        {/* Column 9: Right R32 */}
-        <div className="flex-1 flex flex-col justify-between py-2">
-          <div className="text-center mb-1">
-            <span className="text-[10px] font-black text-pink-800 bg-pink-100 px-2 py-0.5 rounded-full uppercase">32強 (右)</span>
-          </div>
-          {renderMatch(matchups["M83"])}
-          {renderMatch(matchups["M84"])}
-          {renderMatch(matchups["M81"])}
-          {renderMatch(matchups["M82"])}
-          {renderMatch(matchups["M86"])}
-          {renderMatch(matchups["M88"])}
-          {renderMatch(matchups["M85"])}
-          {renderMatch(matchups["M87"])}
+        <div className="flex bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+          <button
+            onClick={() => setActiveView("bracket")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded transition-all duration-200
+              ${
+                activeView === "bracket"
+                  ? "bg-slate-800 text-amber-400 shadow-sm font-black"
+                  : "text-slate-400 hover:text-slate-200"
+              }
+            `}
+          >
+            🏆 樹狀圖
+          </button>
+          <button
+            onClick={() => setActiveView("rounds")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded transition-all duration-200
+              ${
+                activeView === "rounds"
+                  ? "bg-slate-800 text-amber-400 shadow-sm font-black"
+                  : "text-slate-400 hover:text-slate-200"
+              }
+            `}
+          >
+            📋 輪次清單
+          </button>
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 text-center mt-6">
-        * 資料來源：ESPN。只顯示已結束比賽的賽果；未進行的比賽一律留空。
-      </p>
+      {/* Render selected view */}
+      {activeView === "bracket" ? renderBracketView() : renderRoundsView()}
+
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-3 bg-slate-950/40 border border-slate-900/30 rounded-xl px-4 py-3 text-[10px] text-slate-500 font-medium">
+        <span>* 數據來源：ESPN。淘汰賽小組賽結束後，晉級國家隊將即時更新。</span>
+        <div className="flex gap-4">
+          <span className="flex items-center gap-1">
+            <span className="w-2.5 h-1.5 bg-amber-400 rounded-sm"></span> 黃金晉級路徑
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2.5 h-1.5 bg-slate-800 rounded-sm"></span> 待踢 / 未開賽
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
