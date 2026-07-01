@@ -1,13 +1,17 @@
+"use client";
+
+import { Calendar, ShieldAlert } from 'lucide-react';
+
 interface Props {
   sources: string[];
   dataQuality: 'live' | 'partial' | 'mock';
   lastUpdated: string;
 }
 
-const QUALITY_LABELS: Record<string, { label: string; color: string }> = {
-  live:    { label: '即時數據', color: '#22c55e' },
-  partial: { label: '部分即時', color: '#f59e0b' },
-  mock:    { label: '模擬數據', color: '#8286cd' },
+const QUALITY_LABELS: Record<string, { label: string; color: string; bgColor: string; borderColor: string }> = {
+  live:    { label: '即時數據', color: '#22c55e', bgColor: 'bg-emerald-950/60', borderColor: 'border-emerald-800/60' },
+  partial: { label: '部分即時', color: '#f59e0b', bgColor: 'bg-amber-950/60', borderColor: 'border-amber-800/60' },
+  mock:    { label: '模擬數據', color: '#8286cd', bgColor: 'bg-indigo-950/60', borderColor: 'border-indigo-800/60' },
 };
 
 const SOURCE_ICONS: Record<string, string> = {
@@ -24,29 +28,48 @@ export default function DataSourceBadge({ sources, dataQuality, lastUpdated }: P
   });
 
   return (
-    <div className="mt-8 border-t border-gray-100 pt-6">
-      <div className="flex flex-wrap items-center gap-3 mb-4">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">資料來源</span>
-        {sources.map((src) => (
+    <div className="mt-10 border-t border-slate-800/80 pt-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        
+        {/* Sources list */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-450">整合數據源：</span>
+          <div className="flex flex-wrap gap-2">
+            {sources.map((src) => (
+              <span
+                key={src}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#161F4C]/40 border border-slate-850 text-slate-300"
+              >
+                <span>{SOURCE_ICONS[src] ?? '🔗'}</span>
+                <span>{src}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Quality + Time */}
+        <div className="flex items-center gap-3">
           <span
-            key={src}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${quality.bgColor} ${quality.borderColor}`}
+            style={{ color: quality.color }}
           >
-            <span>{SOURCE_ICONS[src] ?? '🔗'}</span>
-            {src}
+            <span className="w-1.5 h-1.5 rounded-full inline-block animate-ping" style={{ background: quality.color }} />
+            <span>{quality.label}</span>
           </span>
-        ))}
-        <span
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium"
-          style={{ background: quality.color + '20', color: quality.color }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: quality.color }} />
-          {quality.label}
-        </span>
+
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#161F4C]/45 border border-slate-850 text-slate-400">
+            <Calendar size={12} />
+            <span>最後更新：{updated}</span>
+          </span>
+        </div>
       </div>
-      <p className="text-xs text-gray-400">
-        最後更新：{updated} · 預測結果僅供娛樂參考，不構成任何投注建議，本站不對任何損失負責。
-      </p>
+
+      <div className="mt-4 flex gap-2 bg-slate-950/20 p-3 rounded-xl border border-slate-850/50">
+        <ShieldAlert size={16} className="text-slate-500 flex-shrink-0 mt-0.5" />
+        <p className="text-xs text-slate-400 leading-relaxed">
+          免責聲明：冠軍預測模型基於 7 個數據維度加權得出，結果僅供世界盃資訊參考與趣味討論，不構成任何投注或理財建議。請理性看待賽事結果。
+        </p>
+      </div>
     </div>
   );
 }
